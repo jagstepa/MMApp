@@ -1,0 +1,37 @@
+﻿@model MMApp.Domain.Models.Publisher
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jqueryval")
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @(Html.HiddenFor(model => model.Id))
+    
+    <table>
+        <tr>
+            <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(publisher => publisher.PublisherName)</td>
+            <td class="labelWidth150">@Html.TextBoxFor(publisher => publisher.PublisherName)</td>
+            <td class="labelWidth150">@Html.ValidationMessageFor(publisher => publisher.PublisherName)</td>
+        </tr>
+        <tr>
+            <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: right">
+                    <input type="button" name="Cancel" value="Cancel" onclick="history.back();" />
+                    <input type="submit" name="Save" value="Save" />
+                </td>
+        </tr>
+    </table>
+}
+
+<script type="text/javascript">
+    $(function () {
+        $("#PublisherName").focus();
+    });
+</script>

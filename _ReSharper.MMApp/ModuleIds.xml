@@ -1,0 +1,6 @@
+<Modules>
+  <Module PersistentId="420F4688-0023-4E7D-9B3A-8FF36F83584C" ModuleId="MMApp.Web" />
+  <Module PersistentId="SecurityGuard, Version=1.0.53.580, Culture=neutral, PublicKeyToken=null" ModuleId="SecurityGuard" />
+  <Module PersistentId="DCB703B0-5731-4CD0-A3C7-47F07E75D413" ModuleId="MMApp.Domain" />
+  <Module PersistentId="5927893C-3BD2-4B66-AC60-D89C59EAB6DA" ModuleId="MMApp.Data" />
+</Modules>

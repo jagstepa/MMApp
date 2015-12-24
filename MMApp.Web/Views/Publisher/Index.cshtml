@@ -1,0 +1,42 @@
+﻿@model IEnumerable<MMApp.Domain.Models.Publisher>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Publishers</h2>
+<p>
+    @Html.ActionLink("Add Publisher", "AddPublisher", "Publisher")
+</p>
+
+@Html.ValidationSummary(true)
+
+<table>
+    <tr>
+        <th class="width200">
+            @Html.DisplayNameFor(model => model.PublisherName)
+        </th>
+        <th class="width100">Update</th>
+        <th class="width100">Remove</th>
+    </tr>
+
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublisherName)
+            </td>
+            <td>
+                @Html.ActionLink("Update", "UpdatePublisher", "Publisher", new { publisherId = item.Id}, null)
+            </td>
+            <td>
+                @if (item.PublisherName.Contains("'"))
+                {
+                    item.PublisherName = item.PublisherName.Replace("'", "\\'");
+                }
+                @Html.ActionLink("Remove", "RemovePublisher", "Publisher", new { publisherId = item.Id, publisherName = item.PublisherName }, new { onclick = "return confirm('Are you sure you wish to delete Publisher ( " + item.PublisherName + " ) ?');"})
+            </td>
+        </tr>
+    }
+
+</table>

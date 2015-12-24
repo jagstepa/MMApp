@@ -1,0 +1,12 @@
+C:\Stepa\Projects\MMApp\MMApp.Data\bin\Debug\MMApp.Data.dll
+C:\Stepa\Projects\MMApp\MMApp.Data\bin\Debug\MMApp.Data.pdb
+C:\Stepa\Projects\MMApp\MMApp.Data\bin\Debug\Dapper.dll
+C:\Stepa\Projects\MMApp\MMApp.Data\bin\Debug\MMApp.Domain.dll
+C:\Stepa\Projects\MMApp\MMApp.Data\bin\Debug\MMApp.Domain.pdb
+C:\Stepa\Projects\MMApp\MMApp.Data\bin\Debug\Dapper.pdb
+C:\Stepa\Projects\MMApp\MMApp.Data\bin\Debug\Dapper.xml
+C:\Stepa\Projects\MMApp\MMApp.Data\obj\Debug\MMApp.Data.csprojResolveAssemblyReference.cache
+C:\Stepa\Projects\MMApp\MMApp.Data\obj\Debug\MMApp.Data.dll
+C:\Stepa\Projects\MMApp\MMApp.Data\obj\Debug\MMApp.Data.pdb
+C:\Stepa\Projects\MMApp\MMApp.Data\bin\Debug\PagedList.dll
+C:\Stepa\Projects\MMApp\MMApp.Data\bin\Debug\PagedList.xml

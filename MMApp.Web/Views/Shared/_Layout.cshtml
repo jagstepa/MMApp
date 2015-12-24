@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - Music & Movie App</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/themes/base/css")
+        @Scripts.Render("~/bundles/modernizr")
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p class="site-title">@Html.ActionLink("S", "Index", "Home")</p>
+                </div>
+                <div class="float-right">
+                    <section id="login">
+                        @Html.Partial("_LoginPartial")
+                    </section>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px; *width: 180px;">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    </ul>
+                    if (User.IsInRole("SecurityGuard"))
+                     {
+                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px; *width: 180px;">
+                            <li>@Html.ActionLink("Sec Guard", "Index", "Dashboard", new { area = "SecurityGuard" }, null)</li>
+                        </ul>
+                     }
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px; *width: 180px;">
+                        <li>@Html.ActionLink("Change Pass", "ChangePassword", "SGAccount")</li> 
+                    </ul>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px; *width: 180px;">
+                        <li class="dropdown-submenu">
+                            <a tabindex="-1" href="#">Music</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-submenu">
+                                    <a href="#">Static Data</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="item">@Html.ActionLink("Country", "Index", "Country")</li>
+                                        <li class="item">@Html.ActionLink("City", "Index", "City")</li>
+                                        <li class="item">@Html.ActionLink("Genre", "Index", "Genre")</li>
+                                        <li class="item">@Html.ActionLink("Instrument", "Index", "Instrument")</li>
+                                        <li class="item">@Html.ActionLink("Label", "Index", "Label")</li>
+                                        <li class="item">@Html.ActionLink("Occupation", "Index", "Occupation")</li>
+                                    </ul>
+                                    <li class="item">@Html.ActionLink("Musician", "Index", "Musician")</li>
+                                    <li class="item">@Html.ActionLink("Band", "Index", "Band")</li>
+                                    <li class="item">@Html.ActionLink("Song", "Index", "Song")</li>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a tabindex="-1" href="#">Movies</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-submenu">
+                                    <a href="#">Static Data</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="item">@Html.ActionLink("Actor", "Index", "Actor")</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a tabindex="-1" href="#">Books</a>
+                            <ul class="dropdown-menu">
+                                <li class="item">@Html.ActionLink("Publisher", "Index", "Publisher")</li>
+                                <li class="item">@Html.ActionLink("Author", "Index", "Author")</li>
+                                <li class="item">@Html.ActionLink("Book", "Index", "Book")</li>
+                            </ul>
+                        </li>
+                    </ul>        
+                    } else
+                {
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px; *width: 180px;">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    </ul>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px; *width: 180px;">
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                    </ul>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px; *width: 180px;">
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>    
+                    </ul>
+                }
+                </div>
+            </div>
+        </header>
+        <div id="body">
+            @RenderSection("featured", false)
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p>&copy; @DateTime.Now.Year - Music & Movie App</p>
+                </div>
+            </div>
+        </footer>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryui")
+        @Styles.Render("~/Content/themes/base/css")
+        @RenderSection("scripts", false)
+    </body>
+</html>

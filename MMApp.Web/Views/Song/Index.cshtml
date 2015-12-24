@@ -1,0 +1,63 @@
+﻿@model IEnumerable<MMApp.Domain.Models.Song>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/modernizr")
+@Styles.Render("~/Content/themes/base/css")
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Songs</h2>
+<p>
+    @Html.ActionLink("Add Song", "AddSong", "Song")
+    @Html.Partial("_searchPartial")
+</p>
+
+@Html.ValidationSummary(true)
+
+<table>
+    <tr>
+        <th class="width500">
+            @Html.DisplayNameFor(model => model.SongName)
+        </th>
+        <th class="width200">
+            @Html.DisplayNameFor(model => model.Length)
+        </th>
+        <th class="width100">Update</th>
+        <th class="width100">Remove</th>
+    </tr>
+
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SongName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Length)
+            </td>
+            <td>
+                @Html.ActionLink("Update", "UpdateSong", "Song", new { songId = item.Id}, null)
+            </td>
+            <td>
+                @if (item.SongName.Contains("'"))
+                {
+                    item.SongName = item.SongName.Replace("'", "\\'");
+                }
+                @Html.ActionLink("Remove", "RemoveSong", "Song", new { songId = item.Id, songName = item.SongName }, new { onclick = "return confirm('Are you sure you wish to delete Band ( " + item.SongName + " ) ?');"})
+            </td>
+        </tr>
+    }
+
+</table>
+<script>
+    $(function () {
+        $("#Search").click(function () {
+            var selectedValue = $("#SearchText").val();
+            var url = "/Song/Index?searchText=" + selectedValue;
+            window.location.href = url;
+        });
+    });
+</script>

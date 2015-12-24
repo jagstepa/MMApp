@@ -1,0 +1,81 @@
+﻿@using PagedList.Mvc
+@model MMApp.Domain.ViewModel.AuthorViewModelList
+
+<link rel="stylesheet" href="~/Content/PagedList.css">
+@Scripts.Render("~/bundles/jquery")
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Authors</h2>
+<div>
+    <table>
+        <tr>
+            <td style="vertical-align: bottom;">
+                @Html.ActionLink("Add Author", "AddAuthor", "Author", new { @style="font-size:18px;"})
+            </td>
+            <td class="width200"></td>
+            <td class="searchTable">
+                @Html.Partial("_searchPartial")
+            </td>
+        </tr>
+    </table>
+</div>
+
+@Html.ValidationSummary(true)
+
+<table id="data-grid">
+    <tr>
+        <th class="width500">
+            @Html.DisplayName("AuthorName")
+        </th>
+        <th class="width100">Update</th>
+        <th class="width100">Remove</th>
+    </tr>
+
+    @foreach(var item in Model.AuthorPaginated)
+    {
+        <tr class="tableTRbottom">
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorName)
+            </td>
+            <td>
+                @Html.ActionLink("Update", "UpdateAuthor", "Author", new { authorId = item.Id}, null)
+            </td>
+            <td>
+                @{
+                    var authorName = item.AuthorName;
+                }
+                @if (item.AuthorName.Contains("'"))
+                {
+                    authorName = authorName.Replace("'", "\\'");
+                }
+                @Html.ActionLink("Remove", "RemoveAuthor", "Author", new { authorId = item.Id, authorName = item.AuthorName }, new { onclick = "return confirm('Are you sure you wish to delete Author ( " + authorName + " ) ?');"})
+            </td>
+        </tr>
+    }
+</table>
+<div class="pagedList">
+    @Html.PagedListPager(Model.AuthorPaginated, page => Url.Action("Index", new { page }), 
+                         PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions.ClassicPlusFirstAndLast,
+                                                                               new AjaxOptions
+                                                                                   {
+                                                                                       InsertionMode = InsertionMode.Replace,
+                                                                                       HttpMethod = "Get",
+                                                                                       UpdateTargetId = "data-grid"
+                                                                                   }))
+</div>
+<script>
+$(function () {
+        $.ajaxSetup({ cache: false });
+    });
+    $(function () {
+        $("#Search").click(function () {
+            var selectedValue = $("#SearchText").val();
+            $("#SearchText").val("");
+            var url = "/Author/Index?searchText=" + selectedValue;
+            window.location.href = url;
+        });
+    });
+</script>

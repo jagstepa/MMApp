@@ -1,0 +1,45 @@
+﻿@model IEnumerable<MMApp.Domain.Models.Country>
+@using MMApp.Web.Helpers;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Countries</h2>
+<p>
+    @Html.ActionLink("Add Country", "AddCountry", "Country")
+</p>
+
+@Html.ValidationSummary(true)
+
+<table>
+    <tr>
+        <th class="width200">
+            @Html.DisplayNameFor(model => model.CountryName)
+        </th>
+        <th class="width200">
+            @Html.DisplayNameFor(model => model.Website)
+        </th>
+        <th class="width100">Update</th>
+        <th class="width100">Remove</th>
+    </tr>
+
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryName)
+            </td>
+            <td>
+                @Html.WebsiteLink(item.Website, item.CountryName)
+            </td>
+            <td>
+                @Html.ActionLink("Update", "UpdateCountry", "Country", new { countryId = item.Id}, null)
+            </td>
+            <td>
+                @Html.ActionLink("Remove", "RemoveCountry", "Country", new { countryId = item.Id, countryName = item.CountryName }, new { onclick = "return confirm('Are you sure you wish to delete Country ( " + item.CountryName + " ) ?');"})
+            </td>
+        </tr>
+    }
+
+</table>

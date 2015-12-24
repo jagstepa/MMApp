@@ -1,0 +1,53 @@
+﻿@model MMApp.Domain.Models.City
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jqueryval")
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @(Html.HiddenFor(model => model.Id))
+    
+    <table>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.Label("Country")</td>
+            <td  class="labelWidth150">
+                @Html.DropDownListFor(m => m.CountryId, new SelectList(Model.Countries, "Id", "CountryName", Model.CountryId), "Select ...")
+            </td>
+            <td>
+                @Html.ValidationMessageFor(city => city.CountryId)
+            </td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(city => city.CityName)</td>
+            <td class="labelWidth150">@Html.TextBoxFor(city => city.CityName)</td>
+            <td class="labelWidth150">@Html.ValidationMessageFor(city => city.CityName)</td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(city => city.Website)</td>
+            <td colspan="2">@Html.TextBoxFor(city => city.Website, new { style = "width:100%;" })</td>
+        </tr>
+        <tr>
+            <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: right">
+                    <input type="button" name="Cancel" value="Cancel" onclick="history.back();" />
+                    <input type="submit" name="Save" value="Save" />
+                </td>
+        </tr>
+    </table>
+}
+
+<script type="text/javascript">
+    $(function () {
+        $("#CityName").focus();
+    });
+</script>

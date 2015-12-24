@@ -1,0 +1,230 @@
+﻿@model MMApp.Domain.Models.Album
+
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/modernizr")
+@Styles.Render("~/Content/themes/base/css")
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+@if (Model.Id > 0)
+{
+    <p>
+    @Html.ActionLink("Songs", "Index", "Album", new { bandId = Model.Id, bandName = Model.BandName}, null)
+    </p>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @(Html.HiddenFor(model => model.Id))
+    @(Html.HiddenFor(model => model.BandId))
+    @(Html.HiddenFor(model => model.BandName))
+    
+    <table>
+        <tr>
+            <td colspan="5">&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(album => album.AlbumName)</td>
+            <td>@Html.TextBoxFor(album => album.AlbumName)</td>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(album => album.Year)</td>
+            <td>@Html.TextBoxFor(album => album.Year)</td>
+            <td>@Html.ValidationMessageFor(album => album.BandName)</td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(album => album.Released)</td>
+            <td>@Html.TextBoxFor(album => album.Released)</td>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(album => album.Recorded)</td>
+            <td>@Html.TextBoxFor(album => album.Recorded)</td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.Label("Album Type")</td>
+            <td  class="labelWidth150">
+                @Html.DropDownListFor(m => m.TypeId, new SelectList(Model.AlbumTypes, "Id", "TypeName", Model.TypeId), "Select Album Type")
+            </td>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(album => album.Length)</td>
+            <td>@Html.TextBoxFor(album => album.Length)</td>
+            <td>
+                @Html.ValidationMessageFor(album => album.TypeId)
+            </td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.Label("Genre")</td>
+            <td  class="labelWidth150">
+                @Html.DropDownListFor(m => m.GenreId, new SelectList(Model.Genres, "Id", "GenreName", Model.GenreId), "Select Genre")
+            </td>
+            <td class="labelWidth150 labelPadding">@Html.Label("Genres")</td>
+            <td  class="labelWidth150">
+                @Html.ListBoxFor(genres => genres.SelectedGenres, new SelectList(Model.SelectedGenres, "Id", "GenreName", Model.GenreId), new { size = 10})
+            </td>
+            <td>
+                @Html.ValidationMessageFor(genre => genre.GenreId)
+            </td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.Label("Label")</td>
+            <td  class="labelWidth150">
+                @Html.DropDownListFor(m => m.LabelId, new SelectList(Model.Labels, "Id", "LabelName", Model.LabelId), "Select Label")
+            </td>
+            <td class="labelWidth150 labelPadding">@Html.Label("Labels")</td>
+            <td  class="labelWidth150">
+                @Html.ListBoxFor(label => label.SelectedLabels, new SelectList(Model.SelectedLabels, "Id", "LabelName"), new { size = 10})
+            </td>
+            <td>
+                @Html.ValidationMessageFor(label => label.LabelId)
+            </td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.Label("Musician")</td>
+            <td  class="labelWidth150">
+                @Html.DropDownListFor(m => m.MusicianId, new SelectList(Model.Musicians, "Id", "StageName", Model.MusicianId), "Select Musician")
+            </td>
+            <td class="labelWidth150 labelPadding">@Html.Label("Musicians")</td>
+            <td  class="labelWidth150">
+                @Html.ListBoxFor(musician => musician.SelectedMusicians, new SelectList(Model.SelectedMusicians, "Id", "StageName"), new { size = 10})
+            </td>
+            <td>
+                @Html.ValidationMessageFor(musician => musician.MusicianId)
+            </td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.Label("Search Songs")</td>
+            <td>@Html.TextBox("SearchText")</td>
+            <td><input type="button" name="Search" value="Search" id="Search" /></td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.Label("Song")</td>
+            <td  class="labelWidth150">
+                @Html.DropDownList("Songs", new SelectList(Model.Songs, "Id", "SongName", Model.SongId), "Select Song")
+            </td>
+            <td class="labelWidth150 labelPadding">@Html.Label("Songs")</td>
+            <td  class="labelWidth150">
+                @Html.ListBoxFor(song => song.SelectedSongs, new SelectList(Model.SelectedSongs, "Id", "SongName"), new { size = 10})
+            </td>
+            <td>
+                @Html.ValidationMessageFor(song => song.SongId)
+            </td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(album => album.Website)</td>
+            <td colspan="2">@Html.TextBoxFor(album => album.Website, new { style = "width:100%;" })</td>
+        </tr>
+        <tr>
+            <td colspan="5">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="5" style="text-align: right">
+                    <input type="button" name="Cancel" value="Cancel" onclick="history.back();" />
+                    <input type="submit" name="Save" value="Save" />
+                </td>
+        </tr>
+    </table>
+}
+
+<script type="text/javascript">
+    $(function () {
+        $("#StageName").focus();
+    });
+    $(function() {
+        $.ajaxSetup({ cache: false });
+    });
+</script>
+<script>
+    $(function() {
+        $("#GenreId").change(function() {
+            var selectedValue = $(this).val();
+            $.getJSON('@Url.Action("GetGenre")', { genreId: selectedValue }, function (genre) {
+                var genreSelect = $("#SelectedGenres");
+                if (genre != undefined) {
+                    genreSelect.append($('<option/>').attr('value', genre.Id).text(genre.GenreName));
+                }
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+        });
+    });
+    $(function() {
+        $("#SelectedGenres").dblclick(function() {
+            var selectedValue = $(this).val();
+            $(this).find("option:selected").remove();
+            $.getJSON('@Url.Action("RemoveGenre")', { genreId: parseInt(selectedValue) }, function () {
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+        });
+    });
+    $(function () {
+        $("#LabelId").change(function () {
+            var selectedValue = $(this).val();
+            $.getJSON('@Url.Action("GetLabel")', { labelId: selectedValue }, function (label) {
+                var labelSelect = $("#SelectedLabels");
+                labelSelect.append($('<option/>').attr('value', label.Id).text(label.LabelName));
+            });
+        });
+    });
+    $(function () {
+        $("#SelectedLabels").dblclick(function () {
+            var selectedValue = $(this).val();
+            $(this).find("option:selected").remove();
+            $.getJSON('@Url.Action("RemoveLabel")', { labelId: parseInt(selectedValue) }, function () {
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+        });
+    });
+    $(function () {
+        $("#MusicianId").change(function () {
+            var selectedValue = $(this).val();
+            $.getJSON('@Url.Action("GetMusician")', { musicianId: selectedValue }, function (musician) {
+                var labelSelect = $("#SelectedMusicians");
+                labelSelect.append($('<option/>').attr('value', musician.Id).text(musician.StageName));
+                $("#YearFrom").val("");
+                $("#YearTo").val("");
+            });
+        });
+    });
+    $(function () {
+        $("#SelectedMusicians").dblclick(function () {
+            var selectedValue = $(this).val();
+            $(this).find("option:selected").remove();
+            $.getJSON('@Url.Action("RemoveMusician")', { musicianId: parseInt(selectedValue) }, function () {
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+        });
+    });
+    $(function () {
+        $("#Songs").change(function () {
+            var selectedValue = $(this).val();
+            $.getJSON('@Url.Action("GetSong")', { songId: selectedValue }, function (song) {
+                var songSelect = $("#SelectedSongs");
+                songSelect.append($('<option/>').attr('value', song.Id).text(song.SongName));
+            });
+        });
+    });
+    $(function () {
+        $("#SelectedSongs").dblclick(function () {
+            var selectedValue = $(this).val();
+            $(this).find("option:selected").remove();
+            $.getJSON('@Url.Action("RemoveSong")', { songId: parseInt(selectedValue) }, function () {
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+        });
+    });
+    $(function () {
+        $("#Search").click(function () {
+            var selectedValue = $("#SearchText").val();
+            $.getJSON('@Url.Action("SearchSongs")', { searchText: selectedValue }, function (song) {
+                var songSelect = $("#Songs");
+                songSelect.empty();
+                songSelect.append($('<option/>').attr('value', 0).text("Select Song"));
+                $.each(song, function(index, item) {
+                    songSelect.append($('<option/>').attr('value', item.Id).text(item.SongName));
+                });
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });;
+        });
+    });
+</script>

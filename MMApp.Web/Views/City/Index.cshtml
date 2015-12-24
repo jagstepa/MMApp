@@ -1,0 +1,48 @@
+﻿@using MMApp.Web.Helpers
+@model IEnumerable<MMApp.Domain.Models.City>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Cities</h2>
+<p>
+    @Html.ActionLink("Add City", "AddCity", "City")
+</p>
+<table>
+    <tr>
+        <th class="width200">
+            @Html.DisplayNameFor(model => model.CityName)
+        </th>
+        <th class="width200">
+            @Html.DisplayNameFor(model => model.Website)
+        </th>
+        <th class="width200">
+            @Html.DisplayNameFor(model => model.CountryName)
+        </th>
+        <th class="width100">Update</th>
+        <th class="width100">Remove</th>
+    </tr>
+
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CityName)
+            </td>
+            <td>
+                @Html.WebsiteLink(item.Website, item.CityName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryName)
+            </td>
+            <td>
+                @Html.ActionLink("Update", "UpdateCity", "City", new { cityId = item.Id}, null)
+            </td>
+            <td>
+                @Html.ActionLink("Remove", "RemoveCity", "City", new { cityId = item.Id}, new { onclick = "return confirm('Are you sure you wish to delete City ( " + item.CityName + " ) ?');"})
+            </td>
+        </tr>
+    }
+
+</table>

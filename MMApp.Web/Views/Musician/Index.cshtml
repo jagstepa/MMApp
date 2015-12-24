@@ -1,0 +1,57 @@
+﻿@using MMApp.Web.Helpers
+@model IEnumerable<MMApp.Domain.Models.Musician>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Musicians</h2>
+<p>
+    @Html.ActionLink("Add Musician", "AddMusician", "Musician")
+</p>
+
+@Html.ValidationSummary(true)
+
+<table>
+    <tr>
+        <th class="width200">
+            @Html.DisplayNameFor(model => model.StageName)
+        </th>
+        <th class="width200"  style="text-align: center">
+            @Html.DisplayNameFor(model => model.YearsActiveFrom)
+        </th>
+        <th class="width200"  style="text-align: center">
+            @Html.DisplayNameFor(model => model.YearsActiveTo)
+        </th>
+        <th class="width200">
+            @Html.DisplayNameFor(model => model.Website)
+        </th>
+        <th class="width100">Update</th>
+        <th class="width100">Remove</th>
+    </tr>
+
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StageName)
+            </td>
+            <td style="text-align: center">
+                @Html.DisplayFor(modelItem => item.YearsActiveFrom)
+            </td>
+            <td style="text-align: center">
+                @Html.DisplayFor(modelItem => item.YearsActiveTo)
+            </td>
+            <td>
+                @Html.WebsiteLink(item.Website, item.StageName)
+            </td>
+            <td>
+                @Html.ActionLink("Update", "UpdateMusician", "Musician", new { musicianId = item.Id}, null)
+            </td>
+            <td>
+                @Html.ActionLink("Remove", "RemoveOccupation", "Occupation", new { occupationId = item.Id, occupationName = item.StageName }, new { onclick = "return confirm('Are you sure you wish to delete Occupation ( " + item.StageName + " ) ?');"})
+            </td>
+        </tr>
+    }
+
+</table>

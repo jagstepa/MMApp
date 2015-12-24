@@ -1,0 +1,160 @@
+﻿@using MMApp.Web.Helpers
+@using PagedList.Mvc
+@model MMApp.Domain.ViewModel.BookViewModelList
+
+<link rel="stylesheet" href="~/Content/PagedList.css">
+@Scripts.Render("~/bundles/jquery")
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Books</h2>
+<div>
+    <table>
+        <tr>
+            <td style="vertical-align: bottom;">
+                @Html.ActionLink("Add Book", "AddBook", "Book", new { @style="font-size:18px;"})
+            </td>
+            <td class="width200"></td>
+            <td class="searchTable">
+                @Html.DropDownListFor( x => Model.FilterType, Extensions.GetFilterTypes(), new { @class="width100"})
+            </td>
+            <td class="searchTable">
+                @Html.DropDownListFor( x => Model.FilterItem, Extensions.GetFilterItems(Model.FilterType), new { @class="width200"})
+            </td>
+            <td class="searchTable">
+                @Html.Partial("_searchPartial")
+            </td>
+        </tr>
+    </table>
+</div>
+
+@Html.ValidationSummary(true)
+
+<table id="data-grid">
+    <tr>
+        <th class="width1300">
+            @Html.DisplayName("Website")
+        </th>
+        <th class="width400">
+            @Html.DisplayName("PublisherName")
+        </th>
+        <th class="width100">
+            @Html.DisplayName("Year")
+        </th>
+        <th class="width100">
+            @Html.DisplayName("Pages")
+        </th>
+        <th class="width15">
+        </th>
+        <th class="width100">View</th>
+        <th class="width100">Update</th>
+        <th class="width100">Remove</th>
+    </tr>
+
+    @foreach(var item in Model.BookPaginated)
+    {
+        <tr class="tableTRbottom">
+            <td>
+                @Html.WebsiteLink(item.Website, item.BookName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublisherName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pages)
+            </td>
+            <td>
+                <div class="width15">
+                    @Html.Image(item.BookPicture, "Book Picture", "imgThumbnail")
+                </div>
+            </td>
+            <td>
+                @Html.ActionLink("View", "ShowBook", "Book", new { bookId = item.Id}, new { @class="info"})
+            </td>
+            <td>
+                @Html.ActionLink("Update", "UpdateBook", "Book", new { bookId = item.Id}, null)
+            </td>
+            <td>
+                @{
+                    var bookName = item.BookName;
+                }
+                
+                @if (item.BookName.Contains("'"))
+                {
+                    bookName = bookName.Replace("'", "\\'");
+                }
+                @Html.ActionLink("Remove", "RemoveBook", "Book", new { bookId = item.Id, bookName = item.BookName }, new { onclick = "return confirm('Are you sure you wish to delete Author ( " + bookName + " ) ?');"})
+            </td>
+        </tr>
+    }
+</table>
+<div class="pagedList">
+    @Html.PagedListPager(Model.BookPaginated, page => Url.Action("Index", new { page }), 
+                         PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions.ClassicPlusFirstAndLast,
+                                                                               new AjaxOptions
+                                                                                   {
+                                                                                       InsertionMode = InsertionMode.Replace,
+                                                                                       HttpMethod = "Get",
+                                                                                       UpdateTargetId = "data-grid"
+                                                                                   }))
+</div>
+
+<script>
+    $(function () {
+        $.ajaxSetup({ cache: false });
+    });
+    $(function () {
+        $("#Search").click(function () {
+            var selectedValue = $("#SearchText").val();
+            $("#SearchText").val("");
+            var url = "/Book/Index?searchText=" + selectedValue;
+            window.location.href = url;
+        });
+    });
+    $(function () {
+        $("#Reset").click(function () {
+            $.getJSON('@Url.Action("Reset")', function () {
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+            var url = "/Book/Index?searchText=" + "";
+            window.location.href = url;
+        });
+    });
+    $(function () {
+        $("#FilterType").change(function () {
+            var selectedValue = $(this).val();
+            $.getJSON('@Url.Action("GetFilter")', { filterType: selectedValue }, function (filterItems) {
+                var filterSelect = $("#FilterItem");
+                filterSelect.empty();
+                filterSelect.append($('<option/>').attr('value', 0).text("Filter by: (" + selectedValue + ")"));
+                $.each(filterItems, function (index, item) {
+                    filterSelect.append($('<option/>').attr('value', item.FilterId).text(item.FilterText));
+                });
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+        });
+    });
+    $(function () {
+        $("#FilterItem").change(function () {
+            var selectedValue = $(this).val();
+            var selectedType = $("#FilterType").val();
+            $("#FilterType").empty();
+            var url = "/Book/Index?filterType=" + selectedType + "&filterItem=" + selectedValue;
+            window.location.href = url;
+        });
+    });
+    $(function () {
+        $(".imgThumbnail").mouseenter(function () {
+            //var selectedValue = $(this).attr("src");
+            //$(this).tooltip({ content: '<img src="' + selectedValue + '" />' });
+            //alert(selectedValue);
+        });
+    });
+</script>

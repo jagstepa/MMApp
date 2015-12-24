@@ -1,0 +1,45 @@
+﻿@using MMApp.Web.Helpers
+@model IEnumerable<MMApp.Domain.Models.Label>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Labels</h2>
+<p>
+    @Html.ActionLink("Add Label", "AddLabel", "Label")
+</p>
+
+@Html.ValidationSummary(true)
+
+<table>
+    <tr>
+        <th class="width200">
+            @Html.DisplayNameFor(model => model.LabelName)
+        </th>
+        <th class="width200">
+            @Html.DisplayNameFor(model => model.Website)
+        </th>
+        <th class="width100">Update</th>
+        <th class="width100">Remove</th>
+    </tr>
+
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LabelName)
+            </td>
+            <td>
+                @Html.WebsiteLink(item.Website, item.LabelName)
+            </td>
+            <td>
+                @Html.ActionLink("Update", "UpdateLabel", "Label", new { labelId = item.Id}, null)
+            </td>
+            <td>
+                @Html.ActionLink("Remove", "RemoveLabel", "Label", new { labelId = item.Id, labelName = item.LabelName }, new { onclick = "return confirm('Are you sure you wish to delete Label ( " + item.LabelName + " ) ?');"})
+            </td>
+        </tr>
+    }
+
+</table>

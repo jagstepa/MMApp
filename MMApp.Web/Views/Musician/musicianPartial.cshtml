@@ -1,0 +1,240 @@
+﻿@model MMApp.Domain.Models.Musician
+
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/modernizr")
+@Styles.Render("~/Content/themes/base/css")
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @(Html.HiddenFor(model => model.Id))
+    
+    <table>
+        <tr>
+            <td colspan="5">&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.Label("Country")</td>
+            <td  class="labelWidth150">
+                @Html.DropDownListFor(m => m.CountryId, new SelectList(Model.Countries, "Id", "CountryName", Model.CountryId), "Select Country")
+            </td>
+            <td class="labelWidth150 labelPadding">@Html.Label("City")</td>
+            <td  class="labelWidth150">
+                @Html.DropDownListFor(m => m.CityId, new SelectList(Model.Cities, "Id", "CityName", Model.CityId), "Select City")
+            </td>
+            <td>
+                @Html.ValidationMessageFor(city => city.CityId)
+            </td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(musician => musician.StageName)</td>
+            <td>@Html.TextBoxFor(musician => musician.StageName)</td>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(musician => musician.BirthName)</td>
+            <td>@Html.TextBoxFor(musician => musician.BirthName)</td>
+            <td>@Html.ValidationMessageFor(musician => musician.StageName)</td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(musician => musician.DOB)</td>
+            <td>@Html.TextBoxFor(musician => musician.DOB, ModelMetadata.FromLambdaExpression(model => model.DOB, ViewData).EditFormatString )</td>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(musician => musician.DOD)</td>
+            <td>@Html.TextBoxFor(musician => musician.DOD, ModelMetadata.FromLambdaExpression(model => model.DOD, ViewData).EditFormatString)</td>
+            <td>@Html.ValidationMessageFor(musician => musician.DOB)</td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(musician => musician.YearsActiveFrom)</td>
+            <td>@Html.TextBoxFor(musician => musician.YearsActiveFrom)</td>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(musician => musician.YearsActiveTo)</td>
+            <td>@Html.TextBoxFor(musician => musician.YearsActiveTo)</td>
+            <td>@Html.ValidationMessageFor(musician => musician.YearsActiveFrom)</td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.Label("Genre")</td>
+            <td  class="labelWidth150">
+                @Html.DropDownListFor(m => m.GenreId, new SelectList(Model.Genres, "Id", "GenreName", Model.GenreId), "Select Genre")
+            </td>
+            <td class="labelWidth150 labelPadding">@Html.Label("Genres")</td>
+            <td  class="labelWidth150">
+                @Html.ListBoxFor(genres => genres.SelectedGenres, new SelectList(Model.SelectedGenres, "Id", "GenreName", Model.GenreId), new { size = 10});
+            </td>
+            <td>
+                @Html.ValidationMessageFor(genre => genre.GenreId)
+            </td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.Label("Occupation")</td>
+            <td  class="labelWidth150">
+                @Html.DropDownListFor(m => m.OccupationId, new SelectList(Model.Occupations, "Id", "OccupationName", Model.OccupationId), "Select Occupation")
+            </td>
+            <td class="labelWidth150 labelPadding">@Html.Label("Occupations")</td>
+            <td  class="labelWidth150">
+                @Html.ListBoxFor(occupation => occupation.SelectedOccupations, new SelectList(Model.SelectedOccupations, "Id", "OccupationName"), new { size = 10});
+            </td>
+            <td>
+                @Html.ValidationMessageFor(occupation => occupation.OccupationId)
+            </td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.Label("Instrument")</td>
+            <td  class="labelWidth150">
+                @Html.DropDownListFor(m => m.InstrumentId, new SelectList(Model.Instruments, "Id", "InstrumentName", Model.InstrumentId), "Select Instrument")
+            </td>
+            <td class="labelWidth150 labelPadding">@Html.Label("Instruments")</td>
+            <td  class="labelWidth150">
+                @Html.ListBoxFor(instrument => instrument.SelectedInstruments, new SelectList(Model.SelectedInstruments, "Id", "InstrumentName"), new { size = 10});
+            </td>
+            <td>
+                @Html.ValidationMessageFor(instrument => instrument.InstrumentId)
+            </td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.Label("Label")</td>
+            <td  class="labelWidth150">
+                @Html.DropDownListFor(m => m.LabelId, new SelectList(Model.Labels, "Id", "LabelName", Model.LabelId), "Select Label")
+            </td>
+            <td class="labelWidth150 labelPadding">@Html.Label("Labels")</td>
+            <td  class="labelWidth150">
+                @Html.ListBoxFor(label => label.SelectedLabels, new SelectList(Model.SelectedLabels, "Id", "LabelName"), new { size = 10});
+            </td>
+            <td>
+                @Html.ValidationMessageFor(label => label.LabelId)
+            </td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(musician => musician.Website)</td>
+            <td colspan="2">@Html.TextBoxFor(musician => musician.Website, new { style = "width:100%;" })</td>
+        </tr>
+        <tr>
+            <td colspan="5">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="5" style="text-align: right">
+                    <input type="button" name="Cancel" value="Cancel" onclick="history.back();" />
+                    <input type="submit" name="Save" value="Save" />
+                </td>
+        </tr>
+    </table>
+}
+
+<script type="text/javascript">
+    $(function () {
+        $("#StageName").focus();
+    });
+    $(function() {
+        $.ajaxSetup({ cache: false });
+    });
+</script>
+<script>
+    $(function() {
+        $("#CountryId").change(function() {
+            var selectedValue = $(this).val();
+            $.getJSON('@Url.Action("GetCities")', { countryId: selectedValue }, function(cities) {
+                var citySelect = $("#CityId");
+                citySelect.empty();
+                citySelect.append(
+                    $('<option/>').attr('value', 0).text("Select ...")
+                );
+                $.each(cities, function(index, city) {
+                    citySelect.append(
+                        $('<option/>').attr('value', city.Id).text(city.CityName)
+                    );
+                });
+            });
+        });
+    });
+    $(function() {
+        $("#GenreId").change(function() {
+            var selectedValue = $(this).val();
+            $.getJSON('@Url.Action("GetGenre")', { genreId: selectedValue }, function (genre) {
+                var genreSelect = $("#SelectedGenres");
+                if (genre != undefined) {
+                    genreSelect.append($('<option/>').attr('value', genre.Id).text(genre.GenreName));
+                }
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+        });
+    });
+    $(function() {
+        $("#SelectedGenres").dblclick(function() {
+            var selectedValue = $(this).val();
+            $(this).find("option:selected").remove();
+            $.getJSON('@Url.Action("RemoveGenre")', { genreId: parseInt(selectedValue) }, function () {
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+        });
+    });
+    $(function () {
+        $("#OccupationId").change(function () {
+            var selectedValue = $(this).val();
+            $.getJSON('@Url.Action("GetOccupation")', { occupationId: selectedValue }, function (occupation) {
+                var occupationSelect = $("#SelectedOccupations");
+                occupationSelect.append($('<option/>').attr('value', occupation.Id).text(occupation.OccupationName));
+            });
+        });
+    });
+    $(function () {
+        $("#SelectedOccupations").dblclick(function () {
+            var selectedValue = $(this).val();
+            $(this).find("option:selected").remove();
+            $.getJSON('@Url.Action("RemoveOccupation")', { occupationId: parseInt(selectedValue) }, function () {
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+        });
+    });
+    $(function () {
+        $("#InstrumentId").change(function () {
+            var selectedValue = $(this).val();
+            $.getJSON('@Url.Action("GetInstrument")', { instrumentId: selectedValue }, function (instrument) {
+                var instrumentSelect = $("#SelectedInstruments");
+                instrumentSelect.append($('<option/>').attr('value', instrument.Id).text(instrument.InstrumentName));
+            });
+        });
+    });
+    $(function () {
+        $("#SelectedInstruments").dblclick(function () {
+            var selectedValue = $(this).val();
+            $(this).find("option:selected").remove();
+            $.getJSON('@Url.Action("RemoveInstrument")', { instrumentId: parseInt(selectedValue) }, function () {
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+        });
+    });
+    $(function () {
+        $("#LabelId").change(function () {
+            var selectedValue = $(this).val();
+            $.getJSON('@Url.Action("GetLabel")', { labelId: selectedValue }, function (label) {
+                var labelSelect = $("#SelectedLabels");
+                labelSelect.append($('<option/>').attr('value', label.Id).text(label.LabelName));
+            });
+        });
+    });
+    $(function () {
+        $("#SelectedLabels").dblclick(function () {
+            var selectedValue = $(this).val();
+            $(this).find("option:selected").remove();
+            $.getJSON('@Url.Action("RemoveLabel")', { labelId: parseInt(selectedValue) }, function () {
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+        });
+    });
+    $(function () {
+        $("#DOB").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-100:+0"
+        });
+    });
+    $(function () {
+        $("#DOD").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-100:+0"
+        });
+    });
+</script>

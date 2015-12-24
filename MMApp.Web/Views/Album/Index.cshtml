@@ -1,0 +1,52 @@
+﻿@model IEnumerable<MMApp.Domain.Models.Album>
+@using MMApp.Web.Helpers;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>@ViewBag.BandName</h1>
+<h3>List of Albums</h3>
+<p>
+    @Html.ActionLink("Add Album", "AddAlbum", "Album", new { bandId = @ViewBag.BandId, bandName = @ViewBag.BandName}, null)
+</p>
+
+@Html.ValidationSummary(true)
+
+<table>
+    <tr>
+        <th class="width500">
+            @Html.DisplayNameFor(model => model.AlbumName)
+        </th>
+        <th class="width200">
+            @Html.DisplayNameFor(model => model.Year)
+        </th>
+        <th class="width200">
+            @Html.DisplayNameFor(model => model.TypeName)
+        </th>
+        <th class="width100">Update</th>
+        <th class="width100">Remove</th>
+    </tr>
+
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.WebsiteLink(item.Website, item.AlbumName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeName)
+            </td>
+            <td>
+                @Html.ActionLink("Update", "UpdateAlbum", "Album", new { albumId = item.Id}, null)
+            </td>
+            <td>
+                @Html.ActionLink("Remove", "RemoveBand", "Band", new { bandId = item.Id, bandName = item.AlbumName }, new { onclick = "return confirm('Are you sure you wish to delete Band ( " + item.AlbumName + " ) ?');"})
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,243 @@
+﻿@model MMApp.Domain.Models.Book
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jqueryval")
+
+@if (Model.Id > 0)
+{
+    using (Html.BeginForm("UpdateBook", "Book", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+     @Html.ValidationSummary(true)
+    @(Html.HiddenFor(model => model.Id))
+    @(Html.HiddenFor(model => model.BookPicture))
+
+     <table>
+         <tr>
+             <td colspan="5">&nbsp;</td>
+         </tr>
+         <tr>
+             <td>
+                 <input type="file" name="file" id="file" />
+             </td>
+             <td>
+                 <input type="image" src="@Url.Content(Model.BookPicture)" id="bookPic" />
+             </td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.BookName)</td>
+             <td colspan="3">@Html.TextBoxFor(book => book.BookName, new { style = "width:100%;" })</td>
+            
+             <td class="labelWidth150">@Html.ValidationMessageFor(book => book.BookName)</td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.ShortDescription)</td>
+             <td colspan="3">@Html.TextBoxFor(book => book.ShortDescription, new { style = "width:100%;" })</td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.BookDescription)</td>
+             <td colspan="3">@Html.TextAreaFor(book => book.BookDescription, new { @rows = 20, style = "width:100%;" })</td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.ISBN)</td>
+             <td>@Html.TextBoxFor(book => book.ISBN)</td>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.Year)</td>
+             <td  class="labelWidth150">
+                 @Html.DropDownListFor(m => m.Year, new SelectList(Model.YearList, "YearId", "YearCode", Model.Year), "Select Year")
+             </td>
+             <td class="labelWidth150">@Html.ValidationMessageFor(book => book.Year)</td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.Label("Publisher")</td>
+             <td  class="labelWidth150">
+                 @Html.DropDownListFor(m => m.PublisherId, new SelectList(Model.Publishers, "Id", "PublisherName", Model.PublisherId), "Select Publisher")
+             </td>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.Pages)</td>
+             <td>@Html.TextBoxFor(book => book.Pages)</td>
+             <td class="labelWidth150">@Html.ValidationMessageFor(book => book.PublisherId)</td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.FileSize)</td>
+             <td>@Html.TextBoxFor(book => book.FileSize)</td>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.FileFormat)</td>
+             <td>@Html.TextBoxFor(book => book.FileFormat)</td>
+             <td class="labelWidth150">@Html.ValidationMessageFor(book => book.FileSize)</td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.Label("Search Author")</td>
+             <td>@Html.TextBox("SearchAuthor")</td>
+             <td><input type="button" name="btnSearchAuthor" value="Search Author" id="btnSearchAuthor" /></td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.Label("Author")</td>
+             <td  class="labelWidth150">
+                 @Html.DropDownListFor(m => m.AuthorId, new SelectList(Model.Authors, "Id", "AuthorName", Model.AuthorId), "Select Author")
+             </td>
+             <td class="labelWidth150 labelPadding">@Html.Label("Authors")</td>
+             <td  class="labelWidth150">
+                 @Html.ListBoxFor(m => m.SelectedAuthors, new SelectList(Model.SelectedAuthors, "Id", "AuthorName"), new { size = 10 })
+             </td>
+             <td>
+                 @Html.ValidationMessageFor(m => m.AuthorId)
+             </td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.Website)</td>
+             <td colspan="2">@Html.TextBoxFor(book => book.Website, new { style = "width:100%;" })</td>
+         </tr>
+         <tr>
+             <td colspan="5">&nbsp;</td>
+         </tr>
+         <tr>
+             <td colspan="5" style="text-align: right">
+                 <input type="button" name="Cancel" value="Cancel" onclick="history.back();" />
+                 <input type="submit" name="Save" value="Save" />
+             </td>
+         </tr>
+     </table>
+    }
+}
+else
+{
+    using (Html.BeginForm("AddBook", "Book", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+     @Html.ValidationSummary(true)
+     @(Html.HiddenFor(model => model.Id))
+
+     <table>
+         <tr>
+             <td colspan="5">&nbsp;</td>
+         </tr>
+         <tr>
+             <td>
+                 <input type="file" name="file" id="file" />
+             </td>
+             <td>
+                 <input type="image" src="" id="bookPic"/>
+             </td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.BookName)</td>
+             <td colspan="3">@Html.TextBoxFor(book => book.BookName, new { style = "width:100%;" })</td>
+            
+             <td class="labelWidth150">@Html.ValidationMessageFor(book => book.BookName)</td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.ShortDescription)</td>
+             <td colspan="3">@Html.TextBoxFor(book => book.ShortDescription, new { style = "width:100%;" })</td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.BookDescription)</td>
+             <td colspan="3">@Html.TextAreaFor(book => book.BookDescription, new { @rows = 20, style = "width:100%;" })</td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.ISBN)</td>
+             <td>@Html.TextBoxFor(book => book.ISBN)</td>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.Year)</td>
+             <td  class="labelWidth150">
+                 @Html.DropDownListFor(m => m.Year, new SelectList(Model.YearList, "YearId", "YearCode", Model.Year), "Select Year")
+             </td>
+             <td class="labelWidth150">@Html.ValidationMessageFor(book => book.Year)</td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.Label("Publisher")</td>
+             <td  class="labelWidth150">
+                 @Html.DropDownListFor(m => m.PublisherId, new SelectList(Model.Publishers, "Id", "PublisherName", Model.PublisherId), "Select Publisher")
+             </td>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.Pages)</td>
+             <td>@Html.TextBoxFor(book => book.Pages)</td>
+             <td class="labelWidth150">@Html.ValidationMessageFor(book => book.PublisherId)</td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.FileSize)</td>
+             <td>@Html.TextBoxFor(book => book.FileSize)</td>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.FileFormat)</td>
+             <td>@Html.TextBoxFor(book => book.FileFormat, new { @Value = "PDF"})</td>
+             <td class="labelWidth150">@Html.ValidationMessageFor(book => book.FileSize)</td>
+         </tr>
+         <tr>
+             <tr>
+             <td class="labelWidth150 labelPadding">@Html.Label("Search Author")</td>
+             <td>@Html.TextBox("SearchAuthor")</td>
+             <td><input type="button" name="btnSearchAuthor" value="Search Author" id="btnSearchAuthor" /></td>
+         </tr>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.Label("Author")</td>
+             <td  class="labelWidth150">
+                 @Html.DropDownListFor(m => m.AuthorId, new SelectList(Model.Authors, "Id", "AuthorName", Model.AuthorId), "Select Author")
+             </td>
+             <td class="labelWidth150 labelPadding">@Html.Label("Authors")</td>
+             <td  class="labelWidth150">
+                 @Html.ListBoxFor(m => m.SelectedAuthors, new SelectList(Model.SelectedAuthors, "Id", "AuthorName"), new { size = 10 })
+             </td>
+             <td>
+                 @Html.ValidationMessageFor(m => m.AuthorId)
+             </td>
+         </tr>
+         <tr>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.Website)</td>
+             <td colspan="2">@Html.TextBoxFor(book => book.Website, new { style = "width:100%;" })</td>
+         </tr>
+         <tr>
+             <td colspan="5">&nbsp;</td>
+         </tr>
+         <tr>
+             <td colspan="5" style="text-align: right">
+                 <input type="button" name="Cancel" value="Cancel" onclick="history.back();" />
+                 <input type="submit" name="Save" value="Save" />
+             </td>
+         </tr>
+     </table>
+    }
+}
+
+<script type="text/javascript">
+    $(function () {
+        $("#BookName").focus();
+    });
+    $(function () {
+        $.ajaxSetup({ cache: false });
+    });
+    $(function () {
+        $("#AuthorId").change(function () {
+            var selectedValue = $(this).val();
+            $.getJSON('@Url.Action("GetAuthor")', { authorId: selectedValue }, function (author) {
+                var authorSelect = $("#SelectedAuthors");
+                authorSelect.append($('<option/>').attr('value', author.Id).text(author.AuthorName));
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+        });
+    });
+    $(function () {
+        $("#SelectedAuthors").dblclick(function () {
+            var selectedValue = $(this).val();
+            $(this).find("option:selected").remove();
+            $.getJSON('@Url.Action("RemoveAuthor")', { authorId: parseInt(selectedValue) }, function () {
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+        });
+        $("#file").change(function() {
+            var selectedValue = $(this).val();
+            $("#bookPic").attr("src", selectedValue);
+        });
+    });
+    $(function () {
+        $("#btnSearchAuthor").click(function () {
+            var selectedValue = $("#SearchAuthor").val();
+            $.getJSON('@Url.Action("SearchAuthor")', { searchText: selectedValue }, function (author) {
+                var authorSelect = $("#AuthorId");
+                authorSelect.empty();
+                authorSelect.append($('<option/>').attr('value', 0).text("Authors starting with (" + selectedValue + ")"));
+                $.each(author, function (index, item) {
+                    authorSelect.append($('<option/>').attr('value', item.Id).text(item.AuthorName));
+                });
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+            $("#SearchAuthor").val("");
+        });
+    });
+</script>

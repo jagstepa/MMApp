@@ -1,0 +1,4 @@
+﻿<span style="padding-left: 100px">
+    @Html.DropDownList("FilterType", new SelectList(ViewBag.FilterTypes, "FilterTypeId", "FilterTypeText", ViewBag.SelectedFilterType), "Filter Type", new { @class = "width100"})
+    @Html.DropDownList("FilterItem", new SelectList(ViewBag.FilterItems, "FilterId", "FilterText", ViewBag.SelectedFilterItem), "Select Filter", new { @class = "width200"})
+</span>

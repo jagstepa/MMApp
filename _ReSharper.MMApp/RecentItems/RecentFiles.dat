@@ -1,0 +1,66 @@
+﻿<RecentFiles>
+  <RecentFiles>
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:Models/f:Occupation.cs" caret="0" fromTop="0" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:Models/f:FilterItem.cs" caret="204" fromTop="8" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:Repositories/f:IBookRepository.cs" caret="453" fromTop="9" />
+    <File id="5927893C-3BD2-4B66-AC60-D89C59EAB6DA/d:DB/d:Books/f:sp_BookFilters.sql" caret="0" fromTop="0" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Helpers/f:ICache.cs" caret="218" fromTop="9" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Views/d:Author/f:authorPartial.cshtml" caret="267" fromTop="10" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:Models/f:Author.cs" caret="219" fromTop="12" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Views/d:Book/f:bookPartial.cshtml" caret="4569" fromTop="10" />
+    <File id="5927893C-3BD2-4B66-AC60-D89C59EAB6DA/d:DB/d:Books/f:sp_BookFindEntity.sql" caret="1024" fromTop="19" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Views/d:Book/f:ShowBook.cshtml" caret="0" fromTop="0" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:Models/f:FilterType.cs" caret="184" fromTop="9" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Content/f:Site.css" caret="15779" fromTop="27" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:Models/f:Book.cs" caret="836" fromTop="13" />
+    <File id="5927893C-3BD2-4B66-AC60-D89C59EAB6DA/d:DB/d:Books/f:sp_BookGetAllForParent.sql" caret="0" fromTop="0" />
+    <File id="5927893C-3BD2-4B66-AC60-D89C59EAB6DA/d:DB/d:Books/f:sp_BookGetAllForText.sql" caret="908" fromTop="11" />
+    <File id="5927893C-3BD2-4B66-AC60-D89C59EAB6DA/d:DB/d:Books/f:sp_BookGetAllEntities.sql" caret="999" fromTop="8" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Helpers/f:Helpers.cs" caret="212" fromTop="6" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Helpers/f:Extensions.cs" caret="1043" fromTop="20" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Views/d:Author/f:Index.cshtml" caret="658" fromTop="26" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:ViewModel/f:AuthorViewModel.cs" caret="124" fromTop="6" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Views/d:Shared/f:_filterPartial.cshtml" caret="397" fromTop="3" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Views/d:Shared/f:_searchPartial.cshtml" caret="265" fromTop="6" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:ViewModel/f:BookViewModel.cs" caret="453" fromTop="21" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Controllers/d:Books/f:AuthorController.cs" caret="241" fromTop="4" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Helpers/f:InMemoryCache.cs" caret="604" fromTop="17" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:Repositories/f:IModelInterface.cs" caret="61" fromTop="2" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/f:Web.config" caret="1935" fromTop="27" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Controllers/d:Books/f:BookController.cs" caret="865" fromTop="14" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Views/d:Book/f:Index.cshtml" caret="1608" fromTop="14" />
+    <File id="5927893C-3BD2-4B66-AC60-D89C59EAB6DA/f:BookSPRepository.cs" caret="667" fromTop="11" />
+  </RecentFiles>
+  <RecentEdits>
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Scripts/f:jquery.validate.js" caret="36981" fromTop="21" />
+    <File id="5927893C-3BD2-4B66-AC60-D89C59EAB6DA/d:DB/d:Books/f:sp_BookAddEntity.sql" caret="1833" fromTop="19" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:Models/f:Year.cs" caret="179" fromTop="8" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Views/d:Album/f:albumPartial.cshtml" caret="9509" fromTop="3" />
+    <File id="5927893C-3BD2-4B66-AC60-D89C59EAB6DA/d:DB/d:Books/f:sp_BookDeleteEntity.sql" caret="981" fromTop="18" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:Models/f:FilterType.cs" caret="0" fromTop="0" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:Models/f:FilterItem.cs" caret="115" fromTop="4" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:Repositories/f:IBookRepository.cs" caret="851" fromTop="15" />
+    <File id="5927893C-3BD2-4B66-AC60-D89C59EAB6DA/d:DB/d:Books/f:sp_BookFilters.sql" caret="1227" fromTop="21" />
+    <File id="5927893C-3BD2-4B66-AC60-D89C59EAB6DA/f:BookSPRepository.cs" caret="14012" fromTop="20" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:Models/f:Book.cs" caret="1574" fromTop="19" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:Models/f:Author.cs" caret="207" fromTop="9" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Helpers/f:ICache.cs" caret="208" fromTop="7" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:ViewModel/f:AuthorViewModel.cs" caret="439" fromTop="19" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Controllers/d:Books/f:AuthorController.cs" caret="1222" fromTop="17" />
+    <File id="5927893C-3BD2-4B66-AC60-D89C59EAB6DA/d:DB/d:Books/f:sp_BookGetAllEntities.sql" caret="1229" fromTop="22" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Views/d:Book/f:bookPartial.cshtml" caret="735" fromTop="23" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Content/f:Site.css" caret="14971" fromTop="18" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Views/d:Book/f:ShowBook.cshtml" caret="280" fromTop="12" />
+    <File id="5927893C-3BD2-4B66-AC60-D89C59EAB6DA/d:DB/d:Books/f:sp_BookFindEntity.sql" caret="1230" fromTop="30" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Helpers/f:InMemoryCache.cs" caret="1013" fromTop="13" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Views/d:Author/f:Index.cshtml" caret="482" fromTop="18" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Views/d:Shared/f:_filterPartial.cshtml" caret="388" fromTop="2" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Helpers/f:Helpers.cs" caret="2928" fromTop="21" />
+    <File id="DCB703B0-5731-4CD0-A3C7-47F07E75D413/d:ViewModel/f:BookViewModel.cs" caret="587" fromTop="26" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Helpers/f:Extensions.cs" caret="775" fromTop="10" />
+    <File id="5927893C-3BD2-4B66-AC60-D89C59EAB6DA/d:DB/d:Books/f:sp_BookGetAllForText.sql" caret="1127" fromTop="28" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Views/d:Book/f:Index.cshtml" caret="4475" fromTop="14" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Controllers/d:Books/f:BookController.cs" caret="12691" fromTop="20" />
+    <File id="420F4688-0023-4E7D-9B3A-8FF36F83584C/d:Views/d:Shared/f:_searchPartial.cshtml" caret="548" fromTop="12" />
+  </RecentEdits>
+</RecentFiles>

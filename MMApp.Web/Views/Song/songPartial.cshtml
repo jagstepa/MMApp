@@ -1,0 +1,76 @@
+﻿@model MMApp.Domain.Models.Song
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/modernizr")
+@Styles.Render("~/Content/themes/base/css")
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @(Html.HiddenFor(model => model.Id))
+    
+    <table>
+        <tr>
+            <td colspan="5">&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(song => song.SongName)</td>
+            <td>@Html.TextBoxFor(song => song.SongName)</td>
+            <td class="labelWidth150 labelPadding">@Html.LabelFor(song => song.Length)</td>
+            <td>@Html.TextBoxFor(song => song.Length)</td>
+            <td>@Html.ValidationMessageFor(song => song.SongName)</td>
+        </tr>
+        <tr>
+            <td class="labelWidth150 labelPadding">@Html.Label("Musician")</td>
+            <td  class="labelWidth150">
+                @Html.DropDownListFor(m => m.MusicianId, new SelectList(Model.Musicians, "Id", "StageName", Model.MusicianId), "Select Musician")
+            </td>
+            <td class="labelWidth150 labelPadding">@Html.Label("Musicians")</td>
+            <td  class="labelWidth150">
+                @Html.ListBoxFor(musician => musician.SelectedMusicians, new SelectList(Model.SelectedMusicians, "Id", "StageName"), new { size = 10});
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="5" style="text-align: right">
+                    <input type="button" name="Cancel" value="Cancel" onclick="history.back();" />
+                    <input type="submit" name="Save" value="Save" />
+                </td>
+        </tr>
+    </table>
+}
+
+<script type="text/javascript">
+    $(function () {
+        $("#StageName").focus();
+    });
+    $(function() {
+        $.ajaxSetup({ cache: false });
+    });
+</script>
+<script>
+    $(function () {
+        $("#MusicianId").change(function () {
+            var selectedValue = $(this).val();
+            $.getJSON('@Url.Action("GetMusician")', { musicianId: selectedValue }, function (musician) {
+                var labelSelect = $("#SelectedMusicians");
+                labelSelect.append($('<option/>').attr('value', musician.Id).text(musician.StageName));
+                $("#YearFrom").val("");
+                $("#YearTo").val("");
+            });
+        });
+    });
+    $(function () {
+        $("#SelectedMusicians").dblclick(function () {
+            var selectedValue = $(this).val();
+            $(this).find("option:selected").remove();
+            $.getJSON('@Url.Action("RemoveMusician")', { musicianId: parseInt(selectedValue) }, function () {
+            }).error(function (jqXHR) {
+                alert(jqXHR.responseText);
+            });
+        });
+    });
+</script>

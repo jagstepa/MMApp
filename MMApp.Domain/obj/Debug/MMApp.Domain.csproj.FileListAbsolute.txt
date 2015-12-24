@@ -1,0 +1,11 @@
+C:\Stepa\Projects\MMApp\MMApp.Domain\bin\Debug\MMApp.Domain.dll
+C:\Stepa\Projects\MMApp\MMApp.Domain\bin\Debug\MMApp.Domain.pdb
+C:\Stepa\Projects\MMApp\MMApp.Domain\obj\Debug\MMApp.Domain.csprojResolveAssemblyReference.cache
+C:\Stepa\Projects\MMApp\MMApp.Domain\obj\Debug\MMApp.Domain.dll
+C:\Stepa\Projects\MMApp\MMApp.Domain\obj\Debug\MMApp.Domain.pdb
+C:\Stepa\Projects\MMApp\MMApp.Domain\bin\Debug\PagedList.dll
+C:\Stepa\Projects\MMApp\MMApp.Domain\bin\Debug\PagedList.Mvc.dll
+C:\Stepa\Projects\MMApp\MMApp.Domain\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Stepa\Projects\MMApp\MMApp.Domain\bin\Debug\PagedList.xml
+C:\Stepa\Projects\MMApp\MMApp.Domain\bin\Debug\PagedList.Mvc.xml
+C:\Stepa\Projects\MMApp\MMApp.Domain\bin\Debug\System.Web.WebPages.Razor.xml

@@ -1,0 +1,16 @@
+﻿<table>
+    <tr>
+        <td class="searchTableCells">
+            @Html.Label("Search Text:", new { @style = "margin-bottom: 0px;"})
+        </td>
+        <td class="searchTableCells">
+            @Html.TextBox("SearchText", null, new { @class = "width100"})
+        </td>
+        <td class="searchTableCells">
+            <button id="Search" style="padding: 0px 5px 0px 5px">Search</button>
+        <td>
+        <td class="searchTableCells">
+            <button id="Reset" style="padding: 0px 5px 0px 5px; background-color: lightgreen">Reset</button>
+        <td>
+    </tr>
+</table>
