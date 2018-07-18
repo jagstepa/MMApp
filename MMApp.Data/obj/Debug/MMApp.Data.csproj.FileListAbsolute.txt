@@ -10,3 +10,15 @@ C:\Stepa\Projects\MMApp\MMApp.Data\obj\Debug\MMApp.Data.dll
 C:\Stepa\Projects\MMApp\MMApp.Data\obj\Debug\MMApp.Data.pdb
 C:\Stepa\Projects\MMApp\MMApp.Data\bin\Debug\PagedList.dll
 C:\Stepa\Projects\MMApp\MMApp.Data\bin\Debug\PagedList.xml
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Data\bin\Debug\MMApp.Data.dll
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Data\bin\Debug\MMApp.Data.pdb
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Data\bin\Debug\Dapper.dll
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Data\bin\Debug\MMApp.Domain.dll
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Data\bin\Debug\PagedList.dll
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Data\bin\Debug\MMApp.Domain.pdb
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Data\bin\Debug\Dapper.pdb
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Data\bin\Debug\Dapper.xml
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Data\bin\Debug\PagedList.xml
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Data\obj\Debug\MMApp.Data.csprojResolveAssemblyReference.cache
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Data\obj\Debug\MMApp.Data.dll
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Data\obj\Debug\MMApp.Data.pdb
