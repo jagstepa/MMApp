@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BookSPRepository.cs" />
+    <Compile Include="DBHelpers.cs" />
     <Compile Include="MusicRepository.cs" />
     <Compile Include="MusicSPRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -56,6 +57,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DB\Tables\Music_AlbumMusician.sql" />
+    <Content Include="DB\Tables\Music_Song.sql" />
+    <Content Include="DB\Tables\Music_SongMusician.sql" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -69,8 +73,37 @@
     <Content Include="DB\Books\sp_BookGetAllForParent.sql" />
     <Content Include="DB\Books\sp_BookGetAllForText.sql" />
     <Content Include="DB\Books\sp_BookUpdateEntity.sql" />
+    <Content Include="DB\Functions\KeyValuePairs.sql" />
+    <Content Include="DB\Inserts\Inserts.sql" />
+    <Content Include="DB\Music\sp_AddEntity.sql" />
+    <Content Include="DB\Music\sp_GetAllEntities.sql" />
     <Content Include="DB\Tables\Books_Author.sql" />
+    <Content Include="DB\Tables\Books_Book.sql" />
+    <Content Include="DB\Tables\Books_BookAuthor.sql" />
+    <Content Include="DB\Tables\Books_Publisher.sql" />
+    <Content Include="DB\Tables\Music_Album.sql" />
+    <Content Include="DB\Tables\Music_AlbumGenre.sql" />
+    <Content Include="DB\Tables\Music_AlbumLabel.sql" />
+    <Content Include="DB\Tables\Music_AlbumTypes.sql" />
+    <Content Include="DB\Tables\Music_Band.sql" />
+    <Content Include="DB\Tables\Music_BandAlbum.sql" />
+    <Content Include="DB\Tables\Music_BandGenre.sql" />
+    <Content Include="DB\Tables\Music_BandLabel.sql" />
+    <Content Include="DB\Tables\Music_BandMusicianActivity.sql" />
+    <Content Include="DB\Tables\Music_City.sql" />
+    <Content Include="DB\Tables\Music_Country.sql" />
+    <Content Include="DB\Tables\Music_CountryCity.sql" />
+    <Content Include="DB\Tables\Music_Genre.sql" />
+    <Content Include="DB\Tables\Music_Instrument.sql" />
+    <Content Include="DB\Tables\Music_Label.sql" />
+    <Content Include="DB\Tables\Music_Musician.sql" />
+    <Content Include="DB\Tables\Music_MusicianGenre.sql" />
+    <Content Include="DB\Tables\Music_MusicianInstrument.sql" />
+    <Content Include="DB\Tables\Music_MusicianLabel.sql" />
+    <Content Include="DB\Tables\Music_MusicianOccupation.sql" />
+    <Content Include="DB\Tables\Music_Occupation.sql" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

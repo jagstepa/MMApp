@@ -350,13 +350,13 @@ namespace MMApp.Data
                     foreach (var selectedGenre in band.SelectedGenres)
                     {
                         bandType = "SelectedGenresBand";
-                        values = "MusicianId#" + bandId + "@GenreId#" + selectedGenre.Id;
+                        values = "BandId#" + bandId + "@GenreId#" + selectedGenre.Id;
                         _db.Execute("sp_AddEntity", new { GetAllType = bandType, Parameters = values }, commandType: CommandType.StoredProcedure);
                     }
                     foreach (var selectedLabel in band.SelectedLabels)
                     {
                         bandType = "SelectedLabelsBand";
-                        values = "MusicianId#" + bandId + "@LabelId#" + selectedLabel.Id;
+                        values = "BandId#" + bandId + "@LabelId#" + selectedLabel.Id;
                         _db.Execute("sp_AddEntity", new { GetAllType = bandType, Parameters = values }, commandType: CommandType.StoredProcedure);
                     }
                     foreach (var musicianActivity in band.MusicianActivity)
@@ -390,10 +390,10 @@ namespace MMApp.Data
                         values = "AlbumId#" + albumId + "@LabelId#" + selectedLabel.Id;
                         _db.Execute("sp_AddEntity", new { GetAllType = albumType, Parameters = values }, commandType: CommandType.StoredProcedure);
                     }
-                    foreach (var selectedLabel in album.SelectedMusicians)
+                    foreach (var selectedMusician in album.SelectedMusicians)
                     {
                         albumType = "SelectedMusiciansAlbum";
-                        values = "AlbumId#" + albumId + "@MusicianId#" + selectedLabel.Id;
+                        values = "AlbumId#" + albumId + "@MusicianId#" + selectedMusician.Id;
                         _db.Execute("sp_AddEntity", new { GetAllType = albumType, Parameters = values }, commandType: CommandType.StoredProcedure);
                     }
                     break;

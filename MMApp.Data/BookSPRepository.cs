@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
 using MMApp.Domain.Models;
@@ -11,13 +9,14 @@ namespace MMApp.Data
 {
     public class BookSPRepository : IBookRepository
     {
-        private readonly IDbConnection _db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+        private readonly IDbConnection _db = DBHelpers.GetDbConnection();
+        List<IModelInterface> myList = new List<IModelInterface>();
 
         #region GetAll
 
         public List<IModelInterface> GetAll<T>() where T : IModelInterface
         {
-            List<IModelInterface> myList = new List<IModelInterface>();
+            //List<IModelInterface> myList = new List<IModelInterface>();
             var type = typeof(T).Name;
 
             switch (type)
@@ -57,7 +56,7 @@ namespace MMApp.Data
 
         public List<IModelInterface> GetAllForParent<T>(int id, string subType) where T : IModelInterface
         {
-            List<IModelInterface> myList = new List<IModelInterface>();
+            //List<IModelInterface> myList = new List<IModelInterface>();
             var type = typeof(T).Name;
 
             switch (type)
@@ -77,7 +76,7 @@ namespace MMApp.Data
 
         public List<IModelInterface> GetAllForText<T>(string searchText) where T : IModelInterface
         {
-            List<IModelInterface> myList = new List<IModelInterface>();
+            //List<IModelInterface> myList = new List<IModelInterface>();
             var type = typeof(T).Name;
             if (searchText == "*") searchText = "";
             searchText = searchText + "%";
@@ -316,7 +315,7 @@ namespace MMApp.Data
 
         public List<IModelInterface> GetFilterItems<T>(string filterType, string filterItem) where T : IModelInterface
         {
-            List<IModelInterface> myList = new List<IModelInterface>();
+            //List<IModelInterface> myList = new List<IModelInterface>();
             var type = typeof(T).Name;
 
             switch (type)
