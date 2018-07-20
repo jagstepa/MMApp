@@ -19,7 +19,9 @@ namespace MMApp.Domain.Models
         [Display(Name = "Book Description")]
         public string BookDescription { get; set; }
 
-        public string ISBN { get; set; }
+        public string ISBN10 { get; set; }
+
+        public string ISBN13 { get; set; }
 
         public int Year { get; set; }
 
@@ -33,7 +35,7 @@ namespace MMApp.Domain.Models
         [Display(Name = "File Format")]
         public string FileFormat { get; set; }
 
-        public string Website { get; set; }
+        //public string Website { get; set; }
 
         public int PublisherId { get; set; }
 

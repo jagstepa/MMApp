@@ -43,7 +43,7 @@ BEGIN
 	END
 	IF @GetAllType = 'Book'
 	BEGIN
-		INSERT INTO Books_Book (BookName,ShortDescription,BookDescription,ISBN,[Year],Pages,FileSize,FileFormat,Website,BookPicture,PublisherId)
+		INSERT INTO Books_Book (BookName,ShortDescription,BookDescription,ISBN10,[Year],Pages,FileSize,FileFormat,Website,BookPicture,PublisherId)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'BookName'),
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -51,7 +51,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'BookDescription'),
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-					WHERE KeyName = 'ISBN'),
+					WHERE KeyName = 'ISBN10'),
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'Year'),
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)

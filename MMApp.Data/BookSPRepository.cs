@@ -168,9 +168,9 @@ namespace MMApp.Data
                     obj = value;
                     Book book = (Book)obj;
                     values = "BookName#" + book.BookName + "@ShortDescription#" + book.ShortDescription + "@BookDescription#" + book.BookDescription + 
-                        "@ISBN#" + book.ISBN + "@Year#" + book.Year + "@Pages#" + book.Pages + "@FileSize#" + book.FileSize +
+                        "@ISBN#" + book.ISBN10 + "@Year#" + book.Year + "@Pages#" + book.Pages + "@FileSize#" + book.FileSize +
                         "@FileFormat#" + book.FileFormat + "@BookPicture#" + book.BookPicture +
-                        "@Website#" + book.Website + "@PublisherId#" + book.PublisherId;
+                        "@PublisherId#" + book.PublisherId;
                     var bookId = _db.Query<int>("sp_BookAddEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure).Single();
 
                     foreach (var selectedAuthor in book.SelectedAuthors)
@@ -179,6 +179,21 @@ namespace MMApp.Data
                         values = "BookId#" + bookId + "@AuthorId#" + selectedAuthor.Id;
                         _db.Execute("sp_BookAddEntity", new { GetAllType = bookType, Parameters = values }, commandType: CommandType.StoredProcedure);
                     }
+                    break;
+                case "Category":
+                    obj = value;
+                    Category category = (Category)obj;
+                    values = "CategoryName#" + category.CategoryName + "@Website#" + category.Website;
+                    break;
+                case "Currency":
+                    obj = value;
+                    Currency currency = (Currency)obj;
+                    values = "CurrencyName#" + currency.CurrencyName + "@CurrencySymbol#" + currency.CurrencySymbol;
+                    break;
+                case "Format":
+                    obj = value;
+                    BookFormat bookFormat = (BookFormat)obj;
+                    values = "FormatName#" + bookFormat.FormatName;
                     break;
             }
 
@@ -215,8 +230,8 @@ namespace MMApp.Data
                     genericUpdate = false;
                     obj = value;
                     Book book = (Book)obj;
-                    values = "BookName#" + book.BookName + "@Website#" + book.Website + "@BookDescription#" + book.BookDescription +
-                        "@ISBN#" + book.ISBN + "@Year#" + book.Year + "@Pages#" + book.Pages + "@FileSize#" + book.FileSize +
+                    values = "BookName#" + book.BookName + "@BookDescription#" + book.BookDescription +
+                        "@ISBN#" + book.ISBN10 + "@Year#" + book.Year + "@Pages#" + book.Pages + "@FileSize#" + book.FileSize +
                         "@ShortDescription#" + book.ShortDescription + "@BookPicture#" + book.BookPicture +
                         "@FileFormat#" + book.FileFormat + "@PublisherId#" + book.PublisherId + "@Id#" + +book.Id;
                     _db.Execute("sp_BookUpdateEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure);

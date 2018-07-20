@@ -52,8 +52,11 @@
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Band.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\BookFormat.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\Currency.cs" />
     <Compile Include="Models\FilterItem.cs" />
     <Compile Include="Models\FilterType.cs" />
     <Compile Include="Models\Genre.cs" />

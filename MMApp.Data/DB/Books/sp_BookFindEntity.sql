@@ -46,12 +46,11 @@ BEGIN
 			B.BookName,
 			B.ShortDescription,
 			B.BookDescription,
-			B.ISBN,
+			B.ISBN10,
 			B.[Year],
 			B.Pages,
 			B.FileSize,
 			B.FileFormat,
-			B.Website,
 			B.BookPicture,
 			B.PublisherId,
 			P.PublisherName

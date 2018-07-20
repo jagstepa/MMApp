@@ -42,7 +42,7 @@ BEGIN
 			B.BookName,
 			B.ShortDescription,
 			B.BookDescription,
-			B.ISBN,
+			B.ISBN10,
 			B.[Year],
 			B.Pages,
 			B.FileSize,

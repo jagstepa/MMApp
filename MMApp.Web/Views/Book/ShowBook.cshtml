@@ -18,8 +18,8 @@
              <td colspan="3">@Html.TextAreaFor(book => book.BookDescription, new { @rows = 20, @readonly = "readonly", style = "width:100%;" })</td>
          </tr>
          <tr>
-             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.ISBN)</td>
-             <td>@Html.DisplayFor(book => book.ISBN)</td>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.ISBN10)</td>
+             <td>@Html.DisplayFor(book => book.ISBN10)</td>
              <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.Year)</td>
              <td>@Html.DisplayFor(book => book.Year)</td>
          </tr>
@@ -41,10 +41,10 @@
                  @Html.ListBoxFor(m => m.SelectedAuthors, new SelectList(Model.SelectedAuthors, "Id", "AuthorName"), new { size = 10, disabled = "disabled", style = "background-color: white;"})
              </td>
          </tr>
-    <tr>
+    @*<tr>
         <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.Website)</td>
         <td colspan="2">@Html.WebsiteLink(Model.Website, Model.BookName)</td>
-    </tr>
+    </tr>*@
      <tr>
         <td colspan="5" style="text-align: right">
             <input type="button" name="Back" value="Back" onclick="history.back();" />

@@ -55,7 +55,7 @@ BEGIN
 			BookDescription = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'BookDescription'),
 			ISBN = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-					WHERE KeyName = 'ISBN'),
+					WHERE KeyName = 'ISBN10'),
 			[Year] = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'Year'),
 			Pages = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)

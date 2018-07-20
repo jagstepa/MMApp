@@ -1,0 +1,29 @@
+﻿USE [MMApp]
+GO
+
+/****** Object:  Table [dbo].[Books_Website]    Script Date: 2018/07/20 7:09:08 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[Books_Website](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[BookName] [varchar](50) NOT NULL,
+	[Url] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Books_Website] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+

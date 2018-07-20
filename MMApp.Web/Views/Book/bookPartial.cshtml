@@ -39,8 +39,8 @@
              <td colspan="3">@Html.TextAreaFor(book => book.BookDescription, new { @rows = 20, style = "width:100%;" })</td>
          </tr>
          <tr>
-             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.ISBN)</td>
-             <td>@Html.TextBoxFor(book => book.ISBN)</td>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.ISBN10)</td>
+             <td>@Html.TextBoxFor(book => book.ISBN10)</td>
              <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.Year)</td>
              <td  class="labelWidth150">
                  @Html.DropDownListFor(m => m.Year, new SelectList(Model.YearList, "YearId", "YearCode", Model.Year), "Select Year")
@@ -81,10 +81,10 @@
                  @Html.ValidationMessageFor(m => m.AuthorId)
              </td>
          </tr>
-         <tr>
+         @*<tr>
              <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.Website)</td>
              <td colspan="2">@Html.TextBoxFor(book => book.Website, new { style = "width:100%;" })</td>
-         </tr>
+         </tr>*@
          <tr>
              <td colspan="5">&nbsp;</td>
          </tr>
@@ -131,8 +131,8 @@ else
              <td colspan="3">@Html.TextAreaFor(book => book.BookDescription, new { @rows = 20, style = "width:100%;" })</td>
          </tr>
          <tr>
-             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.ISBN)</td>
-             <td>@Html.TextBoxFor(book => book.ISBN)</td>
+             <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.ISBN10)</td>
+             <td>@Html.TextBoxFor(book => book.ISBN10)</td>
              <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.Year)</td>
              <td  class="labelWidth150">
                  @Html.DropDownListFor(m => m.Year, new SelectList(Model.YearList, "YearId", "YearCode", Model.Year), "Select Year")
@@ -175,10 +175,10 @@ else
                  @Html.ValidationMessageFor(m => m.AuthorId)
              </td>
          </tr>
-         <tr>
+         @*<tr>
              <td class="labelWidth150 labelPadding">@Html.LabelFor(book => book.Website)</td>
              <td colspan="2">@Html.TextBoxFor(book => book.Website, new { style = "width:100%;" })</td>
-         </tr>
+         </tr>*@
          <tr>
              <td colspan="5">&nbsp;</td>
          </tr>

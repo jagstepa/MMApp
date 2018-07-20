@@ -15,6 +15,5 @@ C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Domain\bin\Debug\PagedList.dll
 C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Domain\bin\Debug\PagedList.Mvc.dll
 C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Domain\bin\Debug\PagedList.xml
 C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Domain\bin\Debug\PagedList.Mvc.xml
-C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Domain\obj\Debug\MMApp.Domain.csprojResolveAssemblyReference.cache
 C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Domain\obj\Debug\MMApp.Domain.dll
 C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Domain\obj\Debug\MMApp.Domain.pdb

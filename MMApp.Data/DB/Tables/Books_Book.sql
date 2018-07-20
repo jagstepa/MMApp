@@ -1,7 +1,7 @@
 ﻿USE [MMApp]
 GO
 
-/****** Object:  Table [dbo].[Books_Book]    Script Date: 2018/07/18 7:01:54 AM ******/
+/****** Object:  Table [dbo].[Books_Book]    Script Date: 2018/07/20 7:08:27 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -16,14 +16,14 @@ CREATE TABLE [dbo].[Books_Book](
 	[BookName] [varchar](50) NOT NULL,
 	[ShortDescription] [varchar](50) NULL,
 	[BookDescription] [varchar](500) NULL,
-	[ISBN] [varchar](50) NULL,
+	[ISBN10] [varchar](50) NULL,
 	[Year] [int] NULL,
 	[Pages] [int] NULL,
 	[FileSize] [varchar](50) NULL,
 	[FileFormat] [varchar](10) NULL,
-	[Website] [varchar](50) NULL,
 	[BookPicture] [varchar](50) NULL,
 	[PublisherId] [int] NOT NULL,
+	[ISBN13] [varchar](50) NULL,
  CONSTRAINT [PK_Books_Book] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

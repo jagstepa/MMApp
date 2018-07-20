@@ -34,9 +34,9 @@
 
 <table id="data-grid">
     <tr>
-        <th class="width1300">
+        @*<th class="width1300">
             @Html.DisplayName("Website")
-        </th>
+        </th>*@
         <th class="width400">
             @Html.DisplayName("PublisherName")
         </th>
@@ -56,9 +56,9 @@
     @foreach(var item in Model.BookPaginated)
     {
         <tr class="tableTRbottom">
-            <td>
+            @*<td>
                 @Html.WebsiteLink(item.Website, item.BookName)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.PublisherName)
             </td>

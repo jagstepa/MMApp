@@ -21,7 +21,9 @@ namespace MMApp.Web.Controllers.Books
             var cachedSearch = _cache.Get("AuthorSearch");
             string outSearchText;
             bool outRefreshAuthorList;
+
             Helpers.Helpers.CheckCashedSearchText(searchText, cachedSearch, "AuthorSearch", out outSearchText, out outRefreshAuthorList);
+
             if (outRefreshAuthorList)
             {
                 _cache.RemoveItem("AuthorList");

@@ -2,9 +2,9 @@
 
 namespace MMApp.Domain.Models
 {
-    public class Publisher : IModelInterface
+    public class BookFormat : IModelInterface
     {
         public int Id { get; set; }
-        public string PublisherName { get; set; }
+        public string FormatName { get; set; }
     }
 }

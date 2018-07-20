@@ -57,9 +57,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DB\Tables\Books_BookCategory.sql" />
+    <Content Include="DB\Tables\Books_BookSeller.sql" />
+    <Content Include="DB\Tables\Books_BookWebsite.sql" />
+    <Content Include="DB\Tables\Books_Category.sql" />
+    <Content Include="DB\Tables\Books_Currency.sql" />
+    <Content Include="DB\Tables\Books_Format.sql" />
+    <Content Include="DB\Tables\Books_Seller.sql" />
+    <Content Include="DB\Tables\Books_Website.sql" />
     <Content Include="DB\Tables\Music_AlbumMusician.sql" />
+    <Content Include="DB\Tables\Music_AlbumProducer.sql" />
+    <Content Include="DB\Tables\Music_Producer.sql" />
     <Content Include="DB\Tables\Music_Song.sql" />
     <Content Include="DB\Tables\Music_SongMusician.sql" />
+    <Content Include="DB\Tables\Music_SongWriter.sql" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
