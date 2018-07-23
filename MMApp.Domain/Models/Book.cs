@@ -48,7 +48,9 @@ namespace MMApp.Domain.Models
 
         [Display(Name = "Selected Authors")]
         public List<Author> SelectedAuthors { get; set; }
-
+        public List<Category> SelectedCategories { get; set; }
+        public List<Website> SelectedWebsites { get; set; }
+        public List<Seller> SelectedSellers { get; set; }
         public List<Publisher> Publishers { get; set; }
 
         [Display(Name = "Book Picture")]

@@ -179,6 +179,24 @@ namespace MMApp.Data
                         values = "BookId#" + bookId + "@AuthorId#" + selectedAuthor.Id;
                         _db.Execute("sp_BookAddEntity", new { GetAllType = bookType, Parameters = values }, commandType: CommandType.StoredProcedure);
                     }
+                    foreach (var selectedCategory in book.SelectedCategories)
+                    {
+                        const string bookType = "SelectedCategories";
+                        values = "BookId#" + bookId + "@CategoryId#" + selectedCategory.Id;
+                        _db.Execute("sp_BookAddEntity", new { GetAllType = bookType, Parameters = values }, commandType: CommandType.StoredProcedure);
+                    }
+                    foreach (var selectedWebsite in book.SelectedWebsites)
+                    {
+                        const string bookType = "SelectedWebsites";
+                        values = "BookId#" + bookId + "@WebsiteId#" + selectedWebsite.Id;
+                        _db.Execute("sp_BookAddEntity", new { GetAllType = bookType, Parameters = values }, commandType: CommandType.StoredProcedure);
+                    }
+                    foreach (var selectedSeller in book.SelectedSellers)
+                    {
+                        const string bookType = "SelectedSellers";
+                        values = "BookId#" + bookId + "@SellerId#" + selectedSeller.Id;
+                        _db.Execute("sp_BookAddEntity", new { GetAllType = bookType, Parameters = values }, commandType: CommandType.StoredProcedure);
+                    }
                     break;
                 case "Category":
                     obj = value;
@@ -194,6 +212,16 @@ namespace MMApp.Data
                     obj = value;
                     BookFormat bookFormat = (BookFormat)obj;
                     values = "FormatName#" + bookFormat.FormatName;
+                    break;
+                case "Website":
+                    obj = value;
+                    Website website = (Website)obj;
+                    values = "BookName#" + website.BookName + "@Url#" + website.Url;
+                    break;
+                case "Seller":
+                    obj = value;
+                    Seller seller = (Seller)obj;
+                    values = "SellerName#" + seller.SellerName + "@Website#" + seller.Website;
                     break;
             }
 
