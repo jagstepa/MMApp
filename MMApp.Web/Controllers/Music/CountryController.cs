@@ -9,8 +9,8 @@ namespace MMApp.Web.Controllers.Music
 {
     public class CountryController : Controller
     {
-        //private readonly IMusicRepository _dashboard = new MusicRepository();
         private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
+        private Dictionary<string, string> paramDict = new Dictionary<string, string>();
 
         public ActionResult Index()
         {
@@ -35,7 +35,9 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddCountry(Country country)
         {
-            if (_dashboardSP.CheckDuplicate<Country>(country.CountryName, country.Website))
+            paramDict.Add("CountryName", country.CountryName);
+
+            if (_dashboardSP.CheckDuplicate<Country>(paramDict))
             {
                 TempData["CustomError"] = "Country ( " + country.CountryName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Country ( " + country.CountryName + " ) already exists!");
@@ -43,7 +45,8 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add(country);
+                paramDict.Add("Website", country.Website);
+                _dashboardSP.Add<Country>(paramDict);
 
                 return RedirectToAction("Index");
             }
@@ -72,7 +75,11 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError("CustomError", "Country Name didn't change!");
             }
 
-            if (_dashboardSP.CheckDuplicate<Country>(country.CountryName, country.Website))
+            var paramDict = new Dictionary<string, string>()
+            {
+            };
+
+            if (_dashboardSP.CheckDuplicate<Country>(paramDict))
             {
                 TempData["CustomError"] = "Country ( " + country.CountryName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Country ( " + country.CountryName + " ) already exists!");

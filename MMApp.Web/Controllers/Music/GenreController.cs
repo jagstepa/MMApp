@@ -9,8 +9,8 @@ namespace MMApp.Web.Controllers.Music
 {
     public class GenreController : Controller
     {
-        //private readonly IMusicRepository _dashboard = new MusicRepository();
         private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
+        private Dictionary<string, string> paramDict = new Dictionary<string, string>();
 
         public ActionResult Index()
         {
@@ -35,7 +35,9 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddGenre(Genre genre)
         {
-            if (_dashboardSP.CheckDuplicate<Genre>(genre.GenreName, genre.Website))
+            paramDict.Add("GenreName", genre.GenreName);
+
+            if (_dashboardSP.CheckDuplicate<Genre>(paramDict))
             {
                 TempData["CustomError"] = "Genre ( " + genre.GenreName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Genre ( " + genre.GenreName + " ) already exists!");
@@ -43,7 +45,9 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add(genre);
+                paramDict.Add("Website", genre.Website);
+
+                _dashboardSP.Add<Genre>(paramDict);
 
                 return RedirectToAction("Index");
             }
@@ -72,7 +76,11 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError("CustomError", "Genre Name didn't change!");
             }
 
-            if (_dashboardSP.CheckDuplicate<Genre>(genre.GenreName, genre.Website))
+            var paramDict = new Dictionary<string, string>()
+            {
+            };
+
+            if (_dashboardSP.CheckDuplicate<Genre>(paramDict))
             {
                 TempData["CustomError"] = "Genre ( " + genre.GenreName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Genre ( " + genre.GenreName + " ) already exists!");

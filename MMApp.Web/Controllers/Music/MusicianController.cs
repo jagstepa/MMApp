@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using MMApp.Data;
 using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
+using System;
 
 namespace MMApp.Web.Controllers.Music
 {
@@ -58,8 +59,15 @@ namespace MMApp.Web.Controllers.Music
             musician.SelectedOccupations = (List<Occupation>)TempData["SelectedOccupations"];
             musician.SelectedInstruments = (List<Instrument>)TempData["SelectedInstruments"];
             musician.SelectedLabels = (List<Label>)TempData["SelectedLabels"];
+            var paramString = "StageName#" + musician.StageName + "@BirthName#" + musician.BirthName + "@CityId#" + musician.CityId;
+            var paramDict = new Dictionary<string, string>()
+            {
+                { "StageName", musician.StageName},
+                { "BirthName", musician.BirthName},
+                { "CityId", musician.CityId.ToString()}
+            };
 
-            if (_dashboardSP.CheckDuplicate<Musician>(musician.StageName, musician.Website))
+            if (_dashboardSP.CheckDuplicate<Musician>(paramDict))
             {
                 TempData["CustomError"] = "Musician ( " + musician.StageName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Musician ( " + musician.StageName + " ) already exists!");
@@ -67,7 +75,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add(musician);
+                _dashboardSP.Add<Musician>(paramDict);
 
                 return RedirectToAction("Index");
             }

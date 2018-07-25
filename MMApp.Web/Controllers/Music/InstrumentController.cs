@@ -35,7 +35,11 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddInstrument(Instrument instrument)
         {
-            if (_dashboardSP.CheckDuplicate<Instrument>(instrument.InstrumentName, instrument.Website))
+            var paramDict = new Dictionary<string, string>()
+            {
+            };
+
+            if (_dashboardSP.CheckDuplicate<Instrument>(paramDict))
             {
                 TempData["CustomError"] = "Instrument ( " + instrument.InstrumentName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Instrument ( " + instrument.InstrumentName + " ) already exists!");
@@ -43,7 +47,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add(instrument);
+                _dashboardSP.Add<Instrument>(paramDict);
 
                 return RedirectToAction("Index");
             }
@@ -72,7 +76,12 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError("CustomError", "Instrument Name didn't change!");
             }
 
-            if (_dashboardSP.CheckDuplicate<Instrument>(instrument.InstrumentName, instrument.Website))
+            var paramDict = new Dictionary<string, string>()
+            {
+            };
+
+
+            if (_dashboardSP.CheckDuplicate<Instrument>(paramDict))
             {
                 TempData["CustomError"] = "Instrument ( " + instrument.InstrumentName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Instrument ( " + instrument.InstrumentName + " ) already exists!");

@@ -154,98 +154,97 @@ namespace MMApp.Data
 
         #region Add
 
-        public void Add<T>(T value) where T : IModelInterface
+        public void Add<T>(Dictionary<string, string> pars) where T : IModelInterface
         {
             var type = typeof(T).Name;
-            object obj;
             var param = new DynamicParameters();
 
-            switch (type)
-            {
-                case "Country":
-                    obj = value;
-                    Country country = (Country) obj;
-                    param.Add("@CountryName", country.CountryName);
-                    param.Add("@Website", country.Website);
-                    _db.Execute(Globals.AddCountry, param);
-                    break;
-                case "City":
-                    obj = value;
-                    City city = (City) obj;
-                    param.Add("@CityName", city.CityName);
-                    param.Add("@Website", city.Website);
-                    var cityId = _db.Query<int>(Globals.AddCity, param).Single();
-                    param.Add("@CountryId", city.CountryId);
-                    param.Add("@CityId", cityId);
-                    _db.Execute(Globals.AddCountryCity, param);
-                    break;
-                case "Genre":
-                    obj = value;
-                    Genre genre = (Genre)obj;
-                    param.Add("@GenreName", genre.GenreName);
-                    param.Add("@Website", genre.Website);
-                    _db.Execute(Globals.AddGenre, param);
-                    break;
-                case "Instrument":
-                    obj = value;
-                    Instrument instrument = (Instrument)obj;
-                    param.Add("@InstrumentName", instrument.InstrumentName);
-                    param.Add("@Website", instrument.Website);
-                    _db.Execute(Globals.AddInstrument, param);
-                    break;
-                case "Label":
-                    obj = value;
-                    Label label = (Label)obj;
-                    param.Add("@LabelName", label.LabelName);
-                    param.Add("@Website", label.Website);
-                    _db.Execute(Globals.AddLabel, param);
-                    break;
-                case "Occupation":
-                    obj = value;
-                    Occupation occupation = (Occupation)obj;
-                    param.Add("@OccupationName", occupation.OccupationName);
-                    param.Add("@Website", occupation.Website);
-                    _db.Execute(Globals.AddOccupation, param);
-                    break;
-                case "Musician":
-                    obj = value;
-                    Musician musician = (Musician)obj;
-                    param.Add("@StageName", musician.StageName);
-                    param.Add("@BirthName", musician.BirthName);
-                    param.Add("@Website", musician.Website);
-                    param.Add("@YearsActiveFrom", musician.YearsActiveFrom);
-                    param.Add("@YearsActiveTo", musician.YearsActiveTo);
-                    param.Add("@DOB", musician.DOB);
-                    param.Add("@DOD", musician.DOD);
-                    param.Add("@CityId", musician.CityId);
-                    param.Add("@CountryId", musician.CountryId);
-                    var musicianId = _db.Query<int>(Globals.AddMusician, param).Single();
-                    foreach (var selectedGenre in musician.SelectedGenres)
-                    {
-                        param.Add("@MusicianId", musicianId);
-                        param.Add("@GenreId", selectedGenre.Id);
-                        _db.Execute(Globals.AddMusicianGenre, param);
-                    }
-                    foreach (var selectedInstrument in musician.SelectedInstruments)
-                    {
-                        param.Add("@MusicianId", musicianId);
-                        param.Add("@InstrumentId", selectedInstrument.Id);
-                        _db.Execute(Globals.AddMusicianInstrument, param);
-                    }
-                    foreach (var selectedLabel in musician.SelectedLabels)
-                    {
-                        param.Add("@MusicianId", musicianId);
-                        param.Add("@LabelId", selectedLabel.Id);
-                        _db.Execute(Globals.AddMusicianLabel, param);
-                    }
-                    foreach (var selectedOccupation in musician.SelectedOccupations)
-                    {
-                        param.Add("@MusicianId", musicianId);
-                        param.Add("@OccupationId", selectedOccupation.Id);
-                        _db.Execute(Globals.AddMusicianOccupation, param);
-                    }
-                    break;
-            }
+            //switch (type)
+            //{
+            //    case "Country":
+            //        obj = value;
+            //        Country country = (Country) obj;
+            //        param.Add("@CountryName", country.CountryName);
+            //        param.Add("@Website", country.Website);
+            //        _db.Execute(Globals.AddCountry, param);
+            //        break;
+            //    case "City":
+            //        obj = value;
+            //        City city = (City) obj;
+            //        param.Add("@CityName", city.CityName);
+            //        param.Add("@Website", city.Website);
+            //        var cityId = _db.Query<int>(Globals.AddCity, param).Single();
+            //        param.Add("@CountryId", city.CountryId);
+            //        param.Add("@CityId", cityId);
+            //        _db.Execute(Globals.AddCountryCity, param);
+            //        break;
+            //    case "Genre":
+            //        obj = value;
+            //        Genre genre = (Genre)obj;
+            //        param.Add("@GenreName", genre.GenreName);
+            //        param.Add("@Website", genre.Website);
+            //        _db.Execute(Globals.AddGenre, param);
+            //        break;
+            //    case "Instrument":
+            //        obj = value;
+            //        Instrument instrument = (Instrument)obj;
+            //        param.Add("@InstrumentName", instrument.InstrumentName);
+            //        param.Add("@Website", instrument.Website);
+            //        _db.Execute(Globals.AddInstrument, param);
+            //        break;
+            //    case "Label":
+            //        obj = value;
+            //        Label label = (Label)obj;
+            //        param.Add("@LabelName", label.LabelName);
+            //        param.Add("@Website", label.Website);
+            //        _db.Execute(Globals.AddLabel, param);
+            //        break;
+            //    case "Occupation":
+            //        obj = value;
+            //        Occupation occupation = (Occupation)obj;
+            //        param.Add("@OccupationName", occupation.OccupationName);
+            //        param.Add("@Website", occupation.Website);
+            //        _db.Execute(Globals.AddOccupation, param);
+            //        break;
+            //    case "Musician":
+            //        obj = value;
+            //        Musician musician = (Musician)obj;
+            //        param.Add("@StageName", musician.StageName);
+            //        param.Add("@BirthName", musician.BirthName);
+            //        param.Add("@Website", musician.Website);
+            //        param.Add("@YearsActiveFrom", musician.YearsActiveFrom);
+            //        param.Add("@YearsActiveTo", musician.YearsActiveTo);
+            //        param.Add("@DOB", musician.DOB);
+            //        param.Add("@DOD", musician.DOD);
+            //        param.Add("@CityId", musician.CityId);
+            //        param.Add("@CountryId", musician.CountryId);
+            //        var musicianId = _db.Query<int>(Globals.AddMusician, param).Single();
+            //        foreach (var selectedGenre in musician.SelectedGenres)
+            //        {
+            //            param.Add("@MusicianId", musicianId);
+            //            param.Add("@GenreId", selectedGenre.Id);
+            //            _db.Execute(Globals.AddMusicianGenre, param);
+            //        }
+            //        foreach (var selectedInstrument in musician.SelectedInstruments)
+            //        {
+            //            param.Add("@MusicianId", musicianId);
+            //            param.Add("@InstrumentId", selectedInstrument.Id);
+            //            _db.Execute(Globals.AddMusicianInstrument, param);
+            //        }
+            //        foreach (var selectedLabel in musician.SelectedLabels)
+            //        {
+            //            param.Add("@MusicianId", musicianId);
+            //            param.Add("@LabelId", selectedLabel.Id);
+            //            _db.Execute(Globals.AddMusicianLabel, param);
+            //        }
+            //        foreach (var selectedOccupation in musician.SelectedOccupations)
+            //        {
+            //            param.Add("@MusicianId", musicianId);
+            //            param.Add("@OccupationId", selectedOccupation.Id);
+            //            _db.Execute(Globals.AddMusicianOccupation, param);
+            //        }
+            //        break;
+            //}
         }
 
         #endregion
@@ -441,46 +440,46 @@ namespace MMApp.Data
 
         #region Check Duplicate
 
-        public bool CheckDuplicate<T>(string name, string website) where T : IModelInterface
+        public bool CheckDuplicate<T>(Dictionary<string, string> pars) where T : IModelInterface
         {
             var type = typeof(T).Name;
             bool result = false;
             var param = new DynamicParameters();
-            param.Add("@Website", website);
+            //param.Add("@Website", website);
 
-            switch (type)
-            {
-                case "Country":
-                    param.Add("@CountryName", name);
-                    var countryId = _db.Query<int>(Globals.CheckDuplicateCountry, param).SingleOrDefault();
-                    if (countryId > 0) result = true;
-                    break;
-                case "City":
-                    param.Add("@CityName", name);
-                    var cityId = _db.Query<int>(Globals.CheckDuplicateCity, param).SingleOrDefault();
-                    if (cityId > 0) result = true;
-                    break;
-                case "Genre":
-                    param.Add("@GenreName", name);
-                    var genreId = _db.Query<int>(Globals.CheckDuplicateGenre, param).SingleOrDefault();
-                    if (genreId > 0) result = true;
-                    break;
-                case "Instrument":
-                    param.Add("@InstrumentName", name);
-                    var instrumentId = _db.Query<int>(Globals.CheckDuplicateInstrument, param).SingleOrDefault();
-                    if (instrumentId > 0) result = true;
-                    break;
-                case "Label":
-                    param.Add("@LabelName", name);
-                    var labelId = _db.Query<int>(Globals.CheckDuplicateLabel, param).SingleOrDefault();
-                    if (labelId > 0) result = true;
-                    break;
-                case "Occupation":
-                    param.Add("@OccupationName", name);
-                    var occupationId = _db.Query<int>(Globals.CheckDuplicateOccupation, param).SingleOrDefault();
-                    if (occupationId > 0) result = true;
-                    break;
-            }
+            //switch (type)
+            //{
+            //    case "Country":
+            //        param.Add("@CountryName", paramList);
+            //        var countryId = _db.Query<int>(Globals.CheckDuplicateCountry, param).SingleOrDefault();
+            //        if (countryId > 0) result = true;
+            //        break;
+            //    case "City":
+            //        param.Add("@CityName", paramList);
+            //        var cityId = _db.Query<int>(Globals.CheckDuplicateCity, param).SingleOrDefault();
+            //        if (cityId > 0) result = true;
+            //        break;
+            //    case "Genre":
+            //        param.Add("@GenreName", paramList);
+            //        var genreId = _db.Query<int>(Globals.CheckDuplicateGenre, param).SingleOrDefault();
+            //        if (genreId > 0) result = true;
+            //        break;
+            //    case "Instrument":
+            //        param.Add("@InstrumentName", paramList);
+            //        var instrumentId = _db.Query<int>(Globals.CheckDuplicateInstrument, param).SingleOrDefault();
+            //        if (instrumentId > 0) result = true;
+            //        break;
+            //    case "Label":
+            //        param.Add("@LabelName", paramList);
+            //        var labelId = _db.Query<int>(Globals.CheckDuplicateLabel, param).SingleOrDefault();
+            //        if (labelId > 0) result = true;
+            //        break;
+            //    case "Occupation":
+            //        param.Add("@OccupationName", paramList);
+            //        var occupationId = _db.Query<int>(Globals.CheckDuplicateOccupation, param).SingleOrDefault();
+            //        if (occupationId > 0) result = true;
+            //        break;
+            //}
 
             return result;
         }

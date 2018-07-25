@@ -50,8 +50,11 @@ namespace MMApp.Web.Controllers.Music
         public ActionResult AddSong(Song song)
         {
             song.SelectedMusicians = (List<Musician>)TempData["SelectedMusicians"];
+            var paramDict = new Dictionary<string, string>()
+            {
+            };
 
-            if (_dashboardSP.CheckDuplicate<Song>(song.SongName, ""))
+            if (_dashboardSP.CheckDuplicate<Song>(paramDict))
             {
                 TempData["CustomError"] = "Song ( " + song.SongName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Song ( " + song.SongName + " ) already exists!");
@@ -59,7 +62,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add(song);
+                _dashboardSP.Add<Song>(paramDict);
 
                 return RedirectToAction("Index");
             }

@@ -35,7 +35,11 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddLabel(Label label)
         {
-            if (_dashboardSP.CheckDuplicate<Label>(label.LabelName, label.Website))
+            var paramDict = new Dictionary<string, string>()
+            {
+            };
+
+            if (_dashboardSP.CheckDuplicate<Label>(paramDict))
             {
                 TempData["CustomError"] = "Label ( " + label.LabelName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Label ( " + label.LabelName + " ) already exists!");
@@ -43,7 +47,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add(label);
+                _dashboardSP.Add<Label>(paramDict);
 
                 return RedirectToAction("Index");
             }
@@ -72,7 +76,11 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError("CustomError", "Label Name didn't change!");
             }
 
-            if (_dashboardSP.CheckDuplicate<Label>(label.LabelName, label.Website))
+            var paramDict = new Dictionary<string, string>()
+            {
+            };
+
+            if (_dashboardSP.CheckDuplicate<Label>(paramDict))
             {
                 TempData["CustomError"] = "Label ( " + label.LabelName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Label ( " + label.LabelName + " ) already exists!");

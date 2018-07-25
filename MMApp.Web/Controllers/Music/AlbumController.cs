@@ -61,8 +61,11 @@ namespace MMApp.Web.Controllers.Music
             album.SelectedLabels = (List<Label>)TempData["SelectedLabels"];
             album.SelectedMusicians = (List<Musician>)TempData["SelectedMusicians"];
             album.SelectedSongs = (List<Song>)TempData["SelectedSongs"];
+            var paramDict = new Dictionary<string, string>()
+            {
+            };
 
-            if (_dashboardSP.CheckDuplicate<Album>(album.AlbumName, album.Website))
+            if (_dashboardSP.CheckDuplicate<Album>(paramDict))
             {
                 TempData["CustomError"] = "Album ( " + album.AlbumName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Album ( " + album.AlbumName + " ) already exists!");
@@ -70,7 +73,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add(album);
+                _dashboardSP.Add<Album>(paramDict);
 
                 return RedirectToAction("Index", new { bandId = album.BandId, bandName = album.BandName });
             }

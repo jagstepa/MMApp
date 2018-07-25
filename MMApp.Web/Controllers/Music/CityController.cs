@@ -9,8 +9,8 @@ namespace MMApp.Web.Controllers.Music
 {
     public class CityController : Controller
     {
-        //private readonly IMusicRepository _dashboard = new MusicRepository();
         private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
+        private Dictionary<string, string> paramDict = new Dictionary<string, string>();
 
         public ActionResult Index()
         {
@@ -35,7 +35,10 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddCity(City city)
         {
-            if (_dashboardSP.CheckDuplicate<City>(city.CityName, city.Website))
+            paramDict.Add("CityName", city.CityName);
+            paramDict.Add("CountryId", city.CountryId.ToString());
+
+            if (_dashboardSP.CheckDuplicate<City>(paramDict))
             {
                 TempData["CustomError"] = "City ( " + city.CityName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "City ( " + city.CityName + " ) already exists!");
@@ -43,7 +46,9 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add(city);
+                paramDict.Add("Website", city.Website);
+
+                _dashboardSP.Add<City>(paramDict);
 
                 return RedirectToAction("Index");
             }
@@ -75,7 +80,11 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError("CustomError", "City Name didn't change!");
             }
 
-            if (_dashboardSP.CheckDuplicate<City>(city.CityName, city.Website))
+            var paramDict = new Dictionary<string, string>()
+            {
+            };
+
+            if (_dashboardSP.CheckDuplicate<City>(paramDict))
             {
                 TempData["CustomError"] = "Country ( " + city.CityName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Country ( " + city.CityName + " ) already exists!");

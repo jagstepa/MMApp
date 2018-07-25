@@ -35,7 +35,11 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddOccupation(Occupation occupation)
         {
-            if (_dashboardSP.CheckDuplicate<Occupation>(occupation.OccupationName, occupation.Website))
+            var paramDict = new Dictionary<string, string>()
+            {
+            };
+
+            if (_dashboardSP.CheckDuplicate<Occupation>(paramDict))
             {
                 TempData["CustomError"] = "Occupation ( " + occupation.OccupationName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Occupation ( " + occupation.OccupationName + " ) already exists!");
@@ -43,7 +47,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add(occupation);
+                _dashboardSP.Add<Occupation>(paramDict);
 
                 return RedirectToAction("Index");
             }
@@ -72,7 +76,11 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError("CustomError", "Occupation Name didn't change!");
             }
 
-            if (_dashboardSP.CheckDuplicate<Occupation>(occupation.OccupationName, occupation.Website))
+            var paramDict = new Dictionary<string, string>()
+            {
+            };
+
+            if (_dashboardSP.CheckDuplicate<Occupation>(paramDict))
             {
                 TempData["CustomError"] = "Occupation ( " + occupation.OccupationName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Occupation ( " + occupation.OccupationName + " ) already exists!");
