@@ -10,8 +10,8 @@ namespace MMApp.Web.Controllers.Music
 {
     public class MusicianController : Controller
     {
-        //private readonly IMusicRepository _dashboard = new MusicRepository();
         private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
+        private Dictionary<string, string> paramDict = new Dictionary<string, string>();
 
         public ActionResult Index()
         {
@@ -59,13 +59,10 @@ namespace MMApp.Web.Controllers.Music
             musician.SelectedOccupations = (List<Occupation>)TempData["SelectedOccupations"];
             musician.SelectedInstruments = (List<Instrument>)TempData["SelectedInstruments"];
             musician.SelectedLabels = (List<Label>)TempData["SelectedLabels"];
-            var paramString = "StageName#" + musician.StageName + "@BirthName#" + musician.BirthName + "@CityId#" + musician.CityId;
-            var paramDict = new Dictionary<string, string>()
-            {
-                { "StageName", musician.StageName},
-                { "BirthName", musician.BirthName},
-                { "CityId", musician.CityId.ToString()}
-            };
+
+            paramDict.Add("StageName", musician.StageName);
+            paramDict.Add("BirthName", musician.BirthName);
+            paramDict.Add("CityId", musician.CityId.ToString());
 
             if (_dashboardSP.CheckDuplicate<Musician>(paramDict))
             {
@@ -75,6 +72,8 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
+                paramDict = Helpers.Helpers.GetEntityProperties<Musician>(musician, false);
+
                 _dashboardSP.Add<Musician>(paramDict);
 
                 return RedirectToAction("Index");

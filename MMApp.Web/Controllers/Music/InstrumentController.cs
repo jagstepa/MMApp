@@ -9,9 +9,8 @@ namespace MMApp.Web.Controllers.Music
 {
     public class InstrumentController : Controller
     {
-        //private readonly IMusicRepository _dashboard = new MusicRepository();
         private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
-
+        private Dictionary<string, string> paramDict = new Dictionary<string, string>();
         public ActionResult Index()
         {
             if (TempData["CustomError"] != null)
@@ -35,9 +34,7 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddInstrument(Instrument instrument)
         {
-            var paramDict = new Dictionary<string, string>()
-            {
-            };
+            paramDict.Add("GenreName", instrument.InstrumentName);
 
             if (_dashboardSP.CheckDuplicate<Instrument>(paramDict))
             {
@@ -47,6 +44,8 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
+                paramDict.Add("Website", instrument.Website);
+
                 _dashboardSP.Add<Instrument>(paramDict);
 
                 return RedirectToAction("Index");

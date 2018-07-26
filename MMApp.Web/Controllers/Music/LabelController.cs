@@ -9,8 +9,8 @@ namespace MMApp.Web.Controllers.Music
 {
     public class LabelController : Controller
     {
-        //private readonly IMusicRepository _dashboard = new MusicRepository();
         private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
+        private Dictionary<string, string> paramDict = new Dictionary<string, string>();
 
         public ActionResult Index()
         {
@@ -35,9 +35,7 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddLabel(Label label)
         {
-            var paramDict = new Dictionary<string, string>()
-            {
-            };
+            paramDict.Add("LabelName", label.LabelName);
 
             if (_dashboardSP.CheckDuplicate<Label>(paramDict))
             {
@@ -47,6 +45,8 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
+                paramDict.Add("Website", label.Website);
+
                 _dashboardSP.Add<Label>(paramDict);
 
                 return RedirectToAction("Index");

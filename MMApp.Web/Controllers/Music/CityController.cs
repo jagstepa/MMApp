@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using MMApp.Data;
 using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
+using MMApp.Web.Helpers;
 
 namespace MMApp.Web.Controllers.Music
 {
@@ -35,18 +36,18 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddCity(City city)
         {
-            paramDict.Add("CityName", city.CityName);
-            paramDict.Add("CountryId", city.CountryId.ToString());
+            paramDict = Helpers.Helpers.GetDuplicateProperties<City>(city);
 
             if (_dashboardSP.CheckDuplicate<City>(paramDict))
             {
-                TempData["CustomError"] = "City ( " + city.CityName + " ) already exists!";
-                ModelState.AddModelError("CustomError", "City ( " + city.CityName + " ) already exists!");
+                var message = ErrorMessages.GetDuplicateErrorMessage<City>(city.CityName);
+                TempData["CustomError"] = message;
+                ModelState.AddModelError("CustomError", message);
             }
 
             if (ModelState.IsValid)
             {
-                paramDict.Add("Website", city.Website);
+                paramDict = Helpers.Helpers.GetEntityProperties<City>(city, false);
 
                 _dashboardSP.Add<City>(paramDict);
 

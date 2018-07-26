@@ -57,6 +57,7 @@
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\Currency.cs" />
+    <Compile Include="Models\DBFieldAttribute.cs" />
     <Compile Include="Models\FilterItem.cs" />
     <Compile Include="Models\FilterType.cs" />
     <Compile Include="Models\Genre.cs" />

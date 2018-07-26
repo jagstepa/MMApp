@@ -7,37 +7,51 @@ namespace MMApp.Domain.Models
 {
     public class Musician : IModelInterface
     {
+        [DBField]
         public int Id { get; set; }
 
+        [DBField]
+        [DBDuplicate]
         [Required]
         [Display(Name = "Stage Name")]
         public string StageName { get; set; }
 
+        [DBField]
+        [DBDuplicate]
         [Display(Name = "Birth Name")]
         public string BirthName { get; set; }
 
+        [DBField]
         public string Website { get; set; }
 
+        [DBField]
         [Display(Name = "Active From")]
         public string YearsActiveFrom { get; set; }
 
+        [DBField]
         [Display(Name = "Active To")]
         public string YearsActiveTo { get; set; }
 
+        [DBField]
         [Required]
         [Display(Name = "Date of birth")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? DOB { get; set; }
 
+        [DBField]
         [Display(Name = "Date of death")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? DOD { get; set; }
 
+        [DBField]
+        [DBDuplicate]
         [Required]
         public int CityId { get; set; }
 
+        [DBField]
+        [DBDuplicate]
         [Required]
         public int CountryId { get; set; }
 

@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DB\Inserts\Delete and Reseed.sql" />
+    <Content Include="DB\SPs\sp_CheckDeleteEntity.sql" />
     <Content Include="DB\SPs\sp_CheckDuplicateEntity.sql" />
     <Content Include="DB\Tables\Books_BookCategory.sql" />
     <Content Include="DB\Tables\Books_BookSeller.sql" />
@@ -88,8 +89,8 @@
     <Content Include="DB\Books\sp_BookUpdateEntity.sql" />
     <Content Include="DB\Functions\KeyValuePairs.sql" />
     <Content Include="DB\Inserts\Inserts.sql" />
-    <Content Include="DB\Music\sp_AddEntity.sql" />
-    <Content Include="DB\Music\sp_GetAllEntities.sql" />
+    <Content Include="DB\SPs\sp_AddEntity.sql" />
+    <Content Include="DB\SPs\sp_GetAllEntities.sql" />
     <Content Include="DB\Tables\Books_Author.sql" />
     <Content Include="DB\Tables\Books_Book.sql" />
     <Content Include="DB\Tables\Books_BookAuthor.sql" />

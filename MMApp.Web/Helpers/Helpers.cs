@@ -1,4 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using MMApp.Domain.Models;
+using MMApp.Domain.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Web.Mvc;
 
 namespace MMApp.Web.Helpers
 {
@@ -93,6 +98,74 @@ namespace MMApp.Web.Helpers
             outFilterType = filterType;
             outFilterItem = filterItem;
             refreshFromDB = refreshModelList;
+        }
+
+        public static Dictionary<string, string> GetEntityProperties<T>(IModelInterface value, bool includeId) where T : IModelInterface
+        {
+            Dictionary<string, string> paramDict = new Dictionary<string, string>();
+            Type type = typeof(T);
+            PropertyInfo[] properties = type.GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                var dbFields = property.GetCustomAttributes(typeof(DBFieldAttribute), false);
+
+                if (dbFields.Length > 0)
+                {
+                    if (property.Name == "Id")
+                    {
+                        if (includeId)
+                        {
+                            paramDict.Add(property.Name, property.GetValue(value, null).ToString());
+                        }
+                    }
+                    else
+                    {
+                        var pName = property.Name;
+                        var pValue = property.GetValue(value, null);
+
+                        if (pValue == null)
+                        {
+                            paramDict.Add(pName, string.Empty);
+                        }
+                        else
+                        {
+                            paramDict.Add(pName, pValue.ToString());
+                        }
+                    }
+                }
+            }
+
+            return paramDict;
+        }
+
+        public static Dictionary<string, string> GetDuplicateProperties<T>(IModelInterface value) where T : IModelInterface
+        {
+            Dictionary<string, string> paramDict = new Dictionary<string, string>();
+            Type type = typeof(T);
+            PropertyInfo[] properties = type.GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                var dbFields = property.GetCustomAttributes(typeof(DBDuplicateAttribute), false);
+
+                if (dbFields.Length > 0)
+                {
+                    var pName = property.Name;
+                    var pValue = property.GetValue(value, null);
+
+                    if (pValue == null)
+                    {
+                        paramDict.Add(pName, string.Empty);
+                    }
+                    else
+                    {
+                        paramDict.Add(pName, pValue.ToString());
+                    }
+                }
+            }
+
+            return paramDict;
         }
     }
 }

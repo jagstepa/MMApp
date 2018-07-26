@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using MMApp.Data;
 using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
+using MMApp.Web.Helpers;
 
 namespace MMApp.Web.Controllers.Music
 {
@@ -11,6 +12,7 @@ namespace MMApp.Web.Controllers.Music
     {
         private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
         private Dictionary<string, string> paramDict = new Dictionary<string, string>();
+        private string errorMessage;
 
         public ActionResult Index()
         {
@@ -35,17 +37,19 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddCountry(Country country)
         {
-            paramDict.Add("CountryName", country.CountryName);
+            paramDict = Helpers.Helpers.GetDuplicateProperties<Country>(country);
 
             if (_dashboardSP.CheckDuplicate<Country>(paramDict))
             {
-                TempData["CustomError"] = "Country ( " + country.CountryName + " ) already exists!";
-                ModelState.AddModelError("CustomError", "Country ( " + country.CountryName + " ) already exists!");
+                errorMessage = ErrorMessages.GetDuplicateErrorMessage<Country>(country.CountryName);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
 
             if (ModelState.IsValid)
             {
-                paramDict.Add("Website", country.Website);
+                paramDict = Helpers.Helpers.GetEntityProperties<Country>(country, false);
+
                 _dashboardSP.Add<Country>(paramDict);
 
                 return RedirectToAction("Index");
@@ -75,16 +79,6 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError("CustomError", "Country Name didn't change!");
             }
 
-            var paramDict = new Dictionary<string, string>()
-            {
-            };
-
-            if (_dashboardSP.CheckDuplicate<Country>(paramDict))
-            {
-                TempData["CustomError"] = "Country ( " + country.CountryName + " ) already exists!";
-                ModelState.AddModelError("CustomError", "Country ( " + country.CountryName + " ) already exists!");
-            }
-
             if (ModelState.IsValid)
             {
                 _dashboardSP.Update(country);
@@ -99,8 +93,9 @@ namespace MMApp.Web.Controllers.Music
         {
             if (_dashboardSP.CheckDelete<Country>(countryId))
             {
-                TempData["CustomError"] = "Can't Delete. There are cities for Country ( " + countryName + " )";
-                ModelState.AddModelError("CustomError", "Can't Delete. There are cities for Country ( " + countryName + " )");
+                errorMessage = ErrorMessages.GetDeleteErrorMessage<Country>(countryName);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
             else
             {
