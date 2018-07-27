@@ -611,7 +611,7 @@ namespace MMApp.Data
         {
             var type = typeof(T).Name;
 
-            _db.Execute("sp_DeleteEntity", new { GetAllType = type, TypeId = id }, commandType: CommandType.StoredProcedure);
+            _db.Execute("sp_DeleteEntity", new { Type = type, EntityId = id }, commandType: CommandType.StoredProcedure);
         }
 
         #endregion

@@ -25,11 +25,11 @@ GO
 -- ====================================================================================================
 
 CREATE PROCEDURE dbo.sp_AddEntity
-	@GetAllType	NVARCHAR(50),
+	@Type		NVARCHAR(50),
 	@Parameters	NVARCHAR(MAX)
 AS
 BEGIN
-	IF @GetAllType = 'Country'
+	IF @Type = 'Country'
 	BEGIN
 		INSERT INTO Music_Country (CountryName,Website)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -37,7 +37,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'Website'))
 	END
-	IF @GetAllType = 'City'
+	IF @Type = 'City'
 	BEGIN
 		INSERT INTO Music_City (CityName,Website)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -45,7 +45,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'Website'))
 	END
-	IF @GetAllType = 'Genre'
+	IF @Type = 'Genre'
 	BEGIN
 		INSERT INTO Music_Genre (GenreName,Website)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -53,7 +53,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'Website'))
 	END
-	IF @GetAllType = 'Instrument'
+	IF @Type = 'Instrument'
 	BEGIN
 		INSERT INTO Music_Instrument (InstrumentName,Website)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -61,7 +61,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'Website'))
 	END
-	IF @GetAllType = 'Label'
+	IF @Type = 'Label'
 	BEGIN
 		INSERT INTO Music_Label (LabelName,Website)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -69,7 +69,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'Website'))
 	END
-	IF @GetAllType = 'Occupation'
+	IF @Type = 'Occupation'
 	BEGIN
 		INSERT INTO Music_Occupation (OccupationName,Website)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -77,7 +77,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'Website'))
 	END
-	IF @GetAllType = 'Musician'
+	IF @Type = 'Musician'
 	BEGIN
 		INSERT INTO Music_Musician (StageName,BirthName,Website,YearsActiveFrom,YearsActiveTo,DOB,DOD,CityId,CountryId)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -99,7 +99,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'CountryId'))
 	END
-	IF @GetAllType = 'SelectedGenres'
+	IF @Type = 'SelectedGenres'
 	BEGIN
 		INSERT INTO Music_MusicianGenre (MusicianId,GenreId)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -107,7 +107,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'GenreId'))
 	END
-	IF @GetAllType = 'SelectedInstruments'
+	IF @Type = 'SelectedInstruments'
 	BEGIN
 		INSERT INTO Music_MusicianInstrument (MusicianId,InstrumentId)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -115,7 +115,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'InstrumentId'))
 	END
-	IF @GetAllType = 'SelectedLabels'
+	IF @Type = 'SelectedLabels'
 	BEGIN
 		INSERT INTO Music_MusicianLabel (MusicianId,LabelId)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -123,7 +123,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'LabelId'))
 	END
-	IF @GetAllType = 'SelectedOccupations'
+	IF @Type = 'SelectedOccupations'
 	BEGIN
 		INSERT INTO Music_MusicianOccupation (MusicianId,OccupationId)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -131,7 +131,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'OccupationId'))
 	END
-	IF @GetAllType = 'Band'
+	IF @Type = 'Band'
 	BEGIN
 		INSERT INTO Music_Band (BandName,AlsoKnownAs,Website,CityId,CountryId)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -145,7 +145,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'CountryId'))
 	END
-	IF @GetAllType = 'SelectedGenresBand'
+	IF @Type = 'SelectedGenresBand'
 	BEGIN
 		INSERT INTO Music_BandGenre (BandId,GenreId)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -153,7 +153,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'GenreId'))
 	END
-	IF @GetAllType = 'SelectedLabelsBand'
+	IF @Type = 'SelectedLabelsBand'
 	BEGIN
 		INSERT INTO Music_BandLabel (BandId,LabelId)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -161,7 +161,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'LabelId'))
 	END
-	IF @GetAllType = 'MusicianActivity'
+	IF @Type = 'MusicianActivity'
 	BEGIN
 		INSERT INTO Music_BandMusicianActivity (BandId,MusicianId,YearFrom,YearTo)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -173,7 +173,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'YearTo'))
 	END
-	IF @GetAllType = 'Album'
+	IF @Type = 'Album'
 	BEGIN
 		INSERT INTO Music_Album (AlbumName,TypeId,Website,[Year],Released,Recorded,[Length])
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -191,7 +191,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'Length'))
 	END
-	IF @GetAllType = 'BandAlbum'
+	IF @Type = 'BandAlbum'
 	BEGIN
 		INSERT INTO Music_BandAlbum (BandId,AlbumId)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -199,7 +199,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'AlbumId'))
 	END
-	IF @GetAllType = 'SelectedGenresAlbum'
+	IF @Type = 'SelectedGenresAlbum'
 	BEGIN
 		INSERT INTO Music_AlbumGenre (AlbumId,GenreId)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -207,7 +207,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'GenreId'))
 	END
-	IF @GetAllType = 'SelectedLabelsAlbum'
+	IF @Type = 'SelectedLabelsAlbum'
 	BEGIN
 		INSERT INTO Music_AlbumLabel (AlbumId,LabelId)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -215,7 +215,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'LabelId'))
 	END
-	IF @GetAllType = 'SelectedMusiciansAlbum'
+	IF @Type = 'SelectedMusiciansAlbum'
 	BEGIN
 		INSERT INTO Music_AlbumMusician (AlbumId,MusicianId)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -223,7 +223,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'MusicianId'))
 	END
-	IF @GetAllType = 'Song'
+	IF @Type = 'Song'
 	BEGIN
 		INSERT INTO Music_Song (SongName,[Length])
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
@@ -231,7 +231,7 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'Length'))
 	END
-	IF @GetAllType = 'SelectedMusiciansSong'
+	IF @Type = 'SelectedMusiciansSong'
 	BEGIN
 		INSERT INTO Music_SongMusician (SongId,MusicianId)
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)

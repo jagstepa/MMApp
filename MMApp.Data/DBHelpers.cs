@@ -45,7 +45,7 @@ namespace MMApp.Data
         {
             List<IModelInterface> entityList = new List<IModelInterface>();
             var tttype = typeof(T).Name;
-            var entList = _db.Query<T>(spName, new { GetAllType = type }, commandType: CommandType.StoredProcedure).ToList();
+            var entList = _db.Query<T>(spName, new { Type = type }, commandType: CommandType.StoredProcedure).ToList();
             var eList = entList.ConvertAll(x => (IModelInterface)x);
             entityList.AddRange(eList);
             return entityList;

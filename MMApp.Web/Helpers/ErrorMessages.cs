@@ -27,28 +27,5 @@ namespace MMApp.Web.Helpers
             errorMsg = type + " ( " + value + msgText;
             return errorMsg;
         }
-        //public static string GetDuplicateErrorMessage<T>(string value) where T : IModelInterface
-        //{
-        //    string errorMsg = string.Empty;
-        //    var type = typeof(T).Name;
-        //    errorMsg = type + " ( " + value + " ) already exists!";
-        //    return errorMsg;
-        //}
-
-        //public static string GetDeleteErrorMessage<T>(string value) where T : IModelInterface
-        //{
-        //    string errorMsg = string.Empty;
-        //    var type = typeof(T).Name;
-        //    errorMsg = type + " ( " + value + " ) can't be deleted!";
-        //    return errorMsg;
-        //}
-
-        //public static string GetChangesErrorMessage<T>(string value) where T : IModelInterface
-        //{
-        //    string errorMsg = string.Empty;
-        //    var type = typeof(T).Name;
-        //    errorMsg = type + " ( " + value + " ) didn't change!";
-        //    return errorMsg;
-        //}
     }
 }

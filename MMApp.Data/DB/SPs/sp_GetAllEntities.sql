@@ -18,10 +18,10 @@ GO
 -- ====================================================================================================
 
 ALTER PROCEDURE [dbo].[sp_GetAllEntities]
-	@GetAllType NVARCHAR(50)
+	@Type NVARCHAR(50)
 AS
 BEGIN
-	IF @GetAllType = 'Country'
+	IF @Type = 'Country'
 	BEGIN
 		SELECT 
 			Id,
@@ -30,7 +30,7 @@ BEGIN
 		FROM Music_Country 
 		ORDER BY CountryName
 	END
-	IF @GetAllType = 'City'
+	IF @Type = 'City'
 	BEGIN
 		SELECT
 			Id,
@@ -39,7 +39,7 @@ BEGIN
 		FROM Music_City 
 		ORDER BY CityName
 	END
-	IF @GetAllType = 'Genre'
+	IF @Type = 'Genre'
 	BEGIN
 		SELECT
 			Id,
@@ -48,7 +48,7 @@ BEGIN
 		FROM Music_Genre 
 		ORDER BY GenreName
 	END
-	IF @GetAllType = 'Instrument'
+	IF @Type = 'Instrument'
 	BEGIN
 		SELECT
 			Id,
@@ -57,7 +57,7 @@ BEGIN
 		FROM Music_Instrument 
 		ORDER BY InstrumentName
 	END
-	IF @GetAllType = 'Label'
+	IF @Type = 'Label'
 	BEGIN
 		SELECT
 			Id,
@@ -66,7 +66,7 @@ BEGIN
 		FROM Music_Label 
 		ORDER BY LabelName
 	END
-	IF @GetAllType = 'Occupation'
+	IF @Type = 'Occupation'
 	BEGIN
 		SELECT
 			Id,
@@ -75,7 +75,7 @@ BEGIN
 		FROM Music_Occupation 
 		ORDER BY OccupationName
 	END
-	IF @GetAllType = 'Musician'
+	IF @Type = 'Musician'
 	BEGIN
 		SELECT
 			Id,
@@ -91,7 +91,7 @@ BEGIN
 		FROM Music_Musician 
 		ORDER BY StageName
 	END
-	IF @GetAllType = 'Band'
+	IF @Type = 'Band'
 	BEGIN
 		SELECT
 			Id,
@@ -103,7 +103,7 @@ BEGIN
 		FROM Music_Band 
 		ORDER BY BandName
 	END
-	IF @GetAllType = 'AlbumTypes'
+	IF @Type = 'AlbumTypes'
 	BEGIN
 		SELECT
 			Id,
@@ -111,7 +111,7 @@ BEGIN
 		FROM Music_AlbumTypes 
 		ORDER BY TypeName
 	END
-	IF @GetAllType = 'Song'
+	IF @Type = 'Song'
 	BEGIN
 		SELECT
 			Id,
