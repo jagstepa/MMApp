@@ -5,6 +5,7 @@ using MMApp.Data;
 using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
 using MMApp.Web.Helpers;
+using static MMApp.Web.Helpers.ENums;
 
 namespace MMApp.Web.Controllers.Music
 {
@@ -41,7 +42,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (_dashboardSP.CheckDuplicate<Country>(paramDict))
             {
-                errorMessage = ErrorMessages.GetDuplicateErrorMessage<Country>(country.CountryName);
+                errorMessage = ErrorMessages.GetErrorMessage<Country>(country.CountryName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
                 ModelState.AddModelError("CustomError", errorMessage);
             }
@@ -73,15 +74,16 @@ namespace MMApp.Web.Controllers.Music
         {
             var model = (Country)_dashboardSP.Find<Country>(country.Id);
 
-            if (model.CountryName == country.CountryName && model.Website == country.Website)
+            if (Helpers.Helpers.CheckForChanges<Country>(country, model))
             {
-                TempData["CustomError"] = "Country Name didn't change!";
-                ModelState.AddModelError("CustomError", "Country Name didn't change!");
+                errorMessage = ErrorMessages.GetErrorMessage<Country>(country.CountryName, ErrorMessageType.Changes);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update(country);
+                _dashboardSP.Update<Country>(paramDict);
 
                 return RedirectToAction("Index");
             }
@@ -93,7 +95,7 @@ namespace MMApp.Web.Controllers.Music
         {
             if (_dashboardSP.CheckDelete<Country>(countryId))
             {
-                errorMessage = ErrorMessages.GetDeleteErrorMessage<Country>(countryName);
+                errorMessage = ErrorMessages.GetErrorMessage<Country>(countryName, ErrorMessageType.Delete);
                 TempData["CustomError"] = errorMessage;
                 ModelState.AddModelError("CustomError", errorMessage);
             }

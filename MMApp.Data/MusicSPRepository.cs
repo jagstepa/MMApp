@@ -80,35 +80,35 @@ namespace MMApp.Data
             switch (type)
             {
                 case "City":
-                    List<City> cities = _db.Query<City>("sp_GetAllForParent", new { GetAllType = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
+                    List<City> cities = _db.Query<City>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
                     myList.AddRange(cities);
                     break;
                 case "Genre":
-                    List<Genre> genres = _db.Query<Genre>("sp_GetAllForParent", new { GetAllType = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
+                    List<Genre> genres = _db.Query<Genre>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
                     myList.AddRange(genres);
                     break;
                 case "Instrument":
-                    List<Instrument> instruments = _db.Query<Instrument>("sp_GetAllForParent", new { GetAllType = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
+                    List<Instrument> instruments = _db.Query<Instrument>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
                     myList.AddRange(instruments);
                     break;
                 case "Label":
-                    List<Label> labels = _db.Query<Label>("sp_GetAllForParent", new { GetAllType = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
+                    List<Label> labels = _db.Query<Label>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
                     myList.AddRange(labels);
                     break;
                 case "Occupation":
-                    List<Occupation> occupations = _db.Query<Occupation>("sp_GetAllForParent", new { GetAllType = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
+                    List<Occupation> occupations = _db.Query<Occupation>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
                     myList.AddRange(occupations);
                     break;
                 case "Musician":
-                    List<Musician> musicians = _db.Query<Musician>("sp_GetAllForParent", new { GetAllType = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
+                    List<Musician> musicians = _db.Query<Musician>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
                     myList.AddRange(musicians);
                     break;
                 case "MusicianActivity":
-                    List<MusicianActivity> musicianActivities = _db.Query<MusicianActivity>("sp_GetAllForParent", new { GetAllType = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
+                    List<MusicianActivity> musicianActivities = _db.Query<MusicianActivity>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
                     myList.AddRange(musicianActivities);
                     break;
                 case "Album":
-                    List<Album> albums = _db.Query<Album>("sp_GetAllForParent", new { GetAllType = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
+                    List<Album> albums = _db.Query<Album>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
                     myList.AddRange(albums);
                     break;
             }
@@ -152,50 +152,50 @@ namespace MMApp.Data
                 case "Country":
                     model = _db.Query<Country>("sp_FindEntity", new
                     {
-                        GetAllType = type,
-                        TypeId = id
+                        Type = type,
+                        EntityId = id
                     }, commandType: CommandType.StoredProcedure).SingleOrDefault();
                     break;
                 case "City":
                     model = _db.Query<City>("sp_FindEntity", new
                     {
-                        GetAllType = type,
-                        TypeId = id
+                        Type = type,
+                        EntityId = id
                     }, commandType: CommandType.StoredProcedure).SingleOrDefault();
                     break;
                 case "Genre":
                     model = _db.Query<Genre>("sp_FindEntity", new
                     {
-                        GetAllType = type,
-                        TypeId = id
+                        Type = type,
+                        EntityId = id
                     }, commandType: CommandType.StoredProcedure).SingleOrDefault();
                     break;
                 case "Instrument":
                     model = _db.Query<Instrument>("sp_FindEntity", new
                     {
-                        GetAllType = type,
-                        TypeId = id
+                        Type = type,
+                        EntityId = id
                     }, commandType: CommandType.StoredProcedure).SingleOrDefault();
                     break;
                 case "Label":
                     model = _db.Query<Label>("sp_FindEntity", new
                     {
-                        GetAllType = type,
-                        TypeId = id
+                        Type = type,
+                        EntityId = id
                     }, commandType: CommandType.StoredProcedure).SingleOrDefault();
                     break;
                 case "Occupation":
                     model = _db.Query<Occupation>("sp_FindEntity", new
                     {
-                        GetAllType = type,
-                        TypeId = id
+                        Type = type,
+                        EntityId = id
                     }, commandType: CommandType.StoredProcedure).SingleOrDefault();
                     break;
                 case "Musician":
                     model = _db.Query<Musician>("sp_FindEntity", new
                     {
-                        GetAllType = type,
-                        TypeId = id
+                        Type = type,
+                        EntityId = id
                     }, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
                     object objMusician = model;
@@ -214,8 +214,8 @@ namespace MMApp.Data
                 case "Band":
                     model = _db.Query<Band>("sp_FindEntity", new
                     {
-                        GetAllType = type,
-                        TypeId = id
+                        Type = type,
+                        EntityId = id
                     }, commandType: CommandType.StoredProcedure).SingleOrDefault();
                     object objBand = model;
                     Band band = (Band)objBand;
@@ -232,8 +232,8 @@ namespace MMApp.Data
                 case "Album":
                     model = _db.Query<Album>("sp_FindEntity", new
                     {
-                        GetAllType = type,
-                        TypeId = id
+                        Type = type,
+                        EntityId = id
                     }, commandType: CommandType.StoredProcedure).SingleOrDefault();
                     object objAlbum = model;
                     Album album = (Album)objAlbum;
@@ -250,8 +250,8 @@ namespace MMApp.Data
                 case "Song":
                     model = _db.Query<Song>("sp_FindEntity", new
                     {
-                        GetAllType = type,
-                        TypeId = id
+                        Type = type,
+                        EntityId = id
                     }, commandType: CommandType.StoredProcedure).SingleOrDefault();
                     object objSong = model;
                     Song song = (Song)objSong;
@@ -425,179 +425,182 @@ namespace MMApp.Data
 
         #region Update
 
-        public void Update<T>(T value) where T : IModelInterface
+        public void Update<T>(Dictionary<string, string> pars) where T : IModelInterface
         {
             var type = typeof(T).Name;
-            object obj;
-            string values = "";
-            bool genericUpdate = true;
+            string values = DBHelpers.GetParameters(pars);
+            var enityId = _db.Execute("sp_UpdateEntity", new { Type = type, Parameters = values }, commandType: CommandType.StoredProcedure);
 
-            switch (type)
-            {
-                case "Country":
-                    obj = value;
-                    Country country = (Country)obj;
-                    values = "CountryName#" + country.CountryName + "@Website#" + country.Website + "@Id#" + country.Id;
-                    break;
-                case "City":
-                    obj = value;
-                    City city = (City)obj;
-                    values = "CityName#" + city.CityName + "@Website#" + city.Website + "@CountryId#" + city.CountryId + "@Id#" + city.Id;
-                    break;
-                case "Genre":
-                    obj = value;
-                    Genre genre = (Genre)obj;
-                    values = "GenreName#" + genre.GenreName + "@Website#" + genre.Website + "@Id#" + genre.Id;
-                    break;
-                case "Instrument":
-                    obj = value;
-                    Instrument instrument = (Instrument)obj;
-                    values = "InstrumentName#" + instrument.InstrumentName + "@Website#" + instrument.Website + "@Id#" + instrument.Id;
-                    break;
-                case "Label":
-                    obj = value;
-                    Label label = (Label)obj;
-                    values = "LabelName#" + label.LabelName + "@Website#" + label.Website + "@Id#" + label.Id;
-                    break;
-                case "Occupation":
-                    obj = value;
-                    Occupation occupation = (Occupation)obj;
-                    values = "OccupationName#" + occupation.OccupationName + "@Website#" + occupation.Website + "@Id#" + occupation.Id;
-                    break;
-                case "Musician":
-                    genericUpdate = false;
-                    obj = value;
-                    Musician musician = (Musician)obj;
-                    values = "StageName#" + musician.StageName + "@BirthName#" + musician.BirthName + "@Website#" + musician.Website +
-                        "@YearsActiveFrom#" + musician.YearsActiveFrom + "@YearsActiveTo#" + musician.YearsActiveTo + "@DOB#" + musician.DOB +
-                        "@DOD#" + musician.DOD + "@CityId#" + musician.CityId + "@CountryId#" + musician.CountryId + "@Id#" + musician.Id;
-                    _db.Execute("sp_UpdateEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //object obj;
+            //string values = "";
+            //bool genericUpdate = true;
 
-                    string musicianType;
-                    string subType = "SelectedGenres";
-                    _db.Execute("sp_DeleteEntity", new { GetAllType = subType, TypeId = musician.Id }, commandType: CommandType.StoredProcedure);
-                    foreach (var selectedGenre in musician.SelectedGenres)
-                    {
-                        musicianType = "SelectedGenres";
-                        values = "MusicianId#" + musician.Id + "@GenreId#" + selectedGenre.Id;
-                        _db.Execute("sp_AddEntity", new { GetAllType = musicianType, Parameters = values }, commandType: CommandType.StoredProcedure);
-                    }
+            //switch (type)
+            //{
+            //    case "Country":
+            //        obj = value;
+            //        Country country = (Country)obj;
+            //        values = "CountryName#" + country.CountryName + "@Website#" + country.Website + "@Id#" + country.Id;
+            //        break;
+            //    case "City":
+            //        obj = value;
+            //        City city = (City)obj;
+            //        values = "CityName#" + city.CityName + "@Website#" + city.Website + "@CountryId#" + city.CountryId + "@Id#" + city.Id;
+            //        break;
+            //    case "Genre":
+            //        obj = value;
+            //        Genre genre = (Genre)obj;
+            //        values = "GenreName#" + genre.GenreName + "@Website#" + genre.Website + "@Id#" + genre.Id;
+            //        break;
+            //    case "Instrument":
+            //        obj = value;
+            //        Instrument instrument = (Instrument)obj;
+            //        values = "InstrumentName#" + instrument.InstrumentName + "@Website#" + instrument.Website + "@Id#" + instrument.Id;
+            //        break;
+            //    case "Label":
+            //        obj = value;
+            //        Label label = (Label)obj;
+            //        values = "LabelName#" + label.LabelName + "@Website#" + label.Website + "@Id#" + label.Id;
+            //        break;
+            //    case "Occupation":
+            //        obj = value;
+            //        Occupation occupation = (Occupation)obj;
+            //        values = "OccupationName#" + occupation.OccupationName + "@Website#" + occupation.Website + "@Id#" + occupation.Id;
+            //        break;
+            //    case "Musician":
+            //        genericUpdate = false;
+            //        obj = value;
+            //        Musician musician = (Musician)obj;
+            //        values = "StageName#" + musician.StageName + "@BirthName#" + musician.BirthName + "@Website#" + musician.Website +
+            //            "@YearsActiveFrom#" + musician.YearsActiveFrom + "@YearsActiveTo#" + musician.YearsActiveTo + "@DOB#" + musician.DOB +
+            //            "@DOD#" + musician.DOD + "@CityId#" + musician.CityId + "@CountryId#" + musician.CountryId + "@Id#" + musician.Id;
+            //        _db.Execute("sp_UpdateEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure);
 
-                    subType = "SelectedInstruments";
-                    _db.Execute("sp_DeleteEntity", new { GetAllType = subType, TypeId = musician.Id }, commandType: CommandType.StoredProcedure);
-                    foreach (var selectedInstrument in musician.SelectedInstruments)
-                    {
-                        musicianType = "SelectedInstruments";
-                        values = "MusicianId#" + musician.Id + "@InstrumentId#" + selectedInstrument.Id;
-                        _db.Execute("sp_AddEntity", new { GetAllType = musicianType, Parameters = values }, commandType: CommandType.StoredProcedure);
-                    }
+            //        string musicianType;
+            //        string subType = "SelectedGenres";
+            //        _db.Execute("sp_DeleteEntity", new { GetAllType = subType, TypeId = musician.Id }, commandType: CommandType.StoredProcedure);
+            //        foreach (var selectedGenre in musician.SelectedGenres)
+            //        {
+            //            musicianType = "SelectedGenres";
+            //            values = "MusicianId#" + musician.Id + "@GenreId#" + selectedGenre.Id;
+            //            _db.Execute("sp_AddEntity", new { GetAllType = musicianType, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //        }
 
-                    subType = "SelectedLabels";
-                    _db.Execute("sp_DeleteEntity", new { GetAllType = subType, TypeId = musician.Id }, commandType: CommandType.StoredProcedure);
-                    foreach (var selectedLabel in musician.SelectedLabels)
-                    {
-                        musicianType = "SelectedLabels";
-                        values = "MusicianId#" + musician.Id + "@LabelId#" + selectedLabel.Id;
-                        _db.Execute("sp_AddEntity", new { GetAllType = musicianType, Parameters = values }, commandType: CommandType.StoredProcedure);
-                    }
+            //        subType = "SelectedInstruments";
+            //        _db.Execute("sp_DeleteEntity", new { GetAllType = subType, TypeId = musician.Id }, commandType: CommandType.StoredProcedure);
+            //        foreach (var selectedInstrument in musician.SelectedInstruments)
+            //        {
+            //            musicianType = "SelectedInstruments";
+            //            values = "MusicianId#" + musician.Id + "@InstrumentId#" + selectedInstrument.Id;
+            //            _db.Execute("sp_AddEntity", new { GetAllType = musicianType, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //        }
 
-                    subType = "SelectedOccupations";
-                    _db.Execute("sp_DeleteEntity", new { GetAllType = subType, TypeId = musician.Id }, commandType: CommandType.StoredProcedure);
-                    foreach (var selectedOccupation in musician.SelectedOccupations)
-                    {
-                        musicianType = "SelectedOccupations";
-                        values = "MusicianId#" + musician.Id + "@OccupationId#" + selectedOccupation.Id;
-                        _db.Execute("sp_AddEntity", new { GetAllType = musicianType, Parameters = values }, commandType: CommandType.StoredProcedure);
-                    }
-                    break;
-                case "Band":
-                    genericUpdate = false;
-                    obj = value;
-                    Band band = (Band)obj;
-                    values = "BandName#" + band.BandName + "@AlsoKnownAs#" + band.AlsoKnownAs + "@CountryId#" + band.CountryId +
-                        "@CityId#" + band.CityId + "@Website#" + band.Website + "@Id#" + band.Id;
-                    _db.Execute("sp_UpdateEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //        subType = "SelectedLabels";
+            //        _db.Execute("sp_DeleteEntity", new { GetAllType = subType, TypeId = musician.Id }, commandType: CommandType.StoredProcedure);
+            //        foreach (var selectedLabel in musician.SelectedLabels)
+            //        {
+            //            musicianType = "SelectedLabels";
+            //            values = "MusicianId#" + musician.Id + "@LabelId#" + selectedLabel.Id;
+            //            _db.Execute("sp_AddEntity", new { GetAllType = musicianType, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //        }
 
-                    string bandType;
-                    string subTypeBand = "SelectedGenresBand";
-                    _db.Execute("sp_DeleteEntity", new { GetAllType = subTypeBand, TypeId = band.Id }, commandType: CommandType.StoredProcedure);
-                    foreach (var selectedGenre in band.SelectedGenres)
-                    {
-                        bandType = "SelectedGenresBand";
-                        values = "BandId#" + band.Id + "@GenreId#" + selectedGenre.Id;
-                        _db.Execute("sp_AddEntity", new { GetAllType = bandType, Parameters = values }, commandType: CommandType.StoredProcedure);
-                    }
+            //        subType = "SelectedOccupations";
+            //        _db.Execute("sp_DeleteEntity", new { GetAllType = subType, TypeId = musician.Id }, commandType: CommandType.StoredProcedure);
+            //        foreach (var selectedOccupation in musician.SelectedOccupations)
+            //        {
+            //            musicianType = "SelectedOccupations";
+            //            values = "MusicianId#" + musician.Id + "@OccupationId#" + selectedOccupation.Id;
+            //            _db.Execute("sp_AddEntity", new { GetAllType = musicianType, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //        }
+            //        break;
+            //    case "Band":
+            //        genericUpdate = false;
+            //        obj = value;
+            //        Band band = (Band)obj;
+            //        values = "BandName#" + band.BandName + "@AlsoKnownAs#" + band.AlsoKnownAs + "@CountryId#" + band.CountryId +
+            //            "@CityId#" + band.CityId + "@Website#" + band.Website + "@Id#" + band.Id;
+            //        _db.Execute("sp_UpdateEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure);
 
-                    subTypeBand = "SelectedLabelsBand";
-                    _db.Execute("sp_DeleteEntity", new { GetAllType = subTypeBand, TypeId = band.Id }, commandType: CommandType.StoredProcedure);
-                    foreach (var selectedLabel in band.SelectedLabels)
-                    {
-                        bandType = "SelectedLabelsBand";
-                        values = "BandId#" + band.Id + "@LabelId#" + selectedLabel.Id;
-                        _db.Execute("sp_AddEntity", new { GetAllType = bandType, Parameters = values }, commandType: CommandType.StoredProcedure);
-                    }
+            //        string bandType;
+            //        string subTypeBand = "SelectedGenresBand";
+            //        _db.Execute("sp_DeleteEntity", new { GetAllType = subTypeBand, TypeId = band.Id }, commandType: CommandType.StoredProcedure);
+            //        foreach (var selectedGenre in band.SelectedGenres)
+            //        {
+            //            bandType = "SelectedGenresBand";
+            //            values = "BandId#" + band.Id + "@GenreId#" + selectedGenre.Id;
+            //            _db.Execute("sp_AddEntity", new { GetAllType = bandType, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //        }
 
-                    subTypeBand = "SelectedMusicians";
-                    _db.Execute("sp_DeleteEntity", new { GetAllType = subTypeBand, TypeId = band.Id }, commandType: CommandType.StoredProcedure);
-                    foreach (var selectedMusician in band.SelectedMusicians)
-                    {
-                        bandType = "SelectedMusicians";
-                        values = "MusicianId#" + selectedMusician.Id + "@BandId#" + band.Id;
-                        _db.Execute("sp_AddEntity", new { GetAllType = bandType, Parameters = values }, commandType: CommandType.StoredProcedure);
-                    }
+            //        subTypeBand = "SelectedLabelsBand";
+            //        _db.Execute("sp_DeleteEntity", new { GetAllType = subTypeBand, TypeId = band.Id }, commandType: CommandType.StoredProcedure);
+            //        foreach (var selectedLabel in band.SelectedLabels)
+            //        {
+            //            bandType = "SelectedLabelsBand";
+            //            values = "BandId#" + band.Id + "@LabelId#" + selectedLabel.Id;
+            //            _db.Execute("sp_AddEntity", new { GetAllType = bandType, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //        }
 
-                    subTypeBand = "MusicianActivity";
-                    _db.Execute("sp_DeleteEntity", new { GetAllType = subTypeBand, TypeId = band.Id }, commandType: CommandType.StoredProcedure);
-                    foreach (var musicianActivity in band.MusicianActivity)
-                    {
-                        bandType = "MusicianActivity";
-                        values = "MusicianId#" + musicianActivity.MusicianId + "@BandId#" + band.Id +
-                                "@YearFrom#" + musicianActivity.YearFrom + "@YearTo#" + musicianActivity.YearTo;
-                        _db.Execute("sp_AddEntity", new { GetAllType = bandType, Parameters = values }, commandType: CommandType.StoredProcedure);
-                    }
-                    break;
-                case "Album":
-                    genericUpdate = false;
-                    obj = value;
-                    Album album = (Album)obj;
-                    values = "AlbumName#" + album.AlbumName + "@TypeId#" + album.TypeId + "@Year#" + album.Year +
-                        "@Released#" + album.Released + "@Website#" + album.Website +
-                        "@Recorded#" + album.Recorded + "@Length#" + album.Length + "@Id#" + album.Id;
-                    _db.Execute("sp_UpdateEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //        subTypeBand = "SelectedMusicians";
+            //        _db.Execute("sp_DeleteEntity", new { GetAllType = subTypeBand, TypeId = band.Id }, commandType: CommandType.StoredProcedure);
+            //        foreach (var selectedMusician in band.SelectedMusicians)
+            //        {
+            //            bandType = "SelectedMusicians";
+            //            values = "MusicianId#" + selectedMusician.Id + "@BandId#" + band.Id;
+            //            _db.Execute("sp_AddEntity", new { GetAllType = bandType, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //        }
 
-                    string albumType;
-                    string subTypeAlbum = "SelectedGenresAlbum";
-                    _db.Execute("sp_DeleteEntity", new { GetAllType = subTypeAlbum, TypeId = album.Id }, commandType: CommandType.StoredProcedure);
-                    foreach (var selectedGenre in album.SelectedGenres)
-                    {
-                        albumType = "SelectedGenresAlbum";
-                        values = "AlbumId#" + album.Id + "@GenreId#" + selectedGenre.Id;
-                        _db.Execute("sp_AddEntity", new { GetAllType = albumType, Parameters = values }, commandType: CommandType.StoredProcedure);
-                    }
-                    subTypeAlbum = "SelectedLabelsAlbum";
-                    _db.Execute("sp_DeleteEntity", new { GetAllType = subTypeAlbum, TypeId = album.Id }, commandType: CommandType.StoredProcedure);
-                    foreach (var selectedLabel in album.SelectedLabels)
-                    {
-                        albumType = "SelectedLabelsAlbum";
-                        values = "AlbumId#" + album.Id + "@LabelId#" + selectedLabel.Id;
-                        _db.Execute("sp_AddEntity", new { GetAllType = albumType, Parameters = values }, commandType: CommandType.StoredProcedure);
-                    }
+            //        subTypeBand = "MusicianActivity";
+            //        _db.Execute("sp_DeleteEntity", new { GetAllType = subTypeBand, TypeId = band.Id }, commandType: CommandType.StoredProcedure);
+            //        foreach (var musicianActivity in band.MusicianActivity)
+            //        {
+            //            bandType = "MusicianActivity";
+            //            values = "MusicianId#" + musicianActivity.MusicianId + "@BandId#" + band.Id +
+            //                    "@YearFrom#" + musicianActivity.YearFrom + "@YearTo#" + musicianActivity.YearTo;
+            //            _db.Execute("sp_AddEntity", new { GetAllType = bandType, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //        }
+            //        break;
+            //    case "Album":
+            //        genericUpdate = false;
+            //        obj = value;
+            //        Album album = (Album)obj;
+            //        values = "AlbumName#" + album.AlbumName + "@TypeId#" + album.TypeId + "@Year#" + album.Year +
+            //            "@Released#" + album.Released + "@Website#" + album.Website +
+            //            "@Recorded#" + album.Recorded + "@Length#" + album.Length + "@Id#" + album.Id;
+            //        _db.Execute("sp_UpdateEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure);
 
-                    subTypeAlbum = "SelectedMusiciansAlbum";
-                    _db.Execute("sp_DeleteEntity", new { GetAllType = subTypeAlbum, TypeId = album.Id }, commandType: CommandType.StoredProcedure);
-                    foreach (var selectedMusician in album.SelectedMusicians)
-                    {
-                        albumType = "SelectedMusiciansAlbum";
-                        values = "MusicianId#" + selectedMusician.Id + "@AlbumId#" + album.Id;
-                        _db.Execute("sp_AddEntity", new { GetAllType = albumType, Parameters = values }, commandType: CommandType.StoredProcedure);
-                    }
-                    break;
-            }
+            //        string albumType;
+            //        string subTypeAlbum = "SelectedGenresAlbum";
+            //        _db.Execute("sp_DeleteEntity", new { GetAllType = subTypeAlbum, TypeId = album.Id }, commandType: CommandType.StoredProcedure);
+            //        foreach (var selectedGenre in album.SelectedGenres)
+            //        {
+            //            albumType = "SelectedGenresAlbum";
+            //            values = "AlbumId#" + album.Id + "@GenreId#" + selectedGenre.Id;
+            //            _db.Execute("sp_AddEntity", new { GetAllType = albumType, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //        }
+            //        subTypeAlbum = "SelectedLabelsAlbum";
+            //        _db.Execute("sp_DeleteEntity", new { GetAllType = subTypeAlbum, TypeId = album.Id }, commandType: CommandType.StoredProcedure);
+            //        foreach (var selectedLabel in album.SelectedLabels)
+            //        {
+            //            albumType = "SelectedLabelsAlbum";
+            //            values = "AlbumId#" + album.Id + "@LabelId#" + selectedLabel.Id;
+            //            _db.Execute("sp_AddEntity", new { GetAllType = albumType, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //        }
 
-            if (genericUpdate)
-            {
-                _db.Execute("sp_UpdateEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure);
-            }
+            //        subTypeAlbum = "SelectedMusiciansAlbum";
+            //        _db.Execute("sp_DeleteEntity", new { GetAllType = subTypeAlbum, TypeId = album.Id }, commandType: CommandType.StoredProcedure);
+            //        foreach (var selectedMusician in album.SelectedMusicians)
+            //        {
+            //            albumType = "SelectedMusiciansAlbum";
+            //            values = "MusicianId#" + selectedMusician.Id + "@AlbumId#" + album.Id;
+            //            _db.Execute("sp_AddEntity", new { GetAllType = albumType, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //        }
+            //        break;
+            //}
+
+            //if (genericUpdate)
+            //{
+            //    _db.Execute("sp_UpdateEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure);
+            //}
         }
 
         #endregion

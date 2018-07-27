@@ -5,6 +5,7 @@ using MMApp.Data;
 using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
 using MMApp.Web.Helpers;
+using static MMApp.Web.Helpers.ENums;
 
 namespace MMApp.Web.Controllers.Music
 {
@@ -12,6 +13,7 @@ namespace MMApp.Web.Controllers.Music
     {
         private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
         private Dictionary<string, string> paramDict = new Dictionary<string, string>();
+        private string errorMessage;
 
         public ActionResult Index()
         {
@@ -40,9 +42,9 @@ namespace MMApp.Web.Controllers.Music
 
             if (_dashboardSP.CheckDuplicate<City>(paramDict))
             {
-                var message = ErrorMessages.GetDuplicateErrorMessage<City>(city.CityName);
-                TempData["CustomError"] = message;
-                ModelState.AddModelError("CustomError", message);
+                errorMessage = ErrorMessages.GetErrorMessage<City>(city.CityName, ErrorMessageType.Duplicate);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
 
             if (ModelState.IsValid)
@@ -93,7 +95,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update(city);
+                _dashboardSP.Update<City>(paramDict);
 
                 return RedirectToAction("Index");
             }
@@ -105,8 +107,9 @@ namespace MMApp.Web.Controllers.Music
         {
             if (_dashboardSP.CheckDelete<City>(cityId))
             {
-                TempData["CustomError"] = "Can't Delete. There are cities for Musician ( " + cityName + " )";
-                ModelState.AddModelError("CustomError", "Can't Delete. There are cities for Musician ( " + cityName + " )");
+                errorMessage = ErrorMessages.GetErrorMessage<City>(cityName, ErrorMessageType.Delete);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
             else
             {

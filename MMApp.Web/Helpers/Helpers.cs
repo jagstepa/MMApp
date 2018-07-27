@@ -167,5 +167,28 @@ namespace MMApp.Web.Helpers
 
             return paramDict;
         }
+
+        public static bool CheckForChanges<T>(IModelInterface entity1, IModelInterface entity2) where T : IModelInterface
+        {
+            bool result = true;
+
+            Type type = typeof(T);
+            PropertyInfo[] properties = type.GetProperties();
+            object ent1, ent2;
+
+            foreach (var property in entity1.GetType().GetProperties())
+            {
+                var dbFields = property.GetCustomAttributes(typeof(DBFieldAttribute), false);
+
+                if (dbFields.Length > 0)
+                {
+                    ent1 = property.GetValue(entity1);
+                    ent2 = property.GetValue(entity2);
+                    if (!ent1.Equals(ent2)) result = false;
+                }
+            }
+
+            return result;
+        }
     }
 }

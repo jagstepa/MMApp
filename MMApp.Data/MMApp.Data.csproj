@@ -60,6 +60,9 @@
     <Content Include="DB\Inserts\Delete and Reseed.sql" />
     <Content Include="DB\SPs\sp_CheckDeleteEntity.sql" />
     <Content Include="DB\SPs\sp_CheckDuplicateEntity.sql" />
+    <Content Include="DB\SPs\sp_FindEntity.sql" />
+    <Content Include="DB\SPs\sp_GetAllForParent.sql" />
+    <Content Include="DB\SPs\sp_UpdateEntity.sql" />
     <Content Include="DB\Tables\Books_BookCategory.sql" />
     <Content Include="DB\Tables\Books_BookSeller.sql" />
     <Content Include="DB\Tables\Books_BookWebsite.sql" />

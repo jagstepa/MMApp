@@ -4,6 +4,8 @@ using System.Web.Mvc;
 using MMApp.Data;
 using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
+using MMApp.Web.Helpers;
+using static MMApp.Web.Helpers.ENums;
 
 namespace MMApp.Web.Controllers.Music
 {
@@ -11,6 +13,7 @@ namespace MMApp.Web.Controllers.Music
     {
         private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
         private Dictionary<string, string> paramDict = new Dictionary<string, string>();
+        private string errorMessage;
 
         public ActionResult Index()
         {
@@ -39,8 +42,9 @@ namespace MMApp.Web.Controllers.Music
 
             if (_dashboardSP.CheckDuplicate<Genre>(paramDict))
             {
-                TempData["CustomError"] = "Genre ( " + genre.GenreName + " ) already exists!";
-                ModelState.AddModelError("CustomError", "Genre ( " + genre.GenreName + " ) already exists!");
+                errorMessage = ErrorMessages.GetErrorMessage<Country>(genre.GenreName, ErrorMessageType.Duplicate);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
 
             if (ModelState.IsValid)
@@ -88,7 +92,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update(genre);
+                _dashboardSP.Update<Genre>(paramDict);
 
                 return RedirectToAction("Index");
             }
