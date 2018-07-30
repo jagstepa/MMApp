@@ -1,14 +1,12 @@
 ﻿using Dapper;
 using MMApp.Domain.Repositories;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MMApp.Data
 {
@@ -53,6 +51,32 @@ namespace MMApp.Data
         public static void AddEntity<T>(IDbConnection _db, string spName, string type, T value) where T : IModelInterface
         {
             T obj = (T)value;
+        }
+
+        public static DataTable GetTableParameters<T>(Dictionary<string, string> pars) where T : IModelInterface
+        {
+            string type = typeof(T).Name;
+
+            DataTable dt = new DataTable();
+            DataColumn dc = new DataColumn("ParamType", typeof(String));
+            dt.Columns.Add(dc);
+            dc = new DataColumn("ParamValue", typeof(String));
+            dt.Columns.Add(dc);
+
+            DataRow dr = dt.NewRow();
+            dr[0] = "Type";
+            dr[1] = type;
+            dt.Rows.Add(dr);
+
+            foreach (KeyValuePair<string, string> pair in pars)
+            {
+                dr = dt.NewRow();
+                dr[0] = pair.Key;
+                dr[1] = pair.Value;
+                dt.Rows.Add(dr);
+            }
+
+            return dt;
         }
     }
 }

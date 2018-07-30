@@ -78,6 +78,7 @@
     <Content Include="DB\Tables\Music_Song.sql" />
     <Content Include="DB\Tables\Music_SongMusician.sql" />
     <Content Include="DB\Tables\Music_SongWriter.sql" />
+    <Content Include="DB\Types\ParametersFilter.sql" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

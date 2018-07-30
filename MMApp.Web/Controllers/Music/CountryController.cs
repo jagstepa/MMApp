@@ -50,6 +50,7 @@ namespace MMApp.Web.Controllers.Music
             if (ModelState.IsValid)
             {
                 paramDict = Helpers.Helpers.GetEntityProperties<Country>(country, false);
+                var pd = DBHelpers.GetTableParameters<Country>(paramDict);
 
                 _dashboardSP.Add<Country>(paramDict);
 
