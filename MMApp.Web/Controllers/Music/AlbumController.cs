@@ -65,11 +65,8 @@ namespace MMApp.Web.Controllers.Music
             album.SelectedLabels = (List<Label>)TempData["SelectedLabels"];
             album.SelectedMusicians = (List<Musician>)TempData["SelectedMusicians"];
             album.SelectedSongs = (List<Song>)TempData["SelectedSongs"];
-            var paramDict = new Dictionary<string, string>()
-            {
-            };
 
-            if (_dashboardSP.CheckDuplicate<Album>(paramDict))
+            if (_dashboardSP.CheckDuplicate<Album>(album))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(album.AlbumName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -78,7 +75,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add<Album>(paramDict);
+                _dashboardSP.Add<Album>(album);
 
                 return RedirectToAction("Index", new { bandId = album.BandId, bandName = album.BandName });
             }
@@ -114,7 +111,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<Album>(paramDict);
+                _dashboardSP.Update<Album>(album);
 
                 return RedirectToAction("Index", new { bandId = album.BandId, bandName = album.BandName});
             }

@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace MMApp.Data
@@ -33,34 +35,20 @@ namespace MMApp.Data
 
             return strBuilder.ToString();
         }
-
-        public static int GetEntityId(IDbConnection _db, string spName, string entityType, string parameters)
-        {
-            return _db.Query<int>(spName, new { Type = entityType, Parameters = parameters }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-        }
-
-        public static List<IModelInterface> GetAll<T>(IDbConnection _db, string spName, string type) where T : IModelInterface
-        {
-            List<IModelInterface> entityList = new List<IModelInterface>();
-            var tttype = typeof(T).Name;
-            var entList = _db.Query<T>(spName, new { Type = type }, commandType: CommandType.StoredProcedure).ToList();
-            var eList = entList.ConvertAll(x => (IModelInterface)x);
-            entityList.AddRange(eList);
-            return entityList;
-        }
         public static void AddEntity<T>(IDbConnection _db, string spName, string type, T value) where T : IModelInterface
         {
             T obj = (T)value;
         }
 
-        public static DataTable GetTableParameters<T>(Dictionary<string, string> pars) where T : IModelInterface
+        public static DataTable GetTableParameters<T>(IModelInterface entity) where T : IModelInterface
         {
             string type = typeof(T).Name;
+            var parameters = GetEntityProperties<T>(entity);
 
             DataTable dt = new DataTable();
-            DataColumn dc = new DataColumn("ParamType", typeof(String));
+            DataColumn dc = new DataColumn("ParamType", typeof(string));
             dt.Columns.Add(dc);
-            dc = new DataColumn("ParamValue", typeof(String));
+            dc = new DataColumn("ParamValue", typeof(string));
             dt.Columns.Add(dc);
 
             DataRow dr = dt.NewRow();
@@ -68,7 +56,7 @@ namespace MMApp.Data
             dr[1] = type;
             dt.Rows.Add(dr);
 
-            foreach (KeyValuePair<string, string> pair in pars)
+            foreach (KeyValuePair<string, string> pair in parameters)
             {
                 dr = dt.NewRow();
                 dr[0] = pair.Key;
@@ -77,6 +65,35 @@ namespace MMApp.Data
             }
 
             return dt;
+        }
+
+        private static Dictionary<string, string> GetEntityProperties<T>(IModelInterface value) where T : IModelInterface
+        {
+            Dictionary<string, string> paramDict = new Dictionary<string, string>();
+            Type type = typeof(T);
+            PropertyInfo[] properties = type.GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                var dbFields = property.GetCustomAttributes(typeof(DBFieldAttribute), false);
+
+                if (dbFields.Length > 0)
+                {
+                    var pName = property.Name;
+                    var pValue = property.GetValue(value, null);
+
+                    if (pValue == null)
+                    {
+                        paramDict.Add(pName, string.Empty);
+                    }
+                    else
+                    {
+                        paramDict.Add(pName, pValue.ToString());
+                    }
+                }
+            }
+
+            return paramDict;
         }
     }
 }

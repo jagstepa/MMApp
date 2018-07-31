@@ -62,11 +62,7 @@ namespace MMApp.Web.Controllers.Music
             musician.SelectedInstruments = (List<Instrument>)TempData["SelectedInstruments"];
             musician.SelectedLabels = (List<Label>)TempData["SelectedLabels"];
 
-            paramDict.Add("StageName", musician.StageName);
-            paramDict.Add("BirthName", musician.BirthName);
-            paramDict.Add("CityId", musician.CityId.ToString());
-
-            if (_dashboardSP.CheckDuplicate<Musician>(paramDict))
+            if (_dashboardSP.CheckDuplicate<Musician>(musician))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(musician.StageName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -75,9 +71,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                paramDict = Helpers.Helpers.GetEntityProperties<Musician>(musician, false);
-
-                _dashboardSP.Add<Musician>(paramDict);
+                _dashboardSP.Add<Musician>(musician);
 
                 return RedirectToAction("Index");
             }
@@ -126,7 +120,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<Musician>(paramDict);
+                _dashboardSP.Update<Musician>(musician);
 
                 return RedirectToAction("Index");
             }

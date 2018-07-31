@@ -10,11 +10,11 @@ namespace MMApp.Domain.Models
         public int Id { get; set; }
 
         [DBField]
-        [DBDuplicate]
         [Required]
         [Display(Name = "City Name")]
         public string CityName { get; set; }
 
+        [DBField]
         [Required]
         public int CountryId { get; set; }
 

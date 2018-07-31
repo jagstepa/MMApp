@@ -253,7 +253,7 @@
     <Compile Include="Helpers\ENums.cs" />
     <Compile Include="Helpers\ErrorMessages.cs" />
     <Compile Include="Helpers\Extensions.cs" />
-    <Compile Include="Helpers\Helpers.cs" />
+    <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Helpers\ICache.cs" />
     <Compile Include="Helpers\InMemoryCache.cs" />
     <Compile Include="Mailers\IPasswordResetMailer.cs" />

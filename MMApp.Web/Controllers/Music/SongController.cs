@@ -53,11 +53,8 @@ namespace MMApp.Web.Controllers.Music
         public ActionResult AddSong(Song song)
         {
             song.SelectedMusicians = (List<Musician>)TempData["SelectedMusicians"];
-            var paramDict = new Dictionary<string, string>()
-            {
-            };
 
-            if (_dashboardSP.CheckDuplicate<Song>(paramDict))
+            if (_dashboardSP.CheckDuplicate<Song>(song))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(song.SongName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -66,7 +63,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add<Song>(paramDict);
+                _dashboardSP.Add<Song>(song);
 
                 return RedirectToAction("Index");
             }
@@ -95,7 +92,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<Song>(paramDict);
+                _dashboardSP.Update<Song>(song);
 
                 return RedirectToAction("Index");
             }
@@ -105,14 +102,16 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveSong(int songId, string songName)
         {
-            if (_dashboardSP.CheckDelete<Song>(songId))
+            var model = (Song)_dashboardSP.Find<Song>(songId);
+
+            if (_dashboardSP.CheckDelete<Song>(model))
             {
                 TempData["CustomError"] = "Can't Delete. There are musicians for Song ( " + songName + " )";
                 ModelState.AddModelError("CustomError", "Can't Delete. There are musicians for Song ( " + songName + " )");
             }
             else
             {
-                _dashboardSP.Remove<Song>(songId);
+                _dashboardSP.Remove<Song>(model);
             }
 
             return RedirectToAction("Index");

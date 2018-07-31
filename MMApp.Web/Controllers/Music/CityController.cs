@@ -38,9 +38,9 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddCity(City city)
         {
-            paramDict = Helpers.Helpers.GetDuplicateProperties<City>(city);
+            paramDict = Helper.GetEntityProperties<City>(city, false);
 
-            if (_dashboardSP.CheckDuplicate<City>(paramDict))
+            if (_dashboardSP.CheckDuplicate<City>(city))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<City>(city.CityName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -49,9 +49,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                paramDict = Helpers.Helpers.GetEntityProperties<City>(city, false);
-
-                _dashboardSP.Add<City>(paramDict);
+                _dashboardSP.Add<City>(city);
 
                 return RedirectToAction("Index");
             }
@@ -83,11 +81,7 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError("CustomError", "City Name didn't change!");
             }
 
-            var paramDict = new Dictionary<string, string>()
-            {
-            };
-
-            if (_dashboardSP.CheckDuplicate<City>(paramDict))
+            if (_dashboardSP.CheckDuplicate<City>(city))
             {
                 TempData["CustomError"] = "Country ( " + city.CityName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Country ( " + city.CityName + " ) already exists!");
@@ -95,7 +89,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<City>(paramDict);
+                _dashboardSP.Update<City>(city);
 
                 return RedirectToAction("Index");
             }
@@ -105,7 +99,9 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveCity(int cityId, string cityName)
         {
-            if (_dashboardSP.CheckDelete<City>(cityId))
+            var model = (City)_dashboardSP.Find<City>(cityId);
+
+            if (_dashboardSP.CheckDelete<City>(model))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<City>(cityName, ErrorMessageType.Delete);
                 TempData["CustomError"] = errorMessage;
@@ -113,7 +109,7 @@ namespace MMApp.Web.Controllers.Music
             }
             else
             {
-                _dashboardSP.Remove<City>(cityId);
+                _dashboardSP.Remove<City>(model);
             }
 
             return RedirectToAction("Index");

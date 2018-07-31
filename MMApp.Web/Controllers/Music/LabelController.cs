@@ -37,9 +37,7 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddLabel(Label label)
         {
-            paramDict.Add("LabelName", label.LabelName);
-
-            if (_dashboardSP.CheckDuplicate<Label>(paramDict))
+            if (_dashboardSP.CheckDuplicate<Label>(label))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(label.LabelName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -48,9 +46,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                paramDict.Add("Website", label.Website);
-
-                _dashboardSP.Add<Label>(paramDict);
+                _dashboardSP.Add<Label>(label);
 
                 return RedirectToAction("Index");
             }
@@ -79,11 +75,7 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError("CustomError", "Label Name didn't change!");
             }
 
-            var paramDict = new Dictionary<string, string>()
-            {
-            };
-
-            if (_dashboardSP.CheckDuplicate<Label>(paramDict))
+            if (_dashboardSP.CheckDuplicate<Label>(label))
             {
                 TempData["CustomError"] = "Label ( " + label.LabelName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Label ( " + label.LabelName + " ) already exists!");
@@ -91,7 +83,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<Label>(paramDict);
+                _dashboardSP.Update<Label>(label);
 
                 return RedirectToAction("Index");
             }
@@ -101,7 +93,9 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveLabel(int labelId, string labelName)
         {
-            var result = _dashboardSP.CheckDelete<Label>(labelId);
+            var model = (Label)_dashboardSP.Find<Label>(labelId);
+
+            var result = _dashboardSP.CheckDelete<Label>(model);
 
             if (result)
             {
@@ -110,7 +104,7 @@ namespace MMApp.Web.Controllers.Music
             }
             else
             {
-                _dashboardSP.Remove<Label>(labelId);
+                _dashboardSP.Remove<Label>(model);
             }
 
             return RedirectToAction("Index");

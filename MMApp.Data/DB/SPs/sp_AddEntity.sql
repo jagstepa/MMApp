@@ -43,7 +43,9 @@ BEGIN
 		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'CityName'),
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-					WHERE KeyName = 'Website'))
+					WHERE KeyName = 'Website'),
+					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
+					WHERE KeyName = 'CountryId'))
 	END
 	IF @Type = 'Genre'
 	BEGIN

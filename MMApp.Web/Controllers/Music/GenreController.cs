@@ -38,9 +38,7 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddGenre(Genre genre)
         {
-            paramDict.Add("GenreName", genre.GenreName);
-
-            if (_dashboardSP.CheckDuplicate<Genre>(paramDict))
+            if (_dashboardSP.CheckDuplicate<Genre>(genre))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(genre.GenreName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -49,9 +47,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                paramDict.Add("Website", genre.Website);
-
-                _dashboardSP.Add<Genre>(paramDict);
+                _dashboardSP.Add<Genre>(genre);
 
                 return RedirectToAction("Index");
             }
@@ -80,11 +76,7 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError("CustomError", "Genre Name didn't change!");
             }
 
-            var paramDict = new Dictionary<string, string>()
-            {
-            };
-
-            if (_dashboardSP.CheckDuplicate<Genre>(paramDict))
+            if (_dashboardSP.CheckDuplicate<Genre>(genre))
             {
                 TempData["CustomError"] = "Genre ( " + genre.GenreName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Genre ( " + genre.GenreName + " ) already exists!");
@@ -92,7 +84,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<Genre>(paramDict);
+                _dashboardSP.Update<Genre>(genre);
 
                 return RedirectToAction("Index");
             }
@@ -102,16 +94,17 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveGenre(int genreId, string genreName)
         {
-            var result = _dashboardSP.CheckDelete<Genre>(genreId);
+            var model = (Genre)_dashboardSP.Find<Genre>(genreId);
 
-            if (result)
+            if (_dashboardSP.CheckDelete<Genre>(model))
             {
-                TempData["CustomError"] = "Can't Delete. There are genres for Musician ( " + genreName + " )";
-                ModelState.AddModelError("CustomError", "Can't Delete. There are genres for Musician ( " + genreName + " )");
+                errorMessage = ErrorMessages.GetErrorMessage<Genre>(genreName, ErrorMessageType.Delete);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
             else
             {
-                _dashboardSP.Remove<Genre>(genreId);
+                _dashboardSP.Remove<Genre>(model);
             }
 
             return RedirectToAction("Index");

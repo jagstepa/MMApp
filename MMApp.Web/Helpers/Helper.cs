@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace MMApp.Web.Helpers
 {
-    public static class Helpers
+    public static class Helper
     {
         public static MvcHtmlString WebsiteLink(this HtmlHelper htmlHelper, string websiteLink, string websiteText)
         {

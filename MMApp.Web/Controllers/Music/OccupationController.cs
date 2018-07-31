@@ -37,9 +37,7 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddOccupation(Occupation occupation)
         {
-            paramDict.Add("OccupationName", occupation.OccupationName);
-
-            if (_dashboardSP.CheckDuplicate<Occupation>(paramDict))
+            if (_dashboardSP.CheckDuplicate<Occupation>(occupation))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(occupation.OccupationName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -48,9 +46,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                paramDict.Add("Website", occupation.Website);
-
-                _dashboardSP.Add<Occupation>(paramDict);
+                _dashboardSP.Add<Occupation>(occupation);
 
                 return RedirectToAction("Index");
             }
@@ -79,11 +75,7 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError("CustomError", "Occupation Name didn't change!");
             }
 
-            var paramDict = new Dictionary<string, string>()
-            {
-            };
-
-            if (_dashboardSP.CheckDuplicate<Occupation>(paramDict))
+            if (_dashboardSP.CheckDuplicate<Occupation>(occupation))
             {
                 TempData["CustomError"] = "Occupation ( " + occupation.OccupationName + " ) already exists!";
                 ModelState.AddModelError("CustomError", "Occupation ( " + occupation.OccupationName + " ) already exists!");
@@ -91,7 +83,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<Occupation>(paramDict);
+                _dashboardSP.Update<Occupation>(occupation);
 
                 return RedirectToAction("Index");
             }
@@ -101,14 +93,16 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveOccupation(int occupationId, string occupationName)
         {
-            if (_dashboardSP.CheckDelete<Occupation>(occupationId))
+            var model = (Occupation)_dashboardSP.Find<Occupation>(occupationId);
+
+            if (_dashboardSP.CheckDelete<Occupation>(model))
             {
                 TempData["CustomError"] = "Can't Delete. There are occupations for Musician ( " + occupationName + " )";
                 ModelState.AddModelError("CustomError", "Can't Delete. There are occupations for Musician ( " + occupationName + " )");
             }
             else
             {
-                _dashboardSP.Remove<Occupation>(occupationId);
+                _dashboardSP.Remove<Occupation>(model);
             }
 
             return RedirectToAction("Index");

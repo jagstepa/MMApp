@@ -38,9 +38,7 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddCountry(Country country)
         {
-            paramDict = Helpers.Helpers.GetDuplicateProperties<Country>(country);
-
-            if (_dashboardSP.CheckDuplicate<Country>(paramDict))
+            if (_dashboardSP.CheckDuplicate<Country>(country))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(country.CountryName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -49,10 +47,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                paramDict = Helpers.Helpers.GetEntityProperties<Country>(country, false);
-                var pd = DBHelpers.GetTableParameters<Country>(paramDict);
-
-                _dashboardSP.Add<Country>(paramDict);
+                _dashboardSP.Add<Country>(country);
 
                 return RedirectToAction("Index");
             }
@@ -75,7 +70,7 @@ namespace MMApp.Web.Controllers.Music
         {
             var model = (Country)_dashboardSP.Find<Country>(country.Id);
 
-            if (Helpers.Helpers.CheckForChanges<Country>(country, model))
+            if (Helper.CheckForChanges<Country>(country, model))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(country.CountryName, ErrorMessageType.Changes);
                 TempData["CustomError"] = errorMessage;
@@ -84,7 +79,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<Country>(paramDict);
+                _dashboardSP.Update<Country>(country);
 
                 return RedirectToAction("Index");
             }
@@ -94,7 +89,9 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveCountry(int countryId, string countryName)
         {
-            if (_dashboardSP.CheckDelete<Country>(countryId))
+            var model = (Country)_dashboardSP.Find<Country>(countryId);
+
+            if (_dashboardSP.CheckDelete<Country>(model))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(countryName, ErrorMessageType.Delete);
                 TempData["CustomError"] = errorMessage;
@@ -102,7 +99,7 @@ namespace MMApp.Web.Controllers.Music
             }
             else
             {
-                _dashboardSP.Remove<Country>(countryId);
+                _dashboardSP.Remove<Country>(model);
             }
             
             return RedirectToAction("Index");

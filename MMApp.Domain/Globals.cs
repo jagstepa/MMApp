@@ -2,6 +2,18 @@
 {
     public static class Globals
     {
+        #region SP Names
+
+        public static string GetAllEntities = "sp_GetAllEntities";
+        public static string CheckDuplicateEntityType = "sp_CheckDuplicateEntityType";
+        public static string AddEntityType = "sp_AddEntityType";
+        public static string CheckDeleteEntityType = "sp_CheckDeleteEntityType";
+        public static string UpdateEntityType = "sp_UpdateEntityType";
+        public static string DeleteEntityType = "sp_DeleteEntityType";
+        public static string GetAllForParent = "sp_GetAllForParent";
+
+        #endregion
+
         #region Get All
 
         public static string AllCountries = "SELECT * FROM Music_Country ORDER BY CountryName";

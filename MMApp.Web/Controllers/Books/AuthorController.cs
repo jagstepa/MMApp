@@ -22,7 +22,7 @@ namespace MMApp.Web.Controllers.Books
             string outSearchText;
             bool outRefreshAuthorList;
 
-            Helpers.Helpers.CheckCashedSearchText(searchText, cachedSearch, "AuthorSearch", out outSearchText, out outRefreshAuthorList);
+            Helper.CheckCashedSearchText(searchText, cachedSearch, "AuthorSearch", out outSearchText, out outRefreshAuthorList);
 
             if (outRefreshAuthorList)
             {

@@ -24,7 +24,7 @@ namespace MMApp.Web.Controllers.Books
             var cachedSearch = _cache.Get("BookSearch");
             string outSearchText;
             bool outRefreshAuthorList;
-            Helpers.Helpers.CheckCashedSearchText(searchText, cachedSearch, "BookSearch", out outSearchText, out outRefreshAuthorList);
+            Helper.CheckCashedSearchText(searchText, cachedSearch, "BookSearch", out outSearchText, out outRefreshAuthorList);
 
             if (outRefreshAuthorList)
             {
@@ -37,7 +37,7 @@ namespace MMApp.Web.Controllers.Books
             string outFilterType;
             string outFilterItem;
             bool outRefreshModelList;
-            Helpers.Helpers.CheckCashedSearchByType(filterType, filterItem, cahedFilterType, cahedFilterItem, "FilterType", "FilterItem", 
+            Helper.CheckCashedSearchByType(filterType, filterItem, cahedFilterType, cahedFilterItem, "FilterType", "FilterItem", 
                 out outFilterType, out outFilterItem, out outRefreshModelList);
 
             if (outRefreshModelList)

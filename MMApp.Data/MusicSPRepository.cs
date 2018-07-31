@@ -6,6 +6,7 @@ using System.Linq;
 using Dapper;
 using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
+using MMApp.Domain;
 
 namespace MMApp.Data
 {
@@ -19,53 +20,10 @@ namespace MMApp.Data
         {
             List<IModelInterface> myList = new List<IModelInterface>();
             var type = typeof(T).Name;
-            var entityList = DBHelpers.GetAll<T>(_db, "sp_GetAllEntities", type);
-            myList.AddRange(entityList);
+            var entList = _db.Query<T>(Globals.GetAllEntities, new { Type = type }, commandType: CommandType.StoredProcedure).ToList();
+            var eList = entList.ConvertAll(x => (IModelInterface)x);
+            myList.AddRange(eList);
             return myList;
-
-            //switch (type)
-            //{
-            //    case "Country":
-            //        List<Country> countries = _db.Query<Country>("sp_GetAllEntities", new { GetAllType = type }, commandType: CommandType.StoredProcedure).ToList();
-            //        myList.AddRange(countries);
-            //        break;
-            //    case "City":
-            //        List<City> cities = _db.Query<City>("sp_GetAllEntities", new { GetAllType = type }, commandType: CommandType.StoredProcedure).ToList();
-            //        myList.AddRange(cities);
-            //        break;
-            //    case "Genre":
-            //        List<Genre> genres = _db.Query<Genre>("sp_GetAllEntities", new { GetAllType = type }, commandType: CommandType.StoredProcedure).ToList();
-            //        myList.AddRange(genres);
-            //        break;
-            //    case "Instrument":
-            //        List<Instrument> instruments = _db.Query<Instrument>("sp_GetAllEntities", new { GetAllType = type }, commandType: CommandType.StoredProcedure).ToList();
-            //        myList.AddRange(instruments);
-            //        break;
-            //    case "Label":
-            //        List<Label> labels = _db.Query<Label>("sp_GetAllEntities", new { GetAllType = type }, commandType: CommandType.StoredProcedure).ToList();
-            //        myList.AddRange(labels);
-            //        break;
-            //    case "Occupation":
-            //        List<Occupation> occupations = _db.Query<Occupation>("sp_GetAllEntities", new { GetAllType = type }, commandType: CommandType.StoredProcedure).ToList();
-            //        myList.AddRange(occupations);
-            //        break;
-            //    case "Musician":
-            //        List<Musician> musicians = _db.Query<Musician>("sp_GetAllEntities", new { GetAllType = type }, commandType: CommandType.StoredProcedure).ToList();
-            //        myList.AddRange(musicians);
-            //        break;
-            //    case "Band":
-            //        List<Band> bands = _db.Query<Band>("sp_GetAllEntities", new { GetAllType = type }, commandType: CommandType.StoredProcedure).ToList();
-            //        myList.AddRange(bands);
-            //        break;
-            //    case "AlbumTypes":
-            //        List<AlbumTypes> albumTypes = _db.Query<AlbumTypes>("sp_GetAllEntities", new { GetAllType = type }, commandType: CommandType.StoredProcedure).ToList();
-            //        myList.AddRange(albumTypes);
-            //        break;
-            //    case "Song":
-            //        List<Song> songs = _db.Query<Song>("sp_GetAllEntities", new { GetAllType = type }, commandType: CommandType.StoredProcedure).ToList();
-            //        myList.AddRange(songs);
-            //        break;
-            //}
         }
 
         #endregion
@@ -76,43 +34,9 @@ namespace MMApp.Data
         {
             List<IModelInterface> myList = new List<IModelInterface>();
             var type = typeof(T).Name;
-
-            switch (type)
-            {
-                case "City":
-                    List<City> cities = _db.Query<City>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
-                    myList.AddRange(cities);
-                    break;
-                case "Genre":
-                    List<Genre> genres = _db.Query<Genre>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
-                    myList.AddRange(genres);
-                    break;
-                case "Instrument":
-                    List<Instrument> instruments = _db.Query<Instrument>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
-                    myList.AddRange(instruments);
-                    break;
-                case "Label":
-                    List<Label> labels = _db.Query<Label>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
-                    myList.AddRange(labels);
-                    break;
-                case "Occupation":
-                    List<Occupation> occupations = _db.Query<Occupation>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
-                    myList.AddRange(occupations);
-                    break;
-                case "Musician":
-                    List<Musician> musicians = _db.Query<Musician>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
-                    myList.AddRange(musicians);
-                    break;
-                case "MusicianActivity":
-                    List<MusicianActivity> musicianActivities = _db.Query<MusicianActivity>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
-                    myList.AddRange(musicianActivities);
-                    break;
-                case "Album":
-                    List<Album> albums = _db.Query<Album>("sp_GetAllForParent", new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
-                    myList.AddRange(albums);
-                    break;
-            }
-
+            var entList = _db.Query<T>(Globals.GetAllForParent, new { Type = type, ParentId = id, SubType = subType }, commandType: CommandType.StoredProcedure).ToList();
+            var eList = entList.ConvertAll(x => (IModelInterface)x);
+            myList.AddRange(eList);
             return myList;
         }
 
@@ -267,169 +191,20 @@ namespace MMApp.Data
 
         #region Add
 
-        public void Add<T>(Dictionary<string, string> pars) where T : IModelInterface
+        public void Add<T>(IModelInterface entity) where T : IModelInterface
         {
-            var type = typeof(T).Name;
-            string values = DBHelpers.GetParameters(pars);
-            var enityId = _db.Execute("sp_AddEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure);
-
-            //switch (type)
-            //{
-            //    case "Country":
-            //        //obj = value;
-            //        //Country country = (Country)obj;
-            //        //values = "CountryName#" + country.CountryName + "@Website#" + country.Website;
-            //        break;
-            //    case "City":
-            //        //obj = value;
-            //        //City city = (City)obj;
-            //        //values = "CityName#" + city.CityName + "@Website#" + city.Website + "@CountryId#" + city.CountryId;
-            //        break;
-            //    case "Genre":
-            //        //obj = value;
-            //        //Genre genre = (Genre)obj;
-            //        //values = "GenreName#" + genre.GenreName + "@Website#" + genre.Website;
-            //        break;
-            //    case "Instrument":
-            //        //obj = value;
-            //        //Instrument instrument = (Instrument)obj;
-            //        //values = "InstrumentName#" + instrument.InstrumentName + "@Website#" + instrument.Website;
-            //        break;
-            //    case "Label":
-            //        //obj = value;
-            //        //Label label = (Label)obj;
-            //        //values = "LabelName#" + label.LabelName + "@Website#" + label.Website;
-            //        break;
-            //    case "Occupation":
-            //        //obj = value;
-            //        //Occupation occupation = (Occupation)obj;
-            //        //values = "OccupationName#" + occupation.OccupationName + "@Website#" + occupation.Website;
-            //        break;
-            //    case "Musician":
-            //        genericSave = false;
-            //        //obj = value;
-            //        //Musician musician = (Musician)obj;
-            //        //values = "StageName#" + musician.StageName + "@BirthName#" + musician.BirthName + "@Website#" + musician.Website +
-            //        //    "@YearsActiveFrom#" + musician.YearsActiveFrom + "@YearsActiveTo#" + musician.YearsActiveTo + "@DOB#" + musician.DOB +
-            //        //    "@DOD#" + musician.DOD + "@CityId#" + musician.CityId + "@CountryId#" + musician.CountryId;
-            //        var musicianId = _db.Query<int>("sp_AddEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure).Single();
-            //        //string musicianType;
-            //        //foreach (var selectedGenre in musician.SelectedGenres)
-            //        //{
-            //        //    musicianType = "SelectedGenres";
-            //        //    values = "MusicianId#" + musicianId + "@GenreId#" + selectedGenre.Id;
-            //        //    _db.Execute("sp_AddEntity", new { GetAllType = musicianType, Parameters = values }, commandType: CommandType.StoredProcedure);
-            //        //}
-            //        //foreach (var selectedInstrument in musician.SelectedInstruments)
-            //        //{
-            //        //    musicianType = "SelectedInstruments";
-            //        //    values = "MusicianId#" + musicianId + "@InstrumentId#" + selectedInstrument.Id;
-            //        //    _db.Execute("sp_AddEntity", new { GetAllType = musicianType, Parameters = values }, commandType: CommandType.StoredProcedure);
-            //        //}
-            //        //foreach (var selectedLabel in musician.SelectedLabels)
-            //        //{
-            //        //    musicianType = "SelectedLabels";
-            //        //    values = "MusicianId#" + musicianId + "@LabelId#" + selectedLabel.Id;
-            //        //    _db.Execute("sp_AddEntity", new { GetAllType = musicianType, Parameters = values }, commandType: CommandType.StoredProcedure);
-            //        //}
-            //        //foreach (var selectedOccupation in musician.SelectedOccupations)
-            //        //{
-            //        //    musicianType = "SelectedOccupations";
-            //        //    values = "MusicianId#" + musicianId + "@OccupationId#" + selectedOccupation.Id;
-            //        //    _db.Execute("sp_AddEntity", new { GetAllType = musicianType, Parameters = values }, commandType: CommandType.StoredProcedure);
-            //        //}
-            //        break;
-            //    case "Band":
-            //        genericSave = false;
-            //        //obj = value;
-            //        //Band band = (Band)obj;
-            //        //values = "BandName#" + band.BandName + "@AlsoKnownAs#" + band.AlsoKnownAs + "@Website#" + band.Website +
-            //        //    "@CityId#" + band.CityId + "@CountryId#" + band.CountryId;
-            //        var bandId = _db.Query<int>("sp_AddEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure).Single();
-            //        //string bandType;
-            //        //foreach (var selectedGenre in band.SelectedGenres)
-            //        //{
-            //        //    bandType = "SelectedGenresBand";
-            //        //    values = "BandId#" + bandId + "@GenreId#" + selectedGenre.Id;
-            //        //    _db.Execute("sp_AddEntity", new { GetAllType = bandType, Parameters = values }, commandType: CommandType.StoredProcedure);
-            //        //}
-            //        //foreach (var selectedLabel in band.SelectedLabels)
-            //        //{
-            //        //    bandType = "SelectedLabelsBand";
-            //        //    values = "BandId#" + bandId + "@LabelId#" + selectedLabel.Id;
-            //        //    _db.Execute("sp_AddEntity", new { GetAllType = bandType, Parameters = values }, commandType: CommandType.StoredProcedure);
-            //        //}
-            //        //foreach (var musicianActivity in band.MusicianActivity)
-            //        //{
-            //        //    bandType = "MusicianActivity";
-            //        //    values = "MusicianId#" + musicianActivity.MusicianId + "@BandId#" + musicianActivity.BandId +
-            //        //            "@YearFrom#" + musicianActivity.YearFrom + "@YearTo#" + musicianActivity.YearTo;
-            //        //    _db.Execute("sp_AddEntity", new { GetAllType = bandType, Parameters = values }, commandType: CommandType.StoredProcedure);
-            //        //}
-            //        break;
-            //    case "Album":
-            //        genericSave = false;
-            //        //obj = value;
-            //        //Album album = (Album)obj;
-            //        //values = "AlbumName#" + album.AlbumName + "@TypeId#" + album.TypeId + "@Website#" + album.Website +
-            //        //    "@Year#" + album.Year + "@Released#" + album.Released + "@Recorded#" + album.Recorded + "@Length#" + album.Length;
-            //        var albumId = _db.Query<int>("sp_AddEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure).Single();
-
-            //        string albumType = "BandAlbum";
-            //        //values = "AlbumId#" + albumId + "@BandId#" + album.BandId;
-            //        _db.Execute("sp_AddEntity", new { GetAllType = albumType, Parameters = values }, commandType: CommandType.StoredProcedure);
-            //        //foreach (var selectedGenre in album.SelectedGenres)
-            //        //{
-            //        //    albumType = "SelectedGenresAlbum";
-            //        //    values = "AlbumId#" + albumId + "@GenreId#" + selectedGenre.Id;
-            //        //    _db.Execute("sp_AddEntity", new { GetAllType = albumType, Parameters = values }, commandType: CommandType.StoredProcedure);
-            //        //}
-            //        //foreach (var selectedLabel in album.SelectedLabels)
-            //        //{
-            //        //    albumType = "SelectedLabelsAlbum";
-            //        //    values = "AlbumId#" + albumId + "@LabelId#" + selectedLabel.Id;
-            //        //    _db.Execute("sp_AddEntity", new { GetAllType = albumType, Parameters = values }, commandType: CommandType.StoredProcedure);
-            //        //}
-            //        //foreach (var selectedMusician in album.SelectedMusicians)
-            //        //{
-            //        //    albumType = "SelectedMusiciansAlbum";
-            //        //    values = "AlbumId#" + albumId + "@MusicianId#" + selectedMusician.Id;
-            //        //    _db.Execute("sp_AddEntity", new { GetAllType = albumType, Parameters = values }, commandType: CommandType.StoredProcedure);
-            //        //}
-            //        break;
-            //    case "Song":
-            //        genericSave = false;
-            //        //obj = value;
-            //        //Song song = (Song)obj;
-            //        //values = "SongName#" + song.SongName + "@Length#" + song.Length;
-            //        var songId = _db.Query<int>("sp_AddEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure).Single();
-
-            //        //const string songType = "SelectedMusiciansSong";
-            //        //foreach (var selectedLabel in song.SelectedMusicians)
-            //        //{
-            //        //    values = "SongId#" + songId + "@MusicianId#" + selectedLabel.Id;
-            //        //    _db.Execute("sp_AddEntity", new { GetAllType = songType, Parameters = values }, commandType: CommandType.StoredProcedure);
-            //        //}
-            //        break;
-                
-            //}
-
-            //if (genericSave)
-            //{
-            //    //_db.Execute("sp_AddEntity", new { GetAllType = type, Parameters = values }, commandType: CommandType.StoredProcedure);
-            //}
-            
+            var pd = DBHelpers.GetTableParameters<T>(entity);
+            var enityId = _db.Execute(Globals.AddEntityType, new { ParamList = pd }, commandType: CommandType.StoredProcedure);
         }
 
         #endregion
 
         #region Update
 
-        public void Update<T>(Dictionary<string, string> pars) where T : IModelInterface
+        public void Update<T>(IModelInterface entity) where T : IModelInterface
         {
-            var type = typeof(T).Name;
-            string values = DBHelpers.GetParameters(pars);
-            var enityId = _db.Execute("sp_UpdateEntity", new { Type = type, Parameters = values }, commandType: CommandType.StoredProcedure);
+            var pd = DBHelpers.GetTableParameters<T>(entity);
+            var enityId = _db.Execute(Globals.UpdateEntityType, new { ParamList = pd }, commandType: CommandType.StoredProcedure);
 
             //object obj;
             //string values = "";
@@ -607,118 +382,35 @@ namespace MMApp.Data
 
         #region Remove
 
-        public void Remove<T>(int id) where T : IModelInterface
+        public void Remove<T>(IModelInterface entity) where T : IModelInterface
         {
-            var type = typeof(T).Name;
-
-            _db.Execute("sp_DeleteEntity", new { Type = type, EntityId = id }, commandType: CommandType.StoredProcedure);
+            var pd = DBHelpers.GetTableParameters<T>(entity);
+            _db.Execute(Globals.DeleteEntityType, new { ParamList = pd }, commandType: CommandType.StoredProcedure);
         }
 
         #endregion
 
         #region Check Delete
 
-        public bool CheckDelete<T>(int id) where T : IModelInterface
+        public bool CheckDelete<T>(IModelInterface entity) where T : IModelInterface
         {
+            var pd = DBHelpers.GetTableParameters<T>(entity);
             var type = typeof(T).Name;
             bool result = false;
-            var entityId = _db.Query<int>("sp_CheckDeleteEntity", new { Type = type, EntityId = id }, commandType: CommandType.StoredProcedure).SingleOrDefault();
+            var entityId = _db.Query<int>(Globals.CheckDeleteEntityType, new { ParamList = pd }, commandType: CommandType.StoredProcedure).SingleOrDefault();
             if (entityId > 0) result = true;
             return result;
-
-            //switch (type)
-            //{
-            //    case "Country":
-            //        var countryId = _db.Query<int>("sp_CheckDeleteEntity", new { Type = type, EntityId = id }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        if (countryId > 0) result = true;
-            //        break;
-            //    case "City":
-            //        var cityId = _db.Query<int>("sp_CheckDeleteEntity", new { Type = type, EntityId = id }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        if (cityId > 0) result = true;
-            //        break;
-            //    case "Genre":
-            //        var genreId = _db.Query<int>("sp_CheckDeleteEntity", new { Type = type, EntityId = id }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        if (genreId > 0) result = true;
-            //        break;
-            //    case "Instrument":
-            //        var instrumentId = _db.Query<int>("sp_CheckDeleteEntity", new { Type = type, EntityId = id }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        if (instrumentId > 0) result = true;
-            //        break;
-            //    case "Label":
-            //        var labelId = _db.Query<int>("sp_CheckDeleteEntity", new { Type = type, EntityId = id }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        if (labelId > 0) result = true;
-            //        break;
-            //    case "Occupation":
-            //        var occupationId = _db.Query<int>("sp_CheckDeleteEntity", new { Type = type, EntityId = id }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        if (occupationId > 0) result = true;
-            //        break;
-            //    case "Musician":
-            //        var musicianId = _db.Query<int>("sp_CheckDeleteEntity", new { Type = type, EntityId = id }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        if (musicianId > 0) result = true;
-            //        break;
-            //    case "Song":
-            //        var songId = _db.Query<int>("sp_CheckDeleteEntity", new { Type = type, EntityId = id }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        if (songId > 0) result = true;
-            //        break;
-            //}
         }
 
         #endregion
 
         #region Check Duplicate
 
-        public bool CheckDuplicate<T>(Dictionary<string, string> pars) where T : IModelInterface
+        public bool CheckDuplicate<T>(IModelInterface entity) where T : IModelInterface
         {
-            var type = typeof(T).Name;
-            string values = DBHelpers.GetParameters(pars);
-            int entityId = DBHelpers.GetEntityId(_db, "sp_CheckDuplicateEntity", type, values);
+            var pd = DBHelpers.GetTableParameters<T>(entity);
+            int entityId = _db.Query<int>(Globals.CheckDuplicateEntityType, new { ParamList = pd }, commandType: CommandType.StoredProcedure).SingleOrDefault();
             return entityId > 0 ? true : false;
-
-            //switch (type)
-            //{
-            //    case "Country":
-            //        //values = "CountryName#";
-            //        //entityId = _db.Query<int>("sp_CheckDuplicateEntity", new { Type = type, Parameters = values }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        entityId = DBHelpers.GetEntityId(_db, "sp_CheckDuplicateEntity", type, values);
-            //        break;
-            //    case "City":
-            //        //values = "CityName#";
-            //        entityId = _db.Query<int>("sp_CheckDuplicateEntity", new { Type = type, Parameters = values }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        break;
-            //    case "Genre":
-            //        //values = "GenreName#";
-            //        entityId = _db.Query<int>("sp_CheckDuplicateEntity", new { Type = type, Parameters = values }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        break;
-            //    case "Instrument":
-            //        //values = "InstrumentName#";
-            //        entityId = _db.Query<int>("sp_CheckDuplicateEntity", new { Type = type, Parameters = values }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        break;
-            //    case "Label":
-            //        //values = "LabelName#";
-            //        entityId = _db.Query<int>("sp_CheckDuplicateEntity", new { Type = type, Parameters = values }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        break;
-            //    case "Occupation":
-            //        //values = "OccupationName#";
-            //        entityId = _db.Query<int>("sp_CheckDuplicateEntity", new { Type = type, Parameters = values }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        break;
-            //    case "Musician":
-            //        //values = "StageName#";
-            //        entityId = _db.Query<int>("sp_CheckDuplicateEntity", new { Type = type, Parameters = values }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        break;
-            //    case "Band":
-            //        //values = "BandName#";
-            //        entityId = _db.Query<int>("sp_CheckDuplicateEntity", new { Type = type, Parameters = values }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        break;
-            //    case "Album":
-            //        //values = "AlbumName#";
-            //        entityId = _db.Query<int>("sp_CheckDuplicateEntity", new { Type = type, Parameters = values }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        break;
-            //    case "Song":
-            //        //values = "SongName#";
-            //        entityId = _db.Query<int>("sp_CheckDuplicateEntity", new { Type = type, Parameters = values }, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            //        break;
-            //}
-
         }
 
         #endregion

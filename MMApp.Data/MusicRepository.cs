@@ -154,7 +154,7 @@ namespace MMApp.Data
 
         #region Add
 
-        public void Add<T>(Dictionary<string, string> pars) where T : IModelInterface
+        public void Add<T>(IModelInterface entity) where T : IModelInterface
         {
             var type = typeof(T).Name;
             var param = new DynamicParameters();
@@ -251,7 +251,7 @@ namespace MMApp.Data
 
         #region Update
 
-        public void Update<T>(Dictionary<string, string> pars) where T : IModelInterface
+        public void Update<T>(IModelInterface entity) where T : IModelInterface
         {
             var type = typeof(T).Name;
             var param = new DynamicParameters();
@@ -363,11 +363,11 @@ namespace MMApp.Data
 
         #region Remove
 
-        public void Remove<T>(int id) where T : IModelInterface
+        public void Remove<T>(IModelInterface entity) where T : IModelInterface
         {
             var type = typeof(T).Name;
             var param = new DynamicParameters();
-            param.Add("@Id", id);
+            //param.Add("@Id", id);
 
             switch (type)
             {
@@ -397,12 +397,12 @@ namespace MMApp.Data
 
         #region Check Delete
 
-        public bool CheckDelete<T>(int id) where T : IModelInterface
+        public bool CheckDelete<T>(IModelInterface entity) where T : IModelInterface
         {
             var type = typeof(T).Name;
             bool result = false;
             var param = new DynamicParameters();
-            param.Add("@Id", id);
+            //param.Add("@Id", id);
 
             switch (type)
             {
@@ -439,7 +439,7 @@ namespace MMApp.Data
 
         #region Check Duplicate
 
-        public bool CheckDuplicate<T>(Dictionary<string, string> pars) where T : IModelInterface
+        public bool CheckDuplicate<T>(IModelInterface entity) where T : IModelInterface
         {
             var type = typeof(T).Name;
             bool result = false;

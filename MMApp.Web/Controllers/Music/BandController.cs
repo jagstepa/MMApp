@@ -60,11 +60,8 @@ namespace MMApp.Web.Controllers.Music
             band.SelectedLabels = (List<Label>)TempData["SelectedLabels"];
             band.SelectedMusicians = (List<Musician>)TempData["SelectedMusicians"];
             band.MusicianActivity = (List<MusicianActivity>)TempData["MusicianActivity"];
-            var paramDict = new Dictionary<string, string>()
-            {
-            };
 
-            if (_dashboardSP.CheckDuplicate<Musician>(paramDict))
+            if (_dashboardSP.CheckDuplicate<Musician>(band))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(band.BandName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -73,7 +70,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add<Musician>(paramDict);
+                _dashboardSP.Add<Musician>(band);
 
                 return RedirectToAction("Index");
             }
@@ -108,7 +105,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<Band>(paramDict);
+                _dashboardSP.Update<Band>(band);
 
                 return RedirectToAction("Index");
             }
@@ -118,14 +115,16 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveBand(int bandId, string bandName)
         {
-            if (_dashboardSP.CheckDelete<Band>(bandId))
+            var model = (Band)_dashboardSP.Find<Band>(bandId);
+
+            if (_dashboardSP.CheckDelete<Band>(model))
             {
                 TempData["CustomError"] = "Can't Delete. There are musicians for Band ( " + bandName + " )";
                 ModelState.AddModelError("CustomError", "Can't Delete. There are musicians for Band ( " + bandName + " )");
             }
             else
             {
-                _dashboardSP.Remove<Band>(bandId);
+                _dashboardSP.Remove<Band>(model);
             }
 
             return RedirectToAction("Index");
