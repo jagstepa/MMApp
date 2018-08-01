@@ -88,14 +88,7 @@
     <Content Include="DB\Types\ParametersFilter.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DB\Books\sp_BookCheckDeleteEntity.sql" />
-    <Content Include="DB\Books\sp_BookCheckDuplicateEntity.sql" />
-    <Content Include="DB\Books\sp_BookDeleteEntity.sql" />
     <Content Include="DB\Books\sp_BookFilters.sql" />
-    <Content Include="DB\Books\sp_BookFindEntity.sql" />
-    <Content Include="DB\Books\sp_BookGetAllEntities.sql" />
-    <Content Include="DB\Books\sp_BookGetAllForParent.sql" />
-    <Content Include="DB\Books\sp_BookGetAllForText.sql" />
     <Content Include="DB\Books\sp_BookUpdateEntity.sql" />
     <Content Include="DB\Functions\KeyValuePairs.sql" />
     <Content Include="DB\Inserts\Inserts.sql" />

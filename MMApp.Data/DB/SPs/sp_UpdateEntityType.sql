@@ -31,6 +31,50 @@ BEGIN
 	DECLARE @Type VARCHAR(50)
 	SELECT @Type = ParamValue FROM @ParamList WHERE ParamType = 'Type'
 
+	IF @Type = 'Author'
+	BEGIN
+		UPDATE Books_Author
+		SET AuthorName = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'AuthorName')
+		WHERE Id = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'Id')
+	END
+	IF @Type = 'Publisher'
+	BEGIN
+		UPDATE Books_Publisher
+		SET PublisherName = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'PublisherName')
+		WHERE Id = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'Id')
+	END
+	IF @Type = 'Book'
+	BEGIN
+		UPDATE Books_Book
+		SET BookName = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'BookName'),
+			ShortDescription = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'ShortDescription'),
+			BookDescription = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'BookDescription'),
+			ISBN = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'ISBN10'),
+			[Year] = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'Year'),
+			Pages = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'Pages'),
+			FileSize = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'FileSize'),
+			FileFormat = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'FileFormat'),
+			Website = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'Website'),
+			BookPicture = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'BookPicture'),
+			PublisherId = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'PublisherId')
+		WHERE Id = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'Id')
+	END
 	IF @Type = 'Country'
 	BEGIN
 		UPDATE Music_Country

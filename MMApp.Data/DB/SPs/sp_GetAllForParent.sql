@@ -30,6 +30,13 @@ CREATE PROCEDURE dbo.sp_GetAllForParent
 	@SubType NVARCHAR(50)
 AS
 BEGIN
+	IF @Type = 'Author'
+	BEGIN
+		SELECT A.Id, A.AuthorName FROM Books_Author A
+		JOIN Books_BookAuthor BA ON BA.AuthorId = A.Id
+		WHERE BA.BookId = @ParentId
+		ORDER BY A.AuthorName
+	END
 	IF @Type = 'Genre' AND @SubType = 'Musician'
 	BEGIN
 		SELECT g.Id, g.GenreName

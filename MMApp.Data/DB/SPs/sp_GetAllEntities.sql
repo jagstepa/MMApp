@@ -21,6 +21,42 @@ ALTER PROCEDURE [dbo].[sp_GetAllEntities]
 	@Type NVARCHAR(50)
 AS
 BEGIN
+	IF @Type = 'Publisher'
+	BEGIN
+		SELECT 
+			Id,
+			PublisherName
+		FROM Books_Publisher 
+		ORDER BY PublisherName
+	END
+	IF @Type = 'Author'
+	BEGIN
+		SELECT
+			Id,
+			AuthorName
+		FROM Books_Author 
+		ORDER BY AuthorName
+	END
+	IF @Type = 'Book'
+	BEGIN
+		SELECT 
+			B.Id,
+			B.BookName,
+			B.ShortDescription,
+			B.BookDescription,
+			B.ISBN10,
+			B.[Year],
+			B.Pages,
+			B.FileSize,
+			B.FileFormat,
+			B.PublisherId,
+			P.PublisherName,
+			B.BookPicture
+		FROM Books_Book B
+		JOIN Books_Publisher P
+			ON P.Id = B.PublisherId
+		ORDER BY BookName
+	END
 	IF @Type = 'Country'
 	BEGIN
 		SELECT 

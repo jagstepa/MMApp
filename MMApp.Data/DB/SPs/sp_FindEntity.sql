@@ -29,6 +29,36 @@ CREATE PROCEDURE dbo.sp_FindEntity
 	@EntityId	INT
 AS
 BEGIN
+	IF @Type = 'Author'
+	BEGIN
+		SELECT * FROM Books_Author
+		WHERE Id = @EntityId
+	END
+	IF @Type = 'Publisher'
+	BEGIN
+		SELECT * FROM Books_Publisher
+		WHERE Id = @EntityId
+	END
+	IF @Type = 'Book'
+	BEGIN
+		SELECT
+			B.Id,
+			B.BookName,
+			B.ShortDescription,
+			B.BookDescription,
+			B.ISBN10,
+			B.[Year],
+			B.Pages,
+			B.FileSize,
+			B.FileFormat,
+			B.BookPicture,
+			B.PublisherId,
+			P.PublisherName
+		FROM Books_Book B
+		JOIN Books_Publisher P
+			ON P.Id = B.PublisherId
+		WHERE B.Id = @EntityId
+	END
 	IF @Type = 'Country'
 	BEGIN
 		SELECT * FROM Music_Country

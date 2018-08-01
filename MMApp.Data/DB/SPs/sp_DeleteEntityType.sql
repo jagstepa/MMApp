@@ -33,6 +33,29 @@ BEGIN
 	SELECT @Type = ParamValue FROM @ParamList WHERE ParamType = 'Type'
 	SELECT @EntityId = ParamValue FROM @ParamList WHERE ParamType = 'Id'
 
+	IF @Type = 'Author'
+	BEGIN
+		DELETE FROM Books_Author
+		WHERE Id = @EntityId
+	END
+	IF @Type = 'Publisher'
+	BEGIN
+		DELETE FROM Books_Publisher
+		WHERE Id = @EntityId
+	END
+	IF @Type = 'Book'
+	BEGIN
+		DELETE FROM Books_BookAuthor
+		WHERE BookId = @EntityId
+
+		DELETE FROM Books_Book
+		WHERE Id = @EntityId
+	END
+	IF @Type = 'SelectedAuthors'
+	BEGIN
+		DELETE FROM Books_BookAuthor
+		WHERE BookId = @EntityId
+	END
 	IF @Type = 'Country'
 	BEGIN
 		DELETE FROM Music_Country
