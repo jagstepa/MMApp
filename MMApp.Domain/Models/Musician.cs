@@ -11,13 +11,11 @@ namespace MMApp.Domain.Models
         public int Id { get; set; }
 
         [DBField]
-        [DBDuplicate]
         [Required]
         [Display(Name = "Stage Name")]
         public string StageName { get; set; }
 
         [DBField]
-        [DBDuplicate]
         [Display(Name = "Birth Name")]
         public string BirthName { get; set; }
 
@@ -46,12 +44,10 @@ namespace MMApp.Domain.Models
         public DateTime? DOD { get; set; }
 
         [DBField]
-        [DBDuplicate]
         [Required]
         public int CityId { get; set; }
 
         [DBField]
-        [DBDuplicate]
         [Required]
         public int CountryId { get; set; }
 

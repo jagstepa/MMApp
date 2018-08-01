@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MMApp.Data;
 using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
 using MMApp.Web.Helpers;
@@ -11,9 +10,13 @@ namespace MMApp.Web.Controllers.Music
 {
     public class CountryController : Controller
     {
-        private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
-        private Dictionary<string, string> paramDict = new Dictionary<string, string>();
+        IMusicRepository _db;
         private string errorMessage;
+
+        public CountryController(IMusicRepository db)
+        {
+            _db = db;
+        }
 
         public ActionResult Index()
         {
@@ -22,7 +25,7 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
             }
 
-            return View(new List<Country>(_dashboardSP.GetAll<Country>().Cast<Country>()));
+            return View(new List<Country>(_db.GetAll<Country>().Cast<Country>()));
         }
 
         public ActionResult AddCountry()
@@ -38,7 +41,7 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddCountry(Country country)
         {
-            if (_dashboardSP.CheckDuplicate<Country>(country))
+            if (_db.CheckDuplicate<Country>(country))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(country.CountryName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -47,7 +50,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add<Country>(country);
+                _db.Add<Country>(country);
 
                 return RedirectToAction("Index");
             }
@@ -62,13 +65,13 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
             }
 
-            return View(_dashboardSP.Find<Country>(countryId));
+            return View(_db.Find<Country>(countryId));
         }
 
         [HttpPost]
         public ActionResult UpdateCountry(Country country)
         {
-            var model = (Country)_dashboardSP.Find<Country>(country.Id);
+            var model = (Country)_db.Find<Country>(country.Id);
 
             if (Helper.CheckForChanges<Country>(country, model))
             {
@@ -79,7 +82,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<Country>(country);
+                _db.Update<Country>(country);
 
                 return RedirectToAction("Index");
             }
@@ -89,9 +92,9 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveCountry(int countryId, string countryName)
         {
-            var model = (Country)_dashboardSP.Find<Country>(countryId);
+            var model = (Country)_db.Find<Country>(countryId);
 
-            if (_dashboardSP.CheckDelete<Country>(model))
+            if (_db.CheckDelete<Country>(model))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(countryName, ErrorMessageType.Delete);
                 TempData["CustomError"] = errorMessage;
@@ -99,7 +102,7 @@ namespace MMApp.Web.Controllers.Music
             }
             else
             {
-                _dashboardSP.Remove<Country>(model);
+                _db.Remove<Country>(model);
             }
             
             return RedirectToAction("Index");

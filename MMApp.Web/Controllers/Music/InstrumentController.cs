@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MMApp.Data;
 using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
 using MMApp.Web.Helpers;
@@ -11,9 +10,14 @@ namespace MMApp.Web.Controllers.Music
 {
     public class InstrumentController : Controller
     {
-        private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
-        private Dictionary<string, string> paramDict = new Dictionary<string, string>();
+        IMusicRepository _db;
         private string errorMessage;
+
+        public InstrumentController(IMusicRepository db)
+        {
+            _db = db;
+        }
+
         public ActionResult Index()
         {
             if (TempData["CustomError"] != null)
@@ -21,7 +25,7 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
             }
 
-            return View(new List<Instrument>(_dashboardSP.GetAll<Instrument>().Cast<Instrument>()));
+            return View(new List<Instrument>(_db.GetAll<Instrument>().Cast<Instrument>()));
         }
 
         public ActionResult AddInstrument()
@@ -37,7 +41,7 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddInstrument(Instrument instrument)
         {
-            if (_dashboardSP.CheckDuplicate<Instrument>(instrument))
+            if (_db.CheckDuplicate<Instrument>(instrument))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(instrument.InstrumentName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -46,7 +50,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add<Instrument>(instrument);
+                _db.Add<Instrument>(instrument);
 
                 return RedirectToAction("Index");
             }
@@ -61,34 +65,24 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
             }
 
-            return View(_dashboardSP.Find<Instrument>(instrumentId));
+            return View(_db.Find<Instrument>(instrumentId));
         }
 
         [HttpPost]
         public ActionResult UpdateInstrument(Instrument instrument)
         {
-            var model = (Instrument)_dashboardSP.Find<Instrument>(instrument.Id);
+            var model = (Instrument)_db.Find<Instrument>(instrument.Id);
 
-            if (model.InstrumentName == instrument.InstrumentName && model.Website == instrument.Website)
+            if (Helper.CheckForChanges<Country>(instrument, model))
             {
-                TempData["CustomError"] = "Instrument Name didn't change!";
-                ModelState.AddModelError("CustomError", "Instrument Name didn't change!");
-            }
-
-            var paramDict = new Dictionary<string, string>()
-            {
-            };
-
-
-            if (_dashboardSP.CheckDuplicate<Instrument>(instrument))
-            {
-                TempData["CustomError"] = "Instrument ( " + instrument.InstrumentName + " ) already exists!";
-                ModelState.AddModelError("CustomError", "Instrument ( " + instrument.InstrumentName + " ) already exists!");
+                errorMessage = ErrorMessages.GetErrorMessage<Country>(instrument.InstrumentName, ErrorMessageType.Changes);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<Instrument>(instrument);
+                _db.Update<Instrument>(instrument);
 
                 return RedirectToAction("Index");
             }
@@ -98,16 +92,17 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveInstrument(int instrumentId, string instrumentName)
         {
-            var model = (Instrument)_dashboardSP.Find<Instrument>(instrumentId);
+            var model = (Instrument)_db.Find<Instrument>(instrumentId);
 
-            if (_dashboardSP.CheckDelete<Instrument>(model))
+            if (_db.CheckDelete<Instrument>(model))
             {
-                TempData["CustomError"] = "Can't Delete. There are instruments for Musician ( " + instrumentName + " )";
-                ModelState.AddModelError("CustomError", "Can't Delete. There are instruments for Musician ( " + instrumentName + " )");
+                errorMessage = ErrorMessages.GetErrorMessage<Country>(instrumentName, ErrorMessageType.Delete);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
             else
             {
-                _dashboardSP.Remove<Instrument>(model);
+                _db.Remove<Instrument>(model);
             }
 
             return RedirectToAction("Index");

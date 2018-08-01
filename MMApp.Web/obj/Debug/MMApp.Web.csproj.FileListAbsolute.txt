@@ -124,7 +124,6 @@ C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\bin\Mono.Math.dll
 C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\bin\MMApp.Data.pdb
 C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\bin\MMApp.Domain.pdb
 C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\bin\Antlr3.Runtime.pdb
-C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\bin\Dapper.pdb
 C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\bin\Dapper.xml
 C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\bin\DotNetOpenAuth.AspNet.xml
 C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\bin\DotNetOpenAuth.Core.xml
@@ -160,3 +159,8 @@ C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\obj\Debug\MMApp.Web.csproj
 C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\obj\Debug\MMApp.Web.csprojResolveAssemblyReference.cache
 C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\obj\Debug\MMApp.Web.dll
 C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\obj\Debug\MMApp.Web.pdb
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\bin\Unity.Abstractions.dll
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\bin\Unity.Container.dll
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\bin\Unity.Mvc.dll
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\bin\WebActivatorEx.dll
+C:\Users\dstevanovic\Documents\GitHub\MMApp\MMApp.Web\bin\Unity.Mvc.xml

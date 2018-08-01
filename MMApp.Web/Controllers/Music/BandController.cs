@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MMApp.Data;
 using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
 using MMApp.Web.Helpers;
@@ -11,9 +10,13 @@ namespace MMApp.Web.Controllers.Music
 {
     public class BandController : Controller
     {
-        private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
-        private Dictionary<string, string> paramDict = new Dictionary<string, string>();
+        IMusicRepository _db;
         private string errorMessage;
+
+        public BandController(IMusicRepository db)
+        {
+            _db = db;
+        }
 
         public ActionResult Index()
         {
@@ -22,20 +25,20 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
             }
 
-            return View(new List<Band>(_dashboardSP.GetAll<Band>().Cast<Band>()));
+            return View(new List<Band>(_db.GetAll<Band>().Cast<Band>()));
         }
 
         public ActionResult AddBand()
         {
             var model = new Band
             {
-                Countries = new List<Country>(_dashboardSP.GetAll<Country>().Cast<Country>()),
+                Countries = new List<Country>(_db.GetAll<Country>().Cast<Country>()),
                 Cities = new List<City>(),
-                Genres = new List<Genre>(_dashboardSP.GetAll<Genre>().Cast<Genre>()),
+                Genres = new List<Genre>(_db.GetAll<Genre>().Cast<Genre>()),
                 SelectedGenres = new List<Genre>(),
-                Labels = new List<Label>(_dashboardSP.GetAll<Label>().Cast<Label>()),
+                Labels = new List<Label>(_db.GetAll<Label>().Cast<Label>()),
                 SelectedLabels = new List<Label>(),
-                Musicians = new List<Musician>(_dashboardSP.GetAll<Musician>().Cast<Musician>()),
+                Musicians = new List<Musician>(_db.GetAll<Musician>().Cast<Musician>()),
                 SelectedMusicians = new List<Musician>(),
                 MusicianActivity = new List<MusicianActivity>()
             };
@@ -61,7 +64,7 @@ namespace MMApp.Web.Controllers.Music
             band.SelectedMusicians = (List<Musician>)TempData["SelectedMusicians"];
             band.MusicianActivity = (List<MusicianActivity>)TempData["MusicianActivity"];
 
-            if (_dashboardSP.CheckDuplicate<Musician>(band))
+            if (_db.CheckDuplicate<Musician>(band))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(band.BandName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -70,7 +73,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add<Musician>(band);
+                _db.Add<Musician>(band);
 
                 return RedirectToAction("Index");
             }
@@ -80,7 +83,7 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult UpdateBand(int bandId)
         {
-            var model = (Band)_dashboardSP.Find<Band>(bandId);
+            var model = (Band)_db.Find<Band>(bandId);
 
             TempData["SelectedGenres"] = model.SelectedGenres;
             TempData["SelectedLabels"] = model.SelectedLabels;
@@ -98,14 +101,23 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult UpdateBand(Band band)
         {
+            var model = (Country)_db.Find<Country>(band.Id);
+
             band.SelectedGenres = (List<Genre>)TempData["SelectedGenres"];
             band.SelectedLabels = (List<Label>)TempData["SelectedLabels"];
             band.SelectedMusicians = (List<Musician>)TempData["SelectedMusicians"];
             band.MusicianActivity = (List<MusicianActivity>)TempData["MusicianActivity"];
 
+            if (Helper.CheckForChanges<Band>(band, model))
+            {
+                errorMessage = ErrorMessages.GetErrorMessage<Country>(band.BandName, ErrorMessageType.Changes);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
+            }
+
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<Band>(band);
+                _db.Update<Band>(band);
 
                 return RedirectToAction("Index");
             }
@@ -115,16 +127,17 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveBand(int bandId, string bandName)
         {
-            var model = (Band)_dashboardSP.Find<Band>(bandId);
+            var model = (Band)_db.Find<Band>(bandId);
 
-            if (_dashboardSP.CheckDelete<Band>(model))
+            if (_db.CheckDelete<Band>(model))
             {
-                TempData["CustomError"] = "Can't Delete. There are musicians for Band ( " + bandName + " )";
-                ModelState.AddModelError("CustomError", "Can't Delete. There are musicians for Band ( " + bandName + " )");
+                errorMessage = ErrorMessages.GetErrorMessage<Country>(bandName, ErrorMessageType.Delete);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
             else
             {
-                _dashboardSP.Remove<Band>(model);
+                _db.Remove<Band>(model);
             }
 
             return RedirectToAction("Index");
@@ -132,7 +145,7 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult GetCities(int countryId)
         {
-            var list = _dashboardSP.GetAllForParent<City>(countryId, "Band");
+            var list = _db.GetAllForParent<City>(countryId, "Band");
             List<City> targetList = new List<City>(list.Cast<City>());
 
             return Json(targetList, JsonRequestBehavior.AllowGet);
@@ -140,7 +153,7 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult GetGenre(int genreId)
         {
-            Genre genre = (Genre)_dashboardSP.Find<Genre>(genreId);
+            Genre genre = (Genre)_db.Find<Genre>(genreId);
             var list = (List<Genre>)TempData["SelectedGenres"];
             var dulicateItem = list.SingleOrDefault(r => r.Id == genreId);
             if (dulicateItem != null)
@@ -156,7 +169,7 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveGenre(int genreId)
         {
-            Genre genre = (Genre)_dashboardSP.Find<Genre>(genreId);
+            Genre genre = (Genre)_db.Find<Genre>(genreId);
             var list = (List<Genre>)TempData["SelectedGenres"];
             var itemToRemove = list.SingleOrDefault(r => r.Id == genreId);
             list.Remove(itemToRemove);
@@ -167,7 +180,7 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult GetLabel(int labelId)
         {
-            Label label = (Label)_dashboardSP.Find<Label>(labelId);
+            Label label = (Label)_db.Find<Label>(labelId);
             var list = (List<Label>)TempData["SelectedLabels"];
             var dulicateItem = list.SingleOrDefault(r => r.Id == labelId);
             if (dulicateItem != null)
@@ -183,7 +196,7 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveLabel(int labelId)
         {
-            Label label = (Label)_dashboardSP.Find<Label>(labelId);
+            Label label = (Label)_db.Find<Label>(labelId);
             var list = (List<Label>)TempData["SelectedLabels"];
             var itemToRemove = list.SingleOrDefault(r => r.Id == labelId);
             list.Remove(itemToRemove);
@@ -194,7 +207,7 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult GetMusician(int musicianId)
         {
-            Musician musician = (Musician)_dashboardSP.Find<Musician>(musicianId);
+            Musician musician = (Musician)_db.Find<Musician>(musicianId);
             var list = (List<Musician>)TempData["SelectedMusicians"];
             var duplicateItem = list.SingleOrDefault(r => r.Id == musicianId);
             if (duplicateItem != null)
@@ -210,7 +223,7 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveMusician(int musicianId)
         {
-            Musician musician = (Musician)_dashboardSP.Find<Musician>(musicianId);
+            Musician musician = (Musician)_db.Find<Musician>(musicianId);
             var list = (List<Musician>)TempData["SelectedMusicians"];
             var itemToRemove = list.SingleOrDefault(r => r.Id == musicianId);
             list.Remove(itemToRemove);
@@ -221,7 +234,7 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult GetActivity(int musicianId, string yearFrom, string yearTo, int bandId)
         {
-            Musician musician = (Musician)_dashboardSP.Find<Musician>(musicianId);
+            Musician musician = (Musician)_db.Find<Musician>(musicianId);
             var activity = musician.StageName + " (" + yearFrom + " - " + yearTo + ")";
             var list = (List<MusicianActivity>)TempData["MusicianActivity"];
 
@@ -248,7 +261,7 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveActivity(int musicianId, string activity)
         {
-            Musician musician = (Musician)_dashboardSP.Find<Musician>(musicianId);
+            Musician musician = (Musician)_db.Find<Musician>(musicianId);
             //activity = musician.StageName + " (" + activity + ")";
             //musician.MusicianActivity = activity;
             var list = (List<MusicianActivity>)TempData["MusicianActivity"];

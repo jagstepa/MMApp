@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MMApp.Data;
 using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
 using MMApp.Web.Helpers;
@@ -11,9 +10,14 @@ namespace MMApp.Web.Controllers.Music
 {
     public class SongController : Controller
     {
-        private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
-        private Dictionary<string, string> paramDict = new Dictionary<string, string>();
+        IMusicRepository _db;
         private string errorMessage;
+
+        public SongController(IMusicRepository db)
+        {
+            _db = db;
+        }
+
         public ActionResult Index(string searchText)
         {
             if (TempData["CustomError"] != null)
@@ -24,7 +28,7 @@ namespace MMApp.Web.Controllers.Music
             List<Song> targetList = new List<Song>();
             if (!string.IsNullOrEmpty(searchText))
             {
-                var list = _dashboardSP.GetAllForText<Song>(searchText);
+                var list = _db.GetAllForText<Song>(searchText);
                 targetList = new List<Song>(list.Cast<Song>());
             }
 
@@ -35,7 +39,7 @@ namespace MMApp.Web.Controllers.Music
         {
             var model = new Song
             {
-                Musicians = new List<Musician>(_dashboardSP.GetAll<Musician>().Cast<Musician>()),
+                Musicians = new List<Musician>(_db.GetAll<Musician>().Cast<Musician>()),
                 SelectedMusicians = new List<Musician>()
             };
 
@@ -54,7 +58,7 @@ namespace MMApp.Web.Controllers.Music
         {
             song.SelectedMusicians = (List<Musician>)TempData["SelectedMusicians"];
 
-            if (_dashboardSP.CheckDuplicate<Song>(song))
+            if (_db.CheckDuplicate<Song>(song))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(song.SongName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -63,7 +67,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add<Song>(song);
+                _db.Add<Song>(song);
 
                 return RedirectToAction("Index");
             }
@@ -73,7 +77,7 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult UpdateSong(int songId)
         {
-            var model = (Song)_dashboardSP.Find<Song>(songId);
+            var model = (Song)_db.Find<Song>(songId);
 
             TempData["SelectedMusicians"] = model.SelectedMusicians;
 
@@ -90,9 +94,18 @@ namespace MMApp.Web.Controllers.Music
         {
             song.SelectedMusicians = (List<Musician>)TempData["SelectedMusicians"];
 
+            var model = (Song)_db.Find<Song>(song.Id);
+
+            if (Helper.CheckForChanges<Song>(song, model))
+            {
+                errorMessage = ErrorMessages.GetErrorMessage<Song>(song.SongName, ErrorMessageType.Changes);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
+            }
+
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<Song>(song);
+                _db.Update<Song>(song);
 
                 return RedirectToAction("Index");
             }
@@ -102,16 +115,17 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveSong(int songId, string songName)
         {
-            var model = (Song)_dashboardSP.Find<Song>(songId);
+            var model = (Song)_db.Find<Song>(songId);
 
-            if (_dashboardSP.CheckDelete<Song>(model))
+            if (_db.CheckDelete<Song>(model))
             {
-                TempData["CustomError"] = "Can't Delete. There are musicians for Song ( " + songName + " )";
-                ModelState.AddModelError("CustomError", "Can't Delete. There are musicians for Song ( " + songName + " )");
+                errorMessage = ErrorMessages.GetErrorMessage<Country>(songName, ErrorMessageType.Delete);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
             else
             {
-                _dashboardSP.Remove<Song>(model);
+                _db.Remove<Song>(model);
             }
 
             return RedirectToAction("Index");
@@ -124,7 +138,7 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult GetMusician(int musicianId)
         {
-            Musician musician = (Musician)_dashboardSP.Find<Musician>(musicianId);
+            Musician musician = (Musician)_db.Find<Musician>(musicianId);
             var list = (List<Musician>)TempData["SelectedMusicians"];
             var duplicateItem = list.SingleOrDefault(r => r.Id == musicianId);
             if (duplicateItem != null)
@@ -140,7 +154,7 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveMusician(int musicianId)
         {
-            Musician musician = (Musician)_dashboardSP.Find<Musician>(musicianId);
+            Musician musician = (Musician)_db.Find<Musician>(musicianId);
             var list = (List<Musician>)TempData["SelectedMusicians"];
             var itemToRemove = list.SingleOrDefault(r => r.Id == musicianId);
             list.Remove(itemToRemove);

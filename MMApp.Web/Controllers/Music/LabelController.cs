@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MMApp.Data;
 using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
 using MMApp.Web.Helpers;
@@ -11,9 +10,14 @@ namespace MMApp.Web.Controllers.Music
 {
     public class LabelController : Controller
     {
-        private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
-        private Dictionary<string, string> paramDict = new Dictionary<string, string>();
+        IMusicRepository _db;
         private string errorMessage;
+
+        public LabelController(IMusicRepository db)
+        {
+            _db = db;
+        }
+
         public ActionResult Index()
         {
             if (TempData["CustomError"] != null)
@@ -21,7 +25,7 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
             }
 
-            return View(new List<Label>(_dashboardSP.GetAll<Label>().Cast<Label>()));
+            return View(new List<Label>(_db.GetAll<Label>().Cast<Label>()));
         }
 
         public ActionResult AddLabel()
@@ -37,7 +41,7 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddLabel(Label label)
         {
-            if (_dashboardSP.CheckDuplicate<Label>(label))
+            if (_db.CheckDuplicate<Label>(label))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(label.LabelName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -46,7 +50,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add<Label>(label);
+                _db.Add<Label>(label);
 
                 return RedirectToAction("Index");
             }
@@ -61,29 +65,24 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
             }
 
-            return View(_dashboardSP.Find<Label>(labelId));
+            return View(_db.Find<Label>(labelId));
         }
 
         [HttpPost]
         public ActionResult UpdateLabel(Label label)
         {
-            var model = (Label)_dashboardSP.Find<Label>(label.Id);
+            var model = (Label)_db.Find<Label>(label.Id);
 
-            if (model.LabelName == label.LabelName && model.Website == label.Website)
+            if (Helper.CheckForChanges<Country>(label, model))
             {
-                TempData["CustomError"] = "Label Name didn't change!";
-                ModelState.AddModelError("CustomError", "Label Name didn't change!");
-            }
-
-            if (_dashboardSP.CheckDuplicate<Label>(label))
-            {
-                TempData["CustomError"] = "Label ( " + label.LabelName + " ) already exists!";
-                ModelState.AddModelError("CustomError", "Label ( " + label.LabelName + " ) already exists!");
+                errorMessage = ErrorMessages.GetErrorMessage<Label>(label.LabelName, ErrorMessageType.Changes);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<Label>(label);
+                _db.Update<Label>(label);
 
                 return RedirectToAction("Index");
             }
@@ -93,18 +92,19 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveLabel(int labelId, string labelName)
         {
-            var model = (Label)_dashboardSP.Find<Label>(labelId);
+            var model = (Label)_db.Find<Label>(labelId);
 
-            var result = _dashboardSP.CheckDelete<Label>(model);
+            var result = _db.CheckDelete<Label>(model);
 
             if (result)
             {
-                TempData["CustomError"] = "Can't Delete. There are labels for Musician ( " + labelName + " )";
-                ModelState.AddModelError("CustomError", "Can't Delete. There are labels for Musician ( " + labelName + " )");
+                errorMessage = ErrorMessages.GetErrorMessage<Label>(labelName, ErrorMessageType.Delete);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
             else
             {
-                _dashboardSP.Remove<Label>(model);
+                _db.Remove<Label>(model);
             }
 
             return RedirectToAction("Index");

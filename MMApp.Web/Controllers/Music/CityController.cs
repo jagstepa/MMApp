@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MMApp.Data;
 using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
 using MMApp.Web.Helpers;
@@ -11,9 +10,13 @@ namespace MMApp.Web.Controllers.Music
 {
     public class CityController : Controller
     {
-        private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
-        private Dictionary<string, string> paramDict = new Dictionary<string, string>();
+        IMusicRepository _db;
         private string errorMessage;
+
+        public CityController(IMusicRepository db)
+        {
+            _db = db;
+        }
 
         public ActionResult Index()
         {
@@ -21,8 +24,8 @@ namespace MMApp.Web.Controllers.Music
             {
                 ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
             }
-            var model = new List<City>(_dashboardSP.GetAll<City>().Cast<City>());
-            return View(new List<City>(_dashboardSP.GetAll<City>().Cast<City>()));
+
+            return View(new List<City>(_db.GetAll<City>().Cast<City>()));
         }
 
         public ActionResult AddCity()
@@ -32,15 +35,13 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
             }
 
-            return View(new City { Countries = new List<Country>(_dashboardSP.GetAll<Country>().Cast<Country>()) });
+            return View(new City { Countries = new List<Country>(_db.GetAll<Country>().Cast<Country>()) });
         }
 
         [HttpPost]
         public ActionResult AddCity(City city)
         {
-            paramDict = Helper.GetEntityProperties<City>(city, false);
-
-            if (_dashboardSP.CheckDuplicate<City>(city))
+            if (_db.CheckDuplicate<City>(city))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<City>(city.CityName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -49,7 +50,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add<City>(city);
+                _db.Add<City>(city);
 
                 return RedirectToAction("Index");
             }
@@ -59,8 +60,8 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult UpdateCity(int cityId)
         {
-            var model = (City)_dashboardSP.Find<City>(cityId);
-            model.Countries = new List<Country>(_dashboardSP.GetAll<Country>().Cast<Country>());
+            var model = (City)_db.Find<City>(cityId);
+            model.Countries = new List<Country>(_db.GetAll<Country>().Cast<Country>());
 
             if (TempData["CustomError"] != null)
             {
@@ -73,23 +74,18 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult UpdateCity(City city)
         {
-            var model = (City)_dashboardSP.Find<City>(city.Id);
+            var model = (City)_db.Find<City>(city.Id);
 
-            if (model.CityName == city.CityName && model.CountryId == city.CountryId && model.Website == city.Website)
+            if (_db.CheckDuplicate<City>(city))
             {
-                TempData["CustomError"] = "City Name didn't change!";
-                ModelState.AddModelError("CustomError", "City Name didn't change!");
-            }
-
-            if (_dashboardSP.CheckDuplicate<City>(city))
-            {
-                TempData["CustomError"] = "Country ( " + city.CityName + " ) already exists!";
-                ModelState.AddModelError("CustomError", "Country ( " + city.CityName + " ) already exists!");
+                errorMessage = ErrorMessages.GetErrorMessage<City>(city.CityName, ErrorMessageType.Changes);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<City>(city);
+                _db.Update<City>(city);
 
                 return RedirectToAction("Index");
             }
@@ -99,9 +95,9 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveCity(int cityId, string cityName)
         {
-            var model = (City)_dashboardSP.Find<City>(cityId);
+            var model = (City)_db.Find<City>(cityId);
 
-            if (_dashboardSP.CheckDelete<City>(model))
+            if (_db.CheckDelete<City>(model))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<City>(cityName, ErrorMessageType.Delete);
                 TempData["CustomError"] = errorMessage;
@@ -109,7 +105,7 @@ namespace MMApp.Web.Controllers.Music
             }
             else
             {
-                _dashboardSP.Remove<City>(model);
+                _db.Remove<City>(model);
             }
 
             return RedirectToAction("Index");

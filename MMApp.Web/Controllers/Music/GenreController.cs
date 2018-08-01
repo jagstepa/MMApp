@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MMApp.Data;
 using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
 using MMApp.Web.Helpers;
@@ -11,9 +10,13 @@ namespace MMApp.Web.Controllers.Music
 {
     public class GenreController : Controller
     {
-        private readonly IMusicRepository _dashboardSP = new MusicSPRepository();
-        private Dictionary<string, string> paramDict = new Dictionary<string, string>();
+        IMusicRepository _db;
         private string errorMessage;
+
+        public GenreController(IMusicRepository db)
+        {
+            _db = db;
+        }
 
         public ActionResult Index()
         {
@@ -22,7 +25,7 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
             }
 
-            return View(new List<Genre>(_dashboardSP.GetAll<Genre>().Cast<Genre>()));
+            return View(new List<Genre>(_db.GetAll<Genre>().Cast<Genre>()));
         }
 
         public ActionResult AddGenre()
@@ -38,7 +41,7 @@ namespace MMApp.Web.Controllers.Music
         [HttpPost]
         public ActionResult AddGenre(Genre genre)
         {
-            if (_dashboardSP.CheckDuplicate<Genre>(genre))
+            if (_db.CheckDuplicate<Genre>(genre))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Country>(genre.GenreName, ErrorMessageType.Duplicate);
                 TempData["CustomError"] = errorMessage;
@@ -47,7 +50,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Add<Genre>(genre);
+                _db.Add<Genre>(genre);
 
                 return RedirectToAction("Index");
             }
@@ -62,29 +65,24 @@ namespace MMApp.Web.Controllers.Music
                 ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
             }
 
-            return View(_dashboardSP.Find<Genre>(genreId));
+            return View(_db.Find<Genre>(genreId));
         }
 
         [HttpPost]
         public ActionResult UpdateGenre(Genre genre)
         {
-            var model = (Genre)_dashboardSP.Find<Genre>(genre.Id);
+            var model = (Genre)_db.Find<Genre>(genre.Id);
 
-            if (model.GenreName == genre.GenreName && model.Website == genre.Website)
+            if (_db.CheckDuplicate<Genre>(genre))
             {
-                TempData["CustomError"] = "Genre Name didn't change!";
-                ModelState.AddModelError("CustomError", "Genre Name didn't change!");
-            }
-
-            if (_dashboardSP.CheckDuplicate<Genre>(genre))
-            {
-                TempData["CustomError"] = "Genre ( " + genre.GenreName + " ) already exists!";
-                ModelState.AddModelError("CustomError", "Genre ( " + genre.GenreName + " ) already exists!");
+                errorMessage = ErrorMessages.GetErrorMessage<Genre>(genre.GenreName, ErrorMessageType.Changes);
+                TempData["CustomError"] = errorMessage;
+                ModelState.AddModelError("CustomError", errorMessage);
             }
 
             if (ModelState.IsValid)
             {
-                _dashboardSP.Update<Genre>(genre);
+                _db.Update<Genre>(genre);
 
                 return RedirectToAction("Index");
             }
@@ -94,9 +92,9 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult RemoveGenre(int genreId, string genreName)
         {
-            var model = (Genre)_dashboardSP.Find<Genre>(genreId);
+            var model = (Genre)_db.Find<Genre>(genreId);
 
-            if (_dashboardSP.CheckDelete<Genre>(model))
+            if (_db.CheckDelete<Genre>(model))
             {
                 errorMessage = ErrorMessages.GetErrorMessage<Genre>(genreName, ErrorMessageType.Delete);
                 TempData["CustomError"] = errorMessage;
@@ -104,7 +102,7 @@ namespace MMApp.Web.Controllers.Music
             }
             else
             {
-                _dashboardSP.Remove<Genre>(model);
+                _db.Remove<Genre>(model);
             }
 
             return RedirectToAction("Index");
