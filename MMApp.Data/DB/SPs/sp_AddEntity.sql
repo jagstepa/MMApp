@@ -241,6 +241,12 @@ BEGIN
 					(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
 					WHERE KeyName = 'MusicianId'))
 	END
+	IF @Type = 'AlbumType'
+	BEGIN
+		INSERT INTO Music_AlbumTypes (TypeName)
+		VALUES (	(SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
+					WHERE KeyName = 'TypeName'))
+	END
 
 	RETURN 0;
 END

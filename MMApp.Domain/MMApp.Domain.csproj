@@ -49,7 +49,7 @@
     <Compile Include="Globals.cs" />
     <Compile Include="Helpers\DBHelpers.cs" />
     <Compile Include="Models\Album.cs" />
-    <Compile Include="Models\AlbumTypes.cs" />
+    <Compile Include="Models\AlbumType.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Band.cs" />
     <Compile Include="Models\Book.cs" />

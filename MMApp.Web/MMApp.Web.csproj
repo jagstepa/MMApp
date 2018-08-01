@@ -256,6 +256,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Movies\ActorController.cs" />
     <Compile Include="Controllers\Music\AlbumController.cs" />
+    <Compile Include="Controllers\Music\AlbumTypeController.cs" />
     <Compile Include="Controllers\Music\BandController.cs" />
     <Compile Include="Controllers\Music\CityController.cs" />
     <Compile Include="Controllers\Music\CountryController.cs" />
@@ -541,6 +542,10 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\AlbumType\Index.cshtml" />
+    <Content Include="Views\AlbumType\AddAlbumType.cshtml" />
+    <Content Include="Views\AlbumType\UpdateAlbumType.cshtml" />
+    <Content Include="Views\AlbumType\albumTypePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

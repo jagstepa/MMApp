@@ -120,6 +120,14 @@ BEGIN
 		FROM Music_Song 
 		ORDER BY SongName
 	END
+	IF @Type = 'AlbumType'
+	BEGIN
+		SELECT 
+			Id,
+			TypeName
+		FROM Music_AlbumTypes 
+		ORDER BY TypeName
+	END
 
 	RETURN 0;
 END

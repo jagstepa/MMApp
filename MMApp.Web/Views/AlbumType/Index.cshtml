@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MMApp.Domain.Models.AlbumType>
+@using MMApp.Web.Helpers;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Album Types</h2>
+<p>
+    @Html.ActionLink("Add Album Type", "AddAlbumType", "AlbumType")
+</p>
+
+@Html.ValidationSummary(true)
+
+<table>
+    <tr>
+        <th class="width200">
+            @Html.DisplayNameFor(model => model.TypeName)
+        </th>
+        <th class="width100">Update</th>
+        <th class="width100">Remove</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeName)
+            </td>
+            <td>
+                @Html.ActionLink("Update", "UpdateAlbumType", "AlbumType", new { albumTypeId = item.Id }, null)
+            </td>
+            <td>
+                @Html.ActionLink("Remove", "RemoveAlbumType", "AlbumType", new { albumTypeId = item.Id, TypeName = item.TypeName }, new { onclick = "return confirm('Are you sure you wish to delete Album Type ( " + item.TypeName + " ) ?');" })
+            </td>
+        </tr>
+    }
+
+</table>

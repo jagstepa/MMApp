@@ -102,6 +102,10 @@ BEGIN
 		END
 		SELECT @EntId
 	END
+	IF @Type = 'AlbumType'
+	BEGIN
+		SELECT Id FROM Music_Album WHERE TypeId = @EntityId
+	END
 
 	RETURN 0;
 END

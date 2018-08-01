@@ -167,7 +167,7 @@ namespace MMApp.Data
                     album.SelectedLabels = new List<Label>(GetAllForParent<Label>(id, type).Cast<Label>());
                     album.Musicians = new List<Musician>(GetAll<Musician>().Cast<Musician>());
                     album.SelectedMusicians = new List<Musician>(GetAllForParent<Musician>(id, type).Cast<Musician>());
-                    album.AlbumTypes = new List<AlbumTypes>(GetAll<AlbumTypes>().Cast<AlbumTypes>());
+                    album.AlbumTypes = new List<AlbumType>(GetAll<AlbumType>().Cast<AlbumType>());
                     album.Songs = new List<Song>(GetAll<Song>().Cast<Song>());
                     album.SelectedSongs = new List<Song>(GetAllForParent<Song>(id, type).Cast<Song>());
                     break;

@@ -88,7 +88,6 @@
     <Content Include="DB\Types\ParametersFilter.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DB\Books\sp_BookAddEntity.sql" />
     <Content Include="DB\Books\sp_BookCheckDeleteEntity.sql" />
     <Content Include="DB\Books\sp_BookCheckDuplicateEntity.sql" />
     <Content Include="DB\Books\sp_BookDeleteEntity.sql" />

@@ -40,7 +40,7 @@ namespace MMApp.Web.Controllers.Music
                 SelectedLabels = new List<Label>(),
                 Musicians = new List<Musician>(_db.GetAll<Musician>().Cast<Musician>()),
                 SelectedMusicians = new List<Musician>(),
-                AlbumTypes = new List<AlbumTypes>(_db.GetAll<AlbumTypes>().Cast<AlbumTypes>()),
+                AlbumTypes = new List<AlbumType>(_db.GetAll<AlbumType>().Cast<AlbumType>()),
                 BandId = bandId,
                 BandName = bandName,
                 Songs = new List<Song>(_db.GetAll<Song>().Cast<Song>()),

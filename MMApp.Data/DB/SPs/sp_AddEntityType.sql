@@ -31,6 +31,53 @@ BEGIN
 	DECLARE @Type VARCHAR(50)
 	SELECT @Type = ParamValue FROM @ParamList WHERE ParamType = 'Type'
 
+	IF @GetAllType = 'Author'
+	BEGIN
+		INSERT INTO Books_Author (AuthorName)
+		VALUES (	(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'AuthorName'))
+	END
+	IF @GetAllType = 'Publisher'
+	BEGIN
+		INSERT INTO Books_Publisher (PublisherName)
+		VALUES (	(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'PublisherName'))
+	END
+	IF @GetAllType = 'Book'
+	BEGIN
+		INSERT INTO Books_Book (BookName,ShortDescription,BookDescription,ISBN10,[Year],Pages,FileSize,FileFormat,Website,BookPicture,PublisherId)
+		VALUES (	(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'BookName'),
+					(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'ShortDescription'),
+					(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'BookDescription'),
+					(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'ISBN10'),
+					(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'Year'),
+					(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'Pages'),
+					(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'FileSize'),
+					(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'FileFormat'),
+					(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'Website'),
+					(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'BookPicture'),
+					(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'PublisherId'));
+		SELECT CAST(SCOPE_IDENTITY() AS INT)
+	END
+	IF @GetAllType = 'SelectedAuthors'
+	BEGIN
+		INSERT INTO Books_BookAuthor (BookId,AuthorId)
+		VALUES (	(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'BookId'),
+					(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'AuthorId'))
+	END
 	IF @Type = 'Country'
 	BEGIN
 		INSERT INTO Music_Country (CountryName,Website)
@@ -242,6 +289,12 @@ BEGIN
 					WHERE ParamType = 'SongId'),
 					(SELECT ParamValue FROM @ParamList
 					WHERE ParamType = 'MusicianId'))
+	END
+	IF @Type = 'AlbumType'
+	BEGIN
+		INSERT INTO Music_AlbumTypes (TypeName)
+		VALUES (	(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'TypeName'))
 	END
 
 	RETURN 0;

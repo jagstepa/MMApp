@@ -115,6 +115,12 @@ BEGIN
 		WHERE SongName = (SELECT ParamValue FROM @ParamList
 							WHERE ParamType = 'SongName')
 	END
+	IF @Type = 'AlbumType'
+	BEGIN
+		SELECT Id FROM Music_AlbumTypes 
+		WHERE TypeName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'TypeName')
+	END
 
 	RETURN 0;
 END

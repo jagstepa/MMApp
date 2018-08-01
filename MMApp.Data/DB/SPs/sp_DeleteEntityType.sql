@@ -1,9 +1,9 @@
 ﻿USE MMApp;
 GO
 
-IF OBJECT_ID ( 'dbo.sp_DeleteEntity', 'P' ) IS NOT NULL
+IF OBJECT_ID ( 'dbo.sp_DeleteEntityType', 'P' ) IS NOT NULL
 BEGIN
-   DROP PROCEDURE dbo.sp_DeleteEntity;
+   DROP PROCEDURE dbo.sp_DeleteEntityType;
 END;
 GO
 
@@ -21,10 +21,10 @@ GO
 -- Modification History:
 --
 --
--- Example: EXEC dbo.sp_DeleteEntity
+-- Example: EXEC dbo.sp_DeleteEntityType
 -- ====================================================================================================
 
-CREATE PROCEDURE dbo.sp_DeleteEntity
+CREATE PROCEDURE dbo.sp_DeleteEntityType
 	@ParamList		ParametersFilter READONLY
 AS
 BEGIN
@@ -81,6 +81,11 @@ BEGIN
 	IF @Type = 'Song'
 	BEGIN
 		DELETE FROM Music_Song
+		WHERE Id = @EntityId
+	END
+	IF @Type = 'AlbumType'
+	BEGIN
+		DELETE FROM Music_AlbumTypes
 		WHERE Id = @EntityId
 	END
 

@@ -115,6 +115,14 @@ BEGIN
 		WHERE Id = (SELECT ParamValue FROM @ParamList
 					WHERE ParamType = 'Id')
 	END
+	IF @Type = 'Country'
+	BEGIN
+		UPDATE Music_AlbumTypes
+		SET TypeName = (	SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'TypeName')
+		WHERE Id = (SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'Id')
+	END
 
 	RETURN 0;
 END
