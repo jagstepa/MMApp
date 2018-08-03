@@ -40,6 +40,29 @@ namespace MMApp.Data
             T obj = (T)value;
         }
 
+        public static DataTable GetTableParameters<T>(string searchText) where T : IModelInterface
+        {
+            string type = typeof(T).Name;
+
+            DataTable dt = new DataTable();
+            DataColumn dc = new DataColumn("ParamType", typeof(string));
+            dt.Columns.Add(dc);
+            dc = new DataColumn("ParamValue", typeof(string));
+            dt.Columns.Add(dc);
+
+            DataRow dr = dt.NewRow();
+            dr[0] = "Type";
+            dr[1] = type;
+            dt.Rows.Add(dr);
+
+            DataRow dr2 = dt.NewRow();
+            dr2[0] = "SearchText";
+            dr2[1] = searchText;
+            dt.Rows.Add(dr2);
+
+            return dt;
+        }
+
         public static DataTable GetTableParameters<T>(IModelInterface entity) where T : IModelInterface
         {
             string type = typeof(T).Name;

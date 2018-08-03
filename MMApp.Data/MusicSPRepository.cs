@@ -50,14 +50,10 @@ namespace MMApp.Data
             var type = typeof(T).Name;
             if (searchText == "*") searchText = "";
             searchText = searchText + "%";
-
-            switch (type)
-            {
-                case "Song":
-                    List<Song> songs = _db.Query<Song>("sp_GetAllForText", new { GetAllType = type, SearchText = searchText }, commandType: CommandType.StoredProcedure).ToList();
-                    myList.AddRange(songs);
-                    break;
-            }
+            var pd = DBHelpers.GetTableParameters<T>(searchText);
+            var entList = _db.Query<Song>(Globals.GetAllForTextType, new { ParamList = pd }, commandType: CommandType.StoredProcedure).ToList();
+            var eList = entList.ConvertAll(x => (IModelInterface)x);
+            myList.AddRange(eList);
 
             return myList;
         }

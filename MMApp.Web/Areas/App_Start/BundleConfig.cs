@@ -26,8 +26,6 @@ namespace MMApp.Web.App_Start
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
-            //bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/Site-Old2.css"));
-
 
             bundles.Add(new StyleBundle("~/Content/bootstrap").Include("~/Content/bootstrap.min.css"));
 

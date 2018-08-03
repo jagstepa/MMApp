@@ -25,93 +25,101 @@ GO
 -- ====================================================================================================
 
 CREATE PROCEDURE dbo.sp_CheckDuplicateEntity
-	@Type		NVARCHAR(50),
-	@Parameters	NVARCHAR(MAX)
+	@ParamList		ParametersFilter READONLY
 AS
 BEGIN
+	DECLARE @Type VARCHAR(50)
+	SELECT @Type = ParamValue FROM @ParamList WHERE ParamType = 'Type'
+
 	IF @Type = 'Author'
 	BEGIN
 		SELECT Id FROM Books_Author 
-		WHERE AuthorName = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-							WHERE KeyName = 'AuthorName')
+		WHERE AuthorName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'AuthorName')
 	END
 	IF @Type = 'Publisher'
 	BEGIN
 		SELECT Id FROM Books_Publisher 
-		WHERE PublisherName = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-							WHERE KeyName = 'PublisherName')
+		WHERE PublisherName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'PublisherName')
 	END
 	IF @Type = 'Book'
 	BEGIN
 		SELECT Id FROM Books_Book 
-		WHERE BookName = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-							WHERE KeyName = 'BookName')
+		WHERE BookName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'BookName')
 	END
 	IF @Type = 'Country'
 	BEGIN
 		SELECT Id FROM Music_Country 
-		WHERE CountryName = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-							WHERE KeyName = 'CountryName')
+		WHERE CountryName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'CountryName')
 	END
 	IF @Type = 'City'
 	BEGIN
 		SELECT Id FROM Music_City 
-		WHERE CityName = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-							WHERE KeyName = 'CityName')
+		WHERE CityName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'CityName')
 	END
 	IF @Type = 'Genre'
 	BEGIN
 		SELECT Id FROM Music_Genre 
-		WHERE GenreName = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-							WHERE KeyName = 'GenreName')
+		WHERE GenreName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'GenreName')
 	END
 	IF @Type = 'Instrument'
 	BEGIN
 		SELECT Id FROM Music_Instrument 
-		WHERE InstrumentName = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-							WHERE KeyName = 'InstrumentName')
+		WHERE InstrumentName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'InstrumentName')
 	END
 	IF @Type = 'Label'
 	BEGIN
 		SELECT Id FROM Music_Label 
-		WHERE LabelName = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-							WHERE KeyName = 'LabelName')
+		WHERE LabelName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'LabelName')
 	END
 	IF @Type = 'Occupation'
 	BEGIN
 		SELECT Id FROM Music_Occupation 
-		WHERE OccupationName = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-							WHERE KeyName = 'OccupationName')
+		WHERE OccupationName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'OccupationName')
 	END
 	IF @Type = 'Musician'
 	BEGIN
 		SELECT Id FROM Music_Musician 
-		WHERE StageName = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-							WHERE KeyName = 'StageName')
+		WHERE StageName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'StageName')
 	END
 	IF @Type = 'Band'
 	BEGIN
 		SELECT Id FROM Music_Band 
-		WHERE BandName = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-							WHERE KeyName = 'BandName')
+		WHERE BandName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'BandName')
 	END
 	IF @Type = 'Band'
 	BEGIN
 		SELECT Id FROM Music_Band 
-		WHERE BandName = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-							WHERE KeyName = 'BandName')
+		WHERE BandName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'BandName')
 	END
 	IF @Type = 'Album'
 	BEGIN
 		SELECT Id FROM Music_Album 
-		WHERE AlbumName = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-							WHERE KeyName = 'AlbumName')
+		WHERE AlbumName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'AlbumName')
 	END
 	IF @Type = 'Song'
 	BEGIN
 		SELECT Id FROM Music_Song 
-		WHERE SongName = (SELECT KeyValue FROM dbo.KeyValuePairs(@Parameters)
-							WHERE KeyName = 'SongName')
+		WHERE SongName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'SongName')
+	END
+	IF @Type = 'AlbumType'
+	BEGIN
+		SELECT Id FROM Music_AlbumTypes 
+		WHERE TypeName = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'TypeName')
 	END
 
 	RETURN 0;

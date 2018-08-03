@@ -25,10 +25,13 @@ GO
 -- ====================================================================================================
 
 CREATE PROCEDURE dbo.sp_CheckDeleteEntity
-	@Type		NVARCHAR(50),
-	@EntityId		INT
+	@ParamList		ParametersFilter READONLY
 AS
 BEGIN
+	DECLARE @Type VARCHAR(50)
+	DECLARE @EntityId INT
+	SELECT @Type = ParamValue FROM @ParamList WHERE ParamType = 'Type'
+	SELECT @EntityId = ParamValue FROM @ParamList WHERE ParamType = 'Id'
 	DECLARE @EntId INT
 
 	IF @Type = 'Author'
@@ -98,6 +101,10 @@ BEGIN
 			SELECT @EntId = Id FROM Music_SongMusician WHERE MusicianId = @EntityId
 		END
 		SELECT @EntId
+	END
+	IF @Type = 'AlbumType'
+	BEGIN
+		SELECT Id FROM Music_Album WHERE TypeId = @EntityId
 	END
 
 	RETURN 0;

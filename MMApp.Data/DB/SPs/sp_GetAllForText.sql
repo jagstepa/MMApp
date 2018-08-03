@@ -1,9 +1,9 @@
 ﻿USE MMApp;
 GO
 
-IF OBJECT_ID ( 'dbo.sp_BookGetAllForTextType', 'P' ) IS NOT NULL
+IF OBJECT_ID ( 'dbo.sp_GetAllForText', 'P' ) IS NOT NULL
 BEGIN
-   DROP PROCEDURE dbo.sp_BookGetAllForTextType;
+   DROP PROCEDURE dbo.sp_GetAllForText;
 END;
 GO
 
@@ -21,10 +21,10 @@ GO
 -- Modification History:
 --
 --
--- Example: EXEC dbo.sp_BookGetAllForTextType
+-- Example: EXEC dbo.sp_GetAllForText
 -- ====================================================================================================
 
-CREATE PROCEDURE dbo.sp_BookGetAllForTextType
+CREATE PROCEDURE dbo.sp_GetAllForText
 	@ParamList		ParametersFilter READONLY
 AS
 BEGIN

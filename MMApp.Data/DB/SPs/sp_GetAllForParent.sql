@@ -25,11 +25,16 @@ GO
 -- ====================================================================================================
 
 CREATE PROCEDURE dbo.sp_GetAllForParent
-	@Type NVARCHAR(50),
-	@ParentId	INT,
-	@SubType NVARCHAR(50)
+	@ParamList		ParametersFilter READONLY
 AS
 BEGIN
+	DECLARE @Type VARCHAR(50)
+	SELECT @Type = ParamValue FROM @ParamList WHERE ParamType = 'Type'
+	DECLARE @ParentId INT
+	SELECT @ParentId = ParamValue FROM @ParamList WHERE ParamType = 'ParentId'
+	DECLARE @SubType VARCHAR(50)
+	SELECT @SubType = ParamValue FROM @ParamList WHERE ParamType = 'SubType'
+
 	IF @Type = 'Author'
 	BEGIN
 		SELECT A.Id, A.AuthorName FROM Books_Author A

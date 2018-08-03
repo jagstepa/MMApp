@@ -59,18 +59,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DB\Inserts\Delete and Reseed.sql" />
-    <Content Include="DB\SPs\sp_AddEntityType.sql" />
     <Content Include="DB\SPs\sp_CheckDeleteEntity.sql" />
-    <Content Include="DB\SPs\sp_CheckDeleteEntityType.sql" />
     <Content Include="DB\SPs\sp_CheckDuplicateEntity.sql" />
-    <Content Include="DB\SPs\sp_CheckDuplicateEntityType.sql" />
     <Content Include="DB\SPs\sp_DeleteEntity.sql" />
-    <Content Include="DB\SPs\sp_DeleteEntityType.sql" />
     <Content Include="DB\SPs\sp_FindEntity.sql" />
     <Content Include="DB\SPs\sp_GetAllForParent.sql" />
-    <Content Include="DB\SPs\sp_GetAllForTextType.sql" />
+    <Content Include="DB\SPs\sp_GetAllForText.sql" />
     <Content Include="DB\SPs\sp_UpdateEntity.sql" />
-    <Content Include="DB\SPs\sp_UpdateEntityType.sql" />
     <Content Include="DB\Tables\Books_BookCategory.sql" />
     <Content Include="DB\Tables\Books_BookSeller.sql" />
     <Content Include="DB\Tables\Books_BookWebsite.sql" />
