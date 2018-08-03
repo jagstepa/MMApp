@@ -45,6 +45,7 @@ namespace MMApp.Web
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<IMusicRepository, MusicSPRepository> ();
+            container.RegisterType<IBookRepository, BookSPRepository>();
         }
     }
 }

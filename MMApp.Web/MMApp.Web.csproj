@@ -277,6 +277,7 @@
     <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Helpers\ICache.cs" />
     <Compile Include="Helpers\InMemoryCache.cs" />
+    <Compile Include="Helpers\IsCurrentActionHelper.cs" />
     <Compile Include="Mailers\IPasswordResetMailer.cs" />
     <Compile Include="Mailers\Models\MailerModel.cs" />
     <Compile Include="Mailers\PasswordResetMailer.cs" />
@@ -293,7 +294,7 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\print-styles.css" />
     <Content Include="Content\SecurityGuard\images\blue_ico.png" />
     <Content Include="Content\SecurityGuard\images\blue_message.gif" />
     <Content Include="Content\SecurityGuard\images\go.gif" />

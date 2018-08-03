@@ -89,7 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DB\Books\sp_BookFilters.sql" />
-    <Content Include="DB\Books\sp_BookUpdateEntity.sql" />
     <Content Include="DB\Functions\KeyValuePairs.sql" />
     <Content Include="DB\Inserts\Inserts.sql" />
     <Content Include="DB\SPs\sp_AddEntity.sql" />
