@@ -60,6 +60,64 @@ namespace MMApp.Data
 
         #endregion
 
+        #region GetTypes
+
+        public int GetEntityType<T>() where T : IModelInterface
+        {
+            var type = typeof(T).Name;
+            int result = 0;
+
+            try
+            {
+                result = _db.Execute(Globals.AddEntityType, new { EntityType = type }, commandType: CommandType.StoredProcedure);
+            }
+            catch
+            {
+                result = 0;
+            }
+
+            return result;
+        }
+
+        public int GetEntityRelationType<T>() where T : IModelInterface
+        {
+            var type = typeof(T).Name;
+            int result = 0;
+
+            try
+            {
+                result = _db.Execute(Globals.AddEntityType, new { EntityType = type }, commandType: CommandType.StoredProcedure);
+            }
+            catch
+            {
+                result = 0;
+            }
+
+            return result;
+        }
+
+        public List<IModelInterface> GetEntityRelationList<T>(int entityId) where T : IModelInterface
+        {
+            List<IModelInterface> myList = new List<IModelInterface>();
+            var type = typeof(T).Name;
+            var relationTypeId = GetEntityRelationType<T>();
+
+            try
+            {
+                var entList = _db.Query<T>(Globals.GetAllEntities, new { EntityId = entityId, RelationTypeId = relationTypeId }, commandType: CommandType.StoredProcedure).ToList();
+                var eList = entList.ConvertAll(x => (IModelInterface)x);
+                myList.AddRange(eList);
+            }
+            catch
+            {
+                
+            }
+
+            return myList;
+        }
+
+        #endregion
+
         #region Find
 
         public IModelInterface Find<T>(int id) where T : IModelInterface
@@ -187,10 +245,25 @@ namespace MMApp.Data
 
         #region Add
 
-        public void Add<T>(IModelInterface entity) where T : IModelInterface
+        public int Add<T>(IModelInterface entity) where T : IModelInterface
         {
             var pd = DBHelpers.GetTableParameters<T>(entity);
-            var enityId = _db.Execute(Globals.AddEntityType, new { ParamList = pd }, commandType: CommandType.StoredProcedure);
+            int result = 0;
+            try
+            {
+                result =  _db.Execute(Globals.AddEntityType, new { ParamList = pd }, commandType: CommandType.StoredProcedure);
+            }
+            catch
+            {
+                result = 0;
+            }
+
+            return result;
+        }
+
+        public void AddRelationship(IModelInterface relation)
+        {
+
         }
 
         #endregion

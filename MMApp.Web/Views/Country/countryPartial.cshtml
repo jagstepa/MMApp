@@ -14,14 +14,56 @@
         <tr>
             <td colspan="3">&nbsp;</td>
         </tr>
+        @if (Model.IsReadOnly)
+        {
+            <tr>
+                <td class="labelWidth150 labelPadding">@Html.LabelFor(country => country.CountryName)</td>
+                <td class="labelWidth150">@Html.DisplayFor(country => country.CountryName)</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td class="labelWidth150 labelPadding">@Html.LabelFor(country => country.CountryName)</td>
+                <td class="labelWidth150">@Html.TextBoxFor(country => country.CountryName)</td>
+                <td class="labelWidth150">@Html.ValidationMessageFor(country => country.CountryName)</td>
+            </tr>
+        }
+        
         <tr>
-            <td class="labelWidth150 labelPadding">@Html.LabelFor(country => country.CountryName)</td>
-            <td class="labelWidth150">@Html.TextBoxFor(country => country.CountryName)</td>
-            <td class="labelWidth150">@Html.ValidationMessageFor(country => country.CountryName)</td>
+            <td>
+                <table>
+                    <tr>
+                        <th class="width200">Website</th>
+                        @if (!Model.IsReadOnly)
+                        {
+                            <th class="width100">Remove</th>
+                        }
+                    </tr>
+                    @foreach (var item in Model.Websites)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EntityRelationValue)
+                            </td>
+                            @if (!Model.IsReadOnly)
+                            {
+                                <td>
+                                    @Html.ActionLink("Remove", "RemoveWebsite", "Country", new { websiteId = item.Id }, new { onclick = "return confirm('Are you sure you wish to delete this Website ?');" })
+                                </td>
+                            }
+                        </tr>
+                    }
+                </table>
+            </td>
         </tr>
         <tr>
-            <td class="labelWidth150 labelPadding">@Html.LabelFor(country => country.Website)</td>
-            <td colspan="2">@Html.TextBoxFor(country => country.Website, new { style = "width:100%;" })</td>
+            <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: right">
+                @Html.ActionLink("Add Website", "AddWebsite", "Country")
+            </td>
         </tr>
         <tr>
             <td colspan="3">&nbsp;</td>

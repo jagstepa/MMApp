@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using MMApp.Domain.Repositories;
+using System.Collections.Generic;
 
 namespace MMApp.Domain.Models
 {
@@ -13,7 +14,8 @@ namespace MMApp.Domain.Models
         [Display(Name = "Country Name")]
         public string CountryName { get; set; }
 
-        [DBField]
-        public string Website { get; set; }
+        public List<Relationship> Websites { get; set; }
+
+        public bool IsReadOnly { get; set; }
     }
 }

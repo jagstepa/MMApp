@@ -479,7 +479,6 @@
     <Content Include="Views\PasswordResetMailer\_Layout.cshtml" />
     <Content Include="Views\SGAccount\Index.cshtml" />
     <Content Include="Views\City\Index.cshtml" />
-    <Content Include="Views\Country\Index.cshtml" />
     <Content Include="Views\Country\AddCountry.cshtml" />
     <Content Include="Views\Country\UpdateCountry.cshtml" />
     <Content Include="Views\Country\countryPartial.cshtml" />
@@ -547,6 +546,11 @@
     <Content Include="Views\AlbumType\AddAlbumType.cshtml" />
     <Content Include="Views\AlbumType\UpdateAlbumType.cshtml" />
     <Content Include="Views\AlbumType\albumTypePartial.cshtml" />
+    <Content Include="Views\Country\ViewCountry.cshtml" />
+    <Content Include="Views\Country\Details.cshtml" />
+    <Content Include="Views\Country\Index.cshtml" />
+    <Content Include="Views\Country\_Create.cshtml" />
+    <Content Include="Views\Country\AddWebsite.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -2,6 +2,7 @@
 using MMApp.Domain.Repositories;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 using System.Web.Mvc;
 
@@ -147,7 +148,7 @@ namespace MMApp.Web.Helpers
 
             foreach (PropertyInfo property in properties)
             {
-                var dbFields = property.GetCustomAttributes(typeof(DBDuplicateAttribute), false);
+                var dbFields = property.GetCustomAttributes(typeof(DBFieldAttribute), false);
 
                 if (dbFields.Length > 0)
                 {
@@ -189,6 +190,18 @@ namespace MMApp.Web.Helpers
             }
 
             return result;
+        }
+
+        public static ViewDataDictionary ToViewDataDictionary(this object values)
+        {
+            var dictionary = new ViewDataDictionary();
+
+            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(values))
+            {
+                dictionary.Add(property.Name, property.GetValue(values));
+            }
+
+            return dictionary;
         }
     }
 }

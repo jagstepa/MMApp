@@ -61,8 +61,7 @@ BEGIN
 	BEGIN
 		SELECT 
 			Id,
-			CountryName,
-			Website
+			CountryName
 		FROM Music_Country 
 		ORDER BY CountryName
 	END

@@ -12,14 +12,12 @@
 
 @Html.ValidationSummary(true)
 
-<table>
+<table id="CountryGrid">
     <tr>
         <th class="width200">
             @Html.DisplayNameFor(model => model.CountryName)
         </th>
-        <th class="width200">
-            @Html.DisplayNameFor(model => model.Website)
-        </th>
+        <th class="width100">View</th>
         <th class="width100">Update</th>
         <th class="width100">Remove</th>
     </tr>
@@ -31,7 +29,7 @@
                 @Html.DisplayFor(modelItem => item.CountryName)
             </td>
             <td>
-                @Html.WebsiteLink(item.Website, item.CountryName)
+                @Html.ActionLink("View", "ViewCountry", "Country", new { countryId = item.Id }, null)
             </td>
             <td>
                 @Html.ActionLink("Update", "UpdateCountry", "Country", new { countryId = item.Id}, null)

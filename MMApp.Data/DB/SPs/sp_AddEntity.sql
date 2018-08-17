@@ -80,9 +80,7 @@ BEGIN
 	BEGIN
 		INSERT INTO Music_Country (CountryName,Website)
 		VALUES (	(SELECT ParamValue FROM @ParamList
-					WHERE ParamType = 'CountryName'),
-					(SELECT ParamValue FROM @ParamList
-					WHERE ParamType = 'Website'))
+					WHERE ParamType = 'CountryName'))
 	END
 	IF @Type = 'City'
 	BEGIN

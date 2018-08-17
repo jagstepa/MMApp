@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace MMApp.Data
 {
-    public class MusicRepository: IMusicRepository
+    public class MusicRepository
     {
         private readonly IDbConnection _db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
@@ -101,6 +101,42 @@ namespace MMApp.Data
 
         #endregion 
 
+        #region GetTypes
+
+        public int GetEntityTypeId(string entityType)
+        {
+            int result = 0;
+
+            try
+            {
+                result = _db.Execute(Globals.AddEntityType, new { EntityType = entityType }, commandType: CommandType.StoredProcedure);
+            }
+            catch
+            {
+                result = 0;
+            }
+
+            return result;
+        }
+
+        public int GetEntityRelationTypeId(string entityType)
+        {
+            int result = 0;
+
+            try
+            {
+                result = _db.Execute(Globals.AddEntityType, new { EntityType = entityType }, commandType: CommandType.StoredProcedure);
+            }
+            catch
+            {
+                result = 0;
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region Find
 
         public IModelInterface Find<T>(int id) where T : IModelInterface
@@ -154,10 +190,11 @@ namespace MMApp.Data
 
         #region Add
 
-        public void Add<T>(IModelInterface entity) where T : IModelInterface
+        public int Add<T>(IModelInterface entity) where T : IModelInterface
         {
             var type = typeof(T).Name;
             var param = new DynamicParameters();
+            return 0;
 
             //switch (type)
             //{
@@ -245,6 +282,14 @@ namespace MMApp.Data
             //        }
             //        break;
             //}
+        }
+
+        public void AddRelationship(List<IModelInterface> relations)
+        {
+            foreach (IModelInterface relation in relations)
+            {
+
+            }
         }
 
         #endregion

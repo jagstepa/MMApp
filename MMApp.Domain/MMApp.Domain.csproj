@@ -68,6 +68,7 @@
     <Compile Include="Models\MusicianActivity.cs" />
     <Compile Include="Models\Occupation.cs" />
     <Compile Include="Models\Publisher.cs" />
+    <Compile Include="Models\Relationship.cs" />
     <Compile Include="Models\Seller.cs" />
     <Compile Include="Models\Song.cs" />
     <Compile Include="Models\Website.cs" />

@@ -216,7 +216,7 @@ namespace MMApp.Data
                 case "Website":
                     obj = value;
                     Website website = (Website)obj;
-                    values = "BookName#" + website.BookName + "@Url#" + website.Url;
+                    values = "@Url#" + website.Url;
                     break;
                 case "Seller":
                     obj = value;

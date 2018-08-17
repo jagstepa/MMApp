@@ -1,12 +1,10 @@
-﻿using Dapper;
-using MMApp.Domain.Models;
+﻿using MMApp.Domain.Models;
 using MMApp.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -117,6 +115,14 @@ namespace MMApp.Data
             }
 
             return paramDict;
+        }
+
+        public static string GetWebsiteName(int enityId)
+        {
+            string result = string.Empty;
+
+
+            return result;
         }
     }
 }

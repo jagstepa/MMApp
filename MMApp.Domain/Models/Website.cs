@@ -4,8 +4,12 @@ namespace MMApp.Domain.Models
 {
     public class Website : IModelInterface
     {
+        [DBField]
         public int Id { get; set; }
-        public string BookName { get; set; }
+
+        [DBField]
         public string Url { get; set; }
+
+        public int EntityId { get; set; }
     }
 }
