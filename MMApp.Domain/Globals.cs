@@ -4,7 +4,7 @@
     {
         #region SP Names
 
-        public static string AddEntityType = "sp_AddEntity";
+        public static string AddEntity = "sp_AddEntity";
         public static string CheckDeleteEntityType = "sp_CheckDeleteEntity";
         public static string CheckDuplicateEntityType = "sp_CheckDuplicateEntity";
         public static string DeleteEntityType = "sp_DeleteEntity";
@@ -13,6 +13,9 @@
         public static string GetAllForParent = "sp_GetAllForParent";
         public static string GetAllForTextType = "sp_GetAllForText";
         public static string UpdateEntityType = "sp_UpdateEntity";
+        public static string GetEntityType = "sp_GetEntityType";
+        public static string GetEntityRelationType = "sp_GetEntityRelationType";
+        public static string GetAllRelations = "sp_GetAllRelations";
 
         #endregion
 

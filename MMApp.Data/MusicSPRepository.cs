@@ -69,7 +69,7 @@ namespace MMApp.Data
 
             try
             {
-                result = _db.Execute(Globals.AddEntityType, new { EntityType = type }, commandType: CommandType.StoredProcedure);
+                result = _db.Query<int>(Globals.GetEntityType, new { Type = type }, commandType: CommandType.StoredProcedure).SingleOrDefault();
             }
             catch
             {
@@ -86,7 +86,7 @@ namespace MMApp.Data
 
             try
             {
-                result = _db.Execute(Globals.AddEntityType, new { EntityType = type }, commandType: CommandType.StoredProcedure);
+                result = _db.Query<int>(Globals.GetEntityRelationType, new { Type = type }, commandType: CommandType.StoredProcedure).SingleOrDefault();
             }
             catch
             {
@@ -96,7 +96,7 @@ namespace MMApp.Data
             return result;
         }
 
-        public List<IModelInterface> GetEntityRelationList<T>(int entityId) where T : IModelInterface
+        public List<IModelInterface> GetEntityRelationList<T>(int entityId, int entiyTypeId, int entiyRelationTypeId) where T : IModelInterface
         {
             List<IModelInterface> myList = new List<IModelInterface>();
             var type = typeof(T).Name;
@@ -104,7 +104,7 @@ namespace MMApp.Data
 
             try
             {
-                var entList = _db.Query<T>(Globals.GetAllEntities, new { EntityId = entityId, RelationTypeId = relationTypeId }, commandType: CommandType.StoredProcedure).ToList();
+                var entList = _db.Query<T>(Globals.GetAllRelations, new { EntityId = entityId, EntiyTypeId = relationTypeId, EntiyRelationTypeId = entiyRelationTypeId }, commandType: CommandType.StoredProcedure).ToList();
                 var eList = entList.ConvertAll(x => (IModelInterface)x);
                 myList.AddRange(eList);
             }
@@ -251,7 +251,7 @@ namespace MMApp.Data
             int result = 0;
             try
             {
-                result =  _db.Execute(Globals.AddEntityType, new { ParamList = pd }, commandType: CommandType.StoredProcedure);
+                result =  _db.Query<int>(Globals.AddEntity, new { ParamList = pd }, commandType: CommandType.StoredProcedure).SingleOrDefault();
             }
             catch
             {
@@ -261,9 +261,20 @@ namespace MMApp.Data
             return result;
         }
 
-        public void AddRelationship(IModelInterface relation)
+        public int AddRelationship(Relationship relation)
         {
+            var pd = DBHelpers.GetTableParameters<Relationship>(relation);
+            int result = 0;
+            try
+            {
+                result = _db.Query<int>(Globals.AddEntity, new { ParamList = pd }, commandType: CommandType.StoredProcedure).SingleOrDefault();
+            }
+            catch
+            {
+                result = 0;
+            }
 
+            return result;
         }
 
         #endregion

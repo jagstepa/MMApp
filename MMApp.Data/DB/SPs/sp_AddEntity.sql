@@ -78,7 +78,7 @@ BEGIN
 	END
 	IF @Type = 'Country'
 	BEGIN
-		INSERT INTO Music_Country (CountryName,Website)
+		INSERT INTO Music_Country (CountryName)
 		VALUES (	(SELECT ParamValue FROM @ParamList
 					WHERE ParamType = 'CountryName'))
 	END
@@ -292,6 +292,26 @@ BEGIN
 		VALUES (	(SELECT ParamValue FROM @ParamList
 					WHERE ParamType = 'TypeName'))
 	END
+	IF @Type = 'Website'
+	BEGIN
+		INSERT INTO Website (Url)
+		VALUES (	(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'Url'))
+	END
+	IF @Type = 'Relationship'
+	BEGIN
+		INSERT INTO Entity_Relationship (EntityTypeId,EntityRelationTypeId,EntityId,EntityRelationId)
+		VALUES (	(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'EntityTypeId'),
+					(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'EntityRelationTypeId'),
+					(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'EntityId'),
+					(SELECT ParamValue FROM @ParamList
+					WHERE ParamType = 'EntityRelationId'))
+	END
+
+	SELECT CAST(SCOPE_IDENTITY() AS INT)
 
 	RETURN 0;
 END

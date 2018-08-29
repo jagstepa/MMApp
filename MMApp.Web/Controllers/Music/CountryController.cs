@@ -13,43 +13,33 @@ namespace MMApp.Web.Controllers.Music
     {
         IMusicRepository _db;
         private string errorMessage;
+        private int entityId;
+        private int entityTypeId;
+        private int entityRelationTypeId;
+        private Country model;
 
         public CountryController(IMusicRepository db)
         {
             _db = db;
+            entityTypeId = _db.GetEntityType<Country>();
+            entityRelationTypeId = _db.GetEntityRelationType<Website>();
+            model = new Country { Websites = new List<Relationship>() };
+            entityId = 0;
+            errorMessage = string.Empty;
         }
 
         public ActionResult Index()
         {
-            if (TempData["CustomError"] != null)
-            {
-                ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
-            }
-
             return View(new List<Country>(_db.GetAll<Country>().Cast<Country>()));
         }
 
+        [HttpGet]
         public ActionResult AddCountry()
         {
-            Country model;
-
             if (TempData["CustomError"] != null)
             {
                 ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
             }
-
-            if (TempData["Country"] != null)
-            {
-                model = (Country)TempData["Country"];
-            }
-            else
-            {
-                model = new Country();
-                model.Websites = new List<Relationship>();
-                TempData["Country"] = model;
-            }
-
-            TempData.Keep();
 
             return View(model);
         }
@@ -63,22 +53,22 @@ namespace MMApp.Web.Controllers.Music
                 TempData["CustomError"] = errorMessage;
                 ModelState.AddModelError("CustomError", errorMessage);
             }
+                
 
             if (ModelState.IsValid)
             {
-                int entityId = _db.Add<Country>(country);
-                int entityTypeId = _db.GetEntityType<Country>();
+                Helper.DbAction<Country>(_db, "Add", country, out errorMessage, out entityId);
 
-                foreach (Relationship relation in country.Websites)
+                if (country != null && errorMessage == string.Empty)
                 {
-                    relation.EntityId = entityId;
-                    relation.EntityTypeId = entityTypeId;
-                    relation.EntityRelationValue = "";
+                    foreach (Relationship relation in country.Websites)
+                    {
+                        relation.EntityId = entityId;
+                        Helper.DbAction<Relationship>(_db, "Add", relation, out errorMessage, out entityId);
+                    }
+
+                    return RedirectToAction("Index");
                 }
-
-                //_db.AddRelationship(country.Websites.ToList<IModelInterface>());
-
-                return RedirectToAction("Index");
             }
 
             return RedirectToAction("AddCountry");
@@ -86,31 +76,20 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult UpdateCountry(int countryId)
         {
-            if (TempData["CustomError"] != null)
-            {
-                ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
-            }
+            Country entity = (Country)_db.Find<Country>(countryId);
+            var list = _db.GetEntityRelationList<Website>(countryId, entityTypeId, entityRelationTypeId).ToList();
 
-            IModelInterface entity = _db.Find<Country>(countryId);
-            Country model = (Country)entity;
-            List<Relationship> list = new List<Relationship>();
-            //list.Add(new Website { Id = 1, Url = "http://something.com" });
-            model.Websites = list;
-            return View(model);
+            if (list.Count > 0)
+                entity.Websites = (List<Relationship>)list.Cast<Relationship>();
+            else
+                entity.Websites = new List<Relationship>();
+
+            return View(entity);
         }
 
         [HttpPost]
         public ActionResult UpdateCountry(Country country)
         {
-            var model = (Country)_db.Find<Country>(country.Id);
-
-            if (Helper.CheckForChanges<Country>(country, model))
-            {
-                errorMessage = ErrorMessages.GetErrorMessage<Country>(country.CountryName, ErrorMessageType.Changes);
-                TempData["CustomError"] = errorMessage;
-                ModelState.AddModelError("CustomError", errorMessage);
-            }
-
             if (ModelState.IsValid)
             {
                 _db.Update<Country>(country);
@@ -127,9 +106,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (_db.CheckDelete<Country>(model))
             {
-                errorMessage = ErrorMessages.GetErrorMessage<Country>(countryName, ErrorMessageType.Delete);
-                TempData["CustomError"] = errorMessage;
-                ModelState.AddModelError("CustomError", errorMessage);
+                AddCustomError(countryName, ErrorMessageType.Delete);
             }
             else
             {
@@ -209,11 +186,6 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult AddWebsite()
         {
-            if (TempData["CustomError"] != null)
-            {
-                ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
-            }
-
             return View(new Website());
         }
 
@@ -221,57 +193,41 @@ namespace MMApp.Web.Controllers.Music
         public ActionResult AddWebsite(Website website)
         {
             if (_db.CheckDuplicate<Website>(website))
-            {
-                errorMessage = ErrorMessages.GetErrorMessage<Country>(website.Url, ErrorMessageType.Duplicate);
-                TempData["CustomError"] = errorMessage;
-                ModelState.AddModelError("CustomError", errorMessage);
-            }
+                AddCustomError(website.Url, ErrorMessageType.Duplicate);
 
             if (ModelState.IsValid)
             {
-                Country model;
-
-                if (TempData["EntityTypeId"] == null)
-                {
-                    TempData["EntityTypeId"] = _db.GetEntityType<Country>();
-                }
-
-                if (TempData["EntityRelationTypeId"] == null)
-                {
-                    TempData["EntityRelationTypeId"] = _db.GetEntityRelationType<Website>();
-                }
-
                 int relationEntityId = _db.Add<Website>(website);
 
                 Relationship relationship = new Relationship
                 {
-                    EntityTypeId = (int)TempData["EntityTypeId"],
+                    EntityTypeId = entityTypeId,
                     EntityId = website.EntityId,
-                    EntityRelationTypeId = (int)TempData["EntityTypeId"],
+                    EntityRelationTypeId = entityRelationTypeId,
                     EntityRelationId = relationEntityId,
                     EntityRelationValue = website.Url
                 };
 
-                if (TempData["Country"] != null)
-                {
-                    model = (Country)TempData["Country"];
-                    model.Websites.Add(relationship);
-                    TempData["Country"] = model;
-                }
-                else
-                {
-                    model = new Country();
-                    model.Websites = new List<Relationship>();
-                    model.Websites.Add(relationship);
-                    TempData["Country"] = model;
-                }
-
-                TempData.Keep();
-
+                model.Websites.Add(relationship);
+                
                 return RedirectToAction("AddCountry");
             }
 
             return RedirectToAction("AddWebsite");
+        }
+
+        private void CheckForErrors()
+        {
+            if (errorMessage != string.Empty)
+            {
+                ModelState.AddModelError(string.Empty, errorMessage);
+            }
+        }
+
+        private void AddCustomError(string entityName, ErrorMessageType errorType)
+        {
+            errorMessage = ErrorMessages.GetErrorMessage<Country>(entityName, errorType);
+            ModelState.AddModelError("CustomError", errorMessage);
         }
     }
 }

@@ -6,7 +6,8 @@
         {
             Duplicate = 1,
             Delete = 2,
-            Changes = 3
+            Changes = 3,
+            DBInsert = 4
         }
     }
 }

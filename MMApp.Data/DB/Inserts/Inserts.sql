@@ -12,6 +12,7 @@ INSERT INTO EntityType VALUES ('Band')
 INSERT INTO EntityType VALUES ('City')
 INSERT INTO EntityType VALUES ('Musician')
 INSERT INTO EntityType VALUES ('Song')
+INSERT INTO EntityType VALUES ('Country')
 
 INSERT INTO EntityRelationType VALUES ('Genre')
 INSERT INTO EntityRelationType VALUES ('Label')

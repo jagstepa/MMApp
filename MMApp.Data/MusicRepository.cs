@@ -109,7 +109,7 @@ namespace MMApp.Data
 
             try
             {
-                result = _db.Execute(Globals.AddEntityType, new { EntityType = entityType }, commandType: CommandType.StoredProcedure);
+                //result = _db.Execute(Globals.AddEntityType, new { EntityType = entityType }, commandType: CommandType.StoredProcedure);
             }
             catch
             {
@@ -125,7 +125,7 @@ namespace MMApp.Data
 
             try
             {
-                result = _db.Execute(Globals.AddEntityType, new { EntityType = entityType }, commandType: CommandType.StoredProcedure);
+                //result = _db.Execute(Globals.AddEntityType, new { EntityType = entityType }, commandType: CommandType.StoredProcedure);
             }
             catch
             {

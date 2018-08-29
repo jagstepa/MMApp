@@ -10,12 +10,15 @@ namespace MMApp.Domain.Models
         public int Id { get; set; }
 
         [DBField]
-        [Required]
+        [Required(ErrorMessage = "Please enter the Country name.")]
+        [StringLength(50, ErrorMessage = "The Country Name must be less than {1} characters.")]
         [Display(Name = "Country Name")]
         public string CountryName { get; set; }
 
         public List<Relationship> Websites { get; set; }
 
         public bool IsReadOnly { get; set; }
+
+        public string CustomError { get; set; }
     }
 }

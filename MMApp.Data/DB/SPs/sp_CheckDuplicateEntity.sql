@@ -121,6 +121,12 @@ BEGIN
 		WHERE TypeName = (SELECT ParamValue FROM @ParamList
 							WHERE ParamType = 'TypeName')
 	END
+	IF @Type = 'Website'
+	BEGIN
+		SELECT Id FROM Website 
+		WHERE Url = (SELECT ParamValue FROM @ParamList
+							WHERE ParamType = 'Url')
+	END
 
 	RETURN 0;
 END

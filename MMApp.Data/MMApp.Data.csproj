@@ -65,6 +65,9 @@
     <Content Include="DB\SPs\sp_FindEntity.sql" />
     <Content Include="DB\SPs\sp_GetAllForParent.sql" />
     <Content Include="DB\SPs\sp_GetAllForText.sql" />
+    <Content Include="DB\SPs\sp_GetAllRelations.sql" />
+    <Content Include="DB\SPs\sp_GetEntityRelationType.sql" />
+    <Content Include="DB\SPs\sp_GetEntityType.sql" />
     <Content Include="DB\SPs\sp_UpdateEntity.sql" />
     <Content Include="DB\Tables\Books_BookCategory.sql" />
     <Content Include="DB\Tables\Books_BookSeller.sql" />

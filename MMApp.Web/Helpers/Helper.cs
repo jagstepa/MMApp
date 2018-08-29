@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using System.Text;
 using System.Web.Mvc;
+using static MMApp.Web.Helpers.ENums;
 
 namespace MMApp.Web.Helpers
 {
@@ -202,6 +204,62 @@ namespace MMApp.Web.Helpers
             }
 
             return dictionary;
+        }
+
+        public static void DbAction<T>(IMusicRepository db, string spName, IModelInterface entity, out string errorMessage, out int entityId) where T : IModelInterface
+        {
+            entityId = 0;
+            errorMessage = string.Empty;
+
+            try
+            {
+                switch (spName)
+                {
+                    case "Add":
+                        entityId = db.Add<T>(entity);
+                        break;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+        }
+
+        public static ModelStateDictionary CheckForErrors(ModelStateDictionary modelState, string errorMessage)
+        {
+            if (errorMessage != string.Empty)
+            {
+                modelState.AddModelError(string.Empty, errorMessage);
+            }
+
+            return modelState;
+        }
+
+        public static ModelStateDictionary AddCustomError(ModelStateDictionary modelState, string entityName, ErrorMessageType errorType)
+        {
+            var errorMessage = ErrorMessages.GetErrorMessage<Country>(entityName, errorType);
+            modelState.AddModelError("CustomError", errorMessage);
+            return modelState;
+        }
+
+        public static string GetErrors(ModelStateDictionary modelState)
+        {
+            StringBuilder result = new StringBuilder();
+
+            foreach (var item in modelState.Values)
+            {
+                if (item.Errors.Count > 0)
+                {
+                    foreach (var error in item.Errors)
+                    {
+                        result.Append(error.ErrorMessage);
+                    }
+                }
+            }
+
+            return result.ToString();
         }
     }
 }
