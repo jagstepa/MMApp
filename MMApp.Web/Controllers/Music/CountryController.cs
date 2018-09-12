@@ -106,7 +106,7 @@ namespace MMApp.Web.Controllers.Music
 
             if (_db.CheckDelete<Country>(model))
             {
-                AddCustomError(countryName, ErrorMessageType.Delete);
+                AddCustomError<Country>(countryName, ErrorMessageType.Delete);
             }
             else
             {
@@ -186,6 +186,11 @@ namespace MMApp.Web.Controllers.Music
 
         public ActionResult AddWebsite()
         {
+            if (TempData["CustomError"] != null)
+            {
+                ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
+            }
+
             return View(new Website());
         }
 
@@ -193,7 +198,7 @@ namespace MMApp.Web.Controllers.Music
         public ActionResult AddWebsite(Website website)
         {
             if (_db.CheckDuplicate<Website>(website))
-                AddCustomError(website.Url, ErrorMessageType.Duplicate);
+                AddCustomError<Website>(website.Url, ErrorMessageType.Duplicate);
 
             if (ModelState.IsValid)
             {
@@ -224,9 +229,10 @@ namespace MMApp.Web.Controllers.Music
             }
         }
 
-        private void AddCustomError(string entityName, ErrorMessageType errorType)
+        private void AddCustomError<T>(string entityName, ErrorMessageType errorType) where T : IModelInterface
         {
-            errorMessage = ErrorMessages.GetErrorMessage<Country>(entityName, errorType);
+            errorMessage = ErrorMessages.GetErrorMessage<T>(entityName, errorType);
+            TempData["CustomError"] = errorMessage;
             ModelState.AddModelError("CustomError", errorMessage);
         }
     }
